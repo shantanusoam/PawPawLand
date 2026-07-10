@@ -8,6 +8,15 @@
 - Admin content models (Service, Testimonial, FAQ, GalleryImage) with TinyMCE rich text.
 - `seed_demo` management command, pytest suite, Ruff/djLint/pre-commit, deploy script.
 
+## Done (2026-07-10, animation pass)
+
+- Creative animation layer: staged hero intro (Motion springs + line stagger), scroll-linked
+  parallax (`data-parallax`), staggered section reveals (`data-stagger`), spring pop-ins
+  (`data-pop`), infinite marquee gallery rows (CSS, pause on hover), animated FAQ accordion
+  (grid-rows collapse), auto-playing testimonial carousel with cross-fade (Alpine transitions),
+  card hover lift/zoom, floating paw/bone/heart graphics, back-to-top paw button.
+- All motion honors `prefers-reduced-motion` (JS bails out + CSS gates keyframes).
+
 ## Next up
 
 - Real pages for About / Services / Gallery / Contact (currently stubs sharing `page_stub.html`).

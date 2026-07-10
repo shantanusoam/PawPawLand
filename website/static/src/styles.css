@@ -90,9 +90,175 @@
   }
 }
 
+@layer components {
+  /* Nav links: coral underline grows from the left on hover */
+  .nav-link {
+    @apply relative font-semibold text-ink transition-colors hover:text-coral;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 100%;
+    background: var(--color-coral);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Service / gallery cards: lift with a deeper shadow, zoom the photo */
+  .card-lift {
+    @apply transition-[transform,box-shadow] duration-300 ease-out;
+  }
+
+  .card-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -12px rgb(42 40 96 / 0.18);
+  }
+
+  .card-lift .card-photo {
+    @apply transition-transform duration-500 ease-out;
+  }
+
+  .card-lift:hover .card-photo {
+    transform: scale(1.06);
+  }
+
+  .card-lift:hover .card-badge {
+    animation: pp-wiggle 0.5s ease-in-out;
+  }
+
+  /* FAQ accordion: animated collapse without any Alpine plugin (grid rows trick) */
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq-panel.faq-open {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-panel > div {
+    overflow: hidden;
+  }
+
+  .faq-toggle {
+    @apply transition-transform duration-300;
+  }
+
+  .faq-toggle.faq-open {
+    transform: rotate(225deg);
+  }
+}
+
+/* --- Animation utilities (all gated behind prefers-reduced-motion) --- */
+
+@keyframes pp-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--pp-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(var(--pp-rotate, 0deg));
+  }
+}
+
+@keyframes pp-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pp-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-12deg) scale(1.1);
+  }
+  75% {
+    transform: rotate(12deg) scale(1.1);
+  }
+}
+
+/* Track holds two copies with a 12px flex gap; shift by half width + half gap for a seamless loop */
+@keyframes pp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 6px));
+  }
+}
+
 /* Motion reveal targets start hidden; JS animates them in. */
 @media (prefers-reduced-motion: no-preference) {
-  .fade-up {
+  .fade-up,
+  .hero-intro {
     opacity: 0;
+  }
+
+  .float-slow {
+    animation: pp-float 6s ease-in-out infinite;
+  }
+
+  .float-fast {
+    animation: pp-float 4s ease-in-out infinite;
+  }
+
+  .bob {
+    animation: pp-bob 3.2s ease-in-out infinite;
+  }
+
+  .wiggle-hover:hover {
+    animation: pp-wiggle 0.5s ease-in-out;
+  }
+
+  /* Gallery marquee: track holds two copies of the row; loops seamlessly */
+  .marquee-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: pp-marquee var(--pp-marquee-duration, 45s) linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-reverse .marquee-track {
+    animation-direction: reverse;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-panel,
+  .faq-toggle,
+  .nav-link::after {
+    transition: none;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+  }
+
+  .marquee-copy {
+    display: none;
   }
 }

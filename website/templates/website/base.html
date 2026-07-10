@@ -30,23 +30,18 @@
         <a href="{% url 'website:home' %}" class="flex items-center gap-3">
           <img src="{% static 'img/logo-mark.svg' %}"
                alt="Paw Paw Land logo"
-               class="h-14 w-14">
+               class="wiggle-hover h-14 w-14">
           <span class="flex flex-col leading-tight">
             <span class="font-display text-xl font-bold text-navy">PawPaw Land</span>
             <span class="text-[10px] font-semibold tracking-[0.35em] text-coral uppercase">Doggy Daycare</span>
           </span>
         </a>
         <nav class="hidden items-center gap-8 lg:flex" aria-label="Main">
-          <a href="{% url 'website:home' %}"
-             class="font-semibold text-ink transition-colors hover:text-coral">Home</a>
-          <a href="{% url 'website:about' %}"
-             class="font-semibold text-ink transition-colors hover:text-coral">About</a>
-          <a href="{% url 'website:services' %}"
-             class="font-semibold text-ink transition-colors hover:text-coral">Services</a>
-          <a href="{% url 'website:gallery' %}"
-             class="font-semibold text-ink transition-colors hover:text-coral">Gallery</a>
-          <a href="{% url 'website:contact' %}"
-             class="font-semibold text-ink transition-colors hover:text-coral">Contact</a>
+          <a href="{% url 'website:home' %}" class="nav-link">Home</a>
+          <a href="{% url 'website:about' %}" class="nav-link">About</a>
+          <a href="{% url 'website:services' %}" class="nav-link">Services</a>
+          <a href="{% url 'website:gallery' %}" class="nav-link">Gallery</a>
+          <a href="{% url 'website:contact' %}" class="nav-link">Contact</a>
           <a href="{% url 'website:contact' %}" class="btn-navy px-6 py-2.5">Book Now</a>
         </nav>
         <button type="button"
@@ -61,6 +56,12 @@
       <nav class="border-t border-ink/10 bg-cream px-6 pt-2 pb-6 lg:hidden"
            x-show="open"
            x-cloak
+           x-transition:enter="transition duration-200 ease-out"
+           x-transition:enter-start="-translate-y-2 opacity-0"
+           x-transition:enter-end="translate-y-0 opacity-100"
+           x-transition:leave="transition duration-150 ease-in"
+           x-transition:leave-start="translate-y-0 opacity-100"
+           x-transition:leave-end="-translate-y-2 opacity-0"
            aria-label="Mobile">
         <a href="{% url 'website:home' %}"
            class="block py-2 font-semibold text-ink">Home</a>
@@ -79,6 +80,10 @@
       {% block content %}
       {% endblock content %}
     </main>
+    <button type="button"
+            id="back-to-top"
+            class="fixed right-6 bottom-6 z-50 hidden h-12 w-12 items-center justify-center rounded-full bg-gold text-xl text-navy shadow-card transition-transform hover:scale-110"
+            aria-label="Back to top">{% include "website/icons/paw-print.html" %}</button>
     <footer class="relative mt-24">
       <div class="relative z-10 h-20 md:h-28" aria-hidden="true">
         <img src="{% static 'img/footer-wave-2.svg' %}"
