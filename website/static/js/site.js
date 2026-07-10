@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const showAll = () =>
     document
-      .querySelectorAll(".fade-up, .hero-intro")
+      .querySelectorAll(".fade-up, .hero-intro, .paw-step")
       .forEach((el) => (el.style.opacity = 1));
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -88,6 +88,32 @@ document.addEventListener("DOMContentLoaded", () => {
       target: el,
       offset: ["start end", "end start"],
     });
+  });
+
+  // --- Paw trails: prints appear step by step as the band scrolls through ---
+  // Scrubbing back up retracts them, like the dog walked back.
+  document.querySelectorAll("[data-paw-trail]").forEach((trail) => {
+    const steps = trail.querySelectorAll(".paw-step");
+    if (!steps.length) return;
+    scroll(
+      (progress) => {
+        steps.forEach((step, i) => {
+          const on = progress >= (i + 1) / (steps.length + 1);
+          if (on === (step.dataset.on === "1")) return;
+          step.dataset.on = on ? "1" : "0";
+          if (on) {
+            animate(
+              step,
+              { opacity: [0, 1], scale: [0.3, 1] },
+              { type: "spring", stiffness: 400, damping: 18 }
+            );
+          } else {
+            animate(step, { opacity: 0, scale: 0.3 }, { duration: 0.2 });
+          }
+        });
+      },
+      { target: trail, offset: ["start 95%", "end 55%"] }
+    );
   });
 
   // --- Back-to-top paw ---

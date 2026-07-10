@@ -1,0 +1,27 @@
+{# Scroll-driven paw trail: steps pop in one by one as the band scrolls into view. #}
+{# Params: tone (text color classes), flip (walk right-to-left when truthy). #}
+<div class="pointer-events-none relative mx-auto h-20 w-full max-w-4xl px-6 {% if flip %}[transform:scaleX(-1)]{% endif %}"
+     data-paw-trail
+     aria-hidden="true">
+  <span class="paw-step absolute top-9 left-[3%] text-xl {{ tone }} [&_svg]:fill-current rotate-[100deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-2 left-[16%] text-2xl {{ tone }} [&_svg]:fill-current rotate-[75deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-10 left-[30%] text-xl {{ tone }} [&_svg]:fill-current rotate-[105deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-3 left-[44%] text-2xl {{ tone }} [&_svg]:fill-current rotate-[70deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-11 left-[59%] text-xl {{ tone }} [&_svg]:fill-current rotate-[110deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-4 left-[73%] text-2xl {{ tone }} [&_svg]:fill-current rotate-[80deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+  <span class="paw-step absolute top-12 left-[88%] text-xl {{ tone }} [&_svg]:fill-current rotate-[100deg]">
+    {% include "website/icons/paw-print.html" %}
+  </span>
+</div>

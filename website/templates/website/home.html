@@ -107,8 +107,9 @@
     </div>
   </section>
   {# Services #}
-  <section class="bg-cream py-20" id="services">
-    <div class="mx-auto max-w-[1280px] px-6">
+  <section class="bg-cream pb-20" id="services">
+    {% include "website/partials/paw_trail.html" with tone="text-gold" %}
+    <div class="mx-auto max-w-[1280px] px-6 pt-4">
       <div class="fade-up text-center">
         <p class="section-eyebrow justify-center">
           <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
@@ -305,7 +306,8 @@
     </div>
   </section>
   {# CTA #}
-  <section class="bg-cream px-6 pt-10 pb-4">
+  <section class="bg-cream px-6 pt-2 pb-4">
+    {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
     <div class="fade-up relative mx-auto max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
       <img src="{% static 'img/paw-print.svg' %}"
            alt=""
@@ -327,8 +329,9 @@
     </div>
   </section>
   {# FAQ #}
-  <section class="bg-[#fdf9eb] py-20">
-    <div class="mx-auto max-w-[1280px] px-6">
+  <section class="bg-[#fdf9eb] pb-20">
+    {% include "website/partials/paw_trail.html" with tone="text-coral/50" %}
+    <div class="mx-auto max-w-[1280px] px-6 pt-4">
       <div class="fade-up text-center">
         <p class="section-eyebrow justify-center">
           <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">

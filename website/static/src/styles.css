@@ -207,7 +207,8 @@
 /* Motion reveal targets start hidden; JS animates them in. */
 @media (prefers-reduced-motion: no-preference) {
   .fade-up,
-  .hero-intro {
+  .hero-intro,
+  .paw-step {
     opacity: 0;
   }
 
