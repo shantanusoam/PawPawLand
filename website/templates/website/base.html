@@ -24,9 +24,13 @@
     <script defer src="{% static 'js/site.js' %}"></script>
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="sticky top-0 z-50 bg-cream shadow-[0_4px_4px_rgba(0,0,0,0.08)]"
+    <div id="scroll-progress"
+         class="fixed inset-x-0 top-0 z-[60] h-1 origin-left scale-x-0 bg-gradient-to-r from-gold via-coral to-gold"
+         aria-hidden="true"></div>
+    <header id="site-header"
+            class="sticky top-0 z-50 bg-cream shadow-[0_4px_4px_rgba(0,0,0,0.08)] transition-shadow duration-300"
             x-data="{ open: false }">
-      <div class="mx-auto flex h-[88px] max-w-[1280px] items-center justify-between px-6">
+      <div class="header-bar mx-auto flex h-[88px] max-w-[1280px] items-center justify-between px-6 transition-[height] duration-300">
         <a href="{% url 'website:home' %}" class="flex items-center gap-3">
           <img src="{% static 'img/logo-mark.svg' %}"
                alt="Paw Paw Land logo"

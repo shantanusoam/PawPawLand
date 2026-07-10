@@ -32,6 +32,12 @@
     display: none !important;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   body {
     @apply bg-cream font-sans text-ink antialiased;
   }
@@ -157,6 +163,23 @@
   .faq-toggle.faq-open {
     transform: rotate(225deg);
   }
+
+  /* Header compresses once the page is scrolled (toggled in site.js) */
+  #site-header.scrolled {
+    box-shadow: 0 8px 20px rgb(42 40 96 / 0.12);
+  }
+
+  #site-header.scrolled .header-bar {
+    height: 64px;
+  }
+
+  /* Paw confetti sprites spawned on back-to-top clicks */
+  .paw-burst {
+    position: fixed;
+    z-index: 70;
+    pointer-events: none;
+    color: var(--color-gold);
+  }
 }
 
 /* --- Animation utilities (all gated behind prefers-reduced-motion) --- */
@@ -210,6 +233,12 @@
   .hero-intro,
   .paw-step {
     opacity: 0;
+  }
+
+  /* Squiggle underlines start undrawn; site.js draws them in view */
+  .squiggle-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
   }
 
   .float-slow {

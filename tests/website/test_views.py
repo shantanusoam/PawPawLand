@@ -12,7 +12,7 @@ def test_home_renders_all_sections(client):
         "Every Tail",
         "Happy Tale.",
         "Born From Love,",
-        'Our <span class="text-gold">Services</span>',
+        "What We Offer",
         "Why Dogs Love",
         "Life at",
         "Ready to make your pup's day?",

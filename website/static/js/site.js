@@ -116,7 +116,65 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  // --- Back-to-top paw ---
+  // --- Scroll progress bar under the top edge ---
+  const progressBar = document.getElementById("scroll-progress");
+  if (progressBar) {
+    scroll(animate(progressBar, { scaleX: [0, 1] }, { ease: "linear" }));
+  }
+
+  // --- Header compresses after scrolling past the hero's first screen ---
+  const header = document.getElementById("site-header");
+  if (header) {
+    const compact = () => header.classList.toggle("scrolled", window.scrollY > 80);
+    window.addEventListener("scroll", compact, { passive: true });
+    compact();
+  }
+
+  // --- Squiggle underlines draw themselves in view ---
+  document.querySelectorAll(".squiggle").forEach((svg) => {
+    const path = svg.querySelector(".squiggle-path");
+    if (!path) return;
+    inView(
+      svg,
+      () => {
+        animate(
+          path,
+          { strokeDashoffset: [1, 0] },
+          { duration: 0.8, ease: EASE_OUT, delay: 0.25 }
+        );
+      },
+      { amount: 0.8 }
+    );
+  });
+
+  // --- Hero shiba leans toward the cursor (fine pointers only) ---
+  const heroSection = heroDog && heroDog.closest("section");
+  if (heroDog && heroSection && window.matchMedia("(pointer: fine)").matches) {
+    heroSection.addEventListener("pointermove", (event) => {
+      const rect = heroSection.getBoundingClientRect();
+      const dx = (event.clientX - rect.left) / rect.width - 0.5;
+      const dy = (event.clientY - rect.top) / rect.height - 0.5;
+      animate(
+        heroDog,
+        { rotate: dx * 3, x: dx * 14, y: dy * 10 },
+        { duration: 0.4, ease: "easeOut" }
+      );
+    });
+    heroSection.addEventListener("pointerleave", () => {
+      animate(heroDog, { rotate: 0, x: 0, y: 0 }, SPRING);
+    });
+  }
+
+  // --- Testimonial stars pop in when a slide becomes active (called from Alpine) ---
+  window.ppPopStars = (container) => {
+    animate(
+      container.children,
+      { scale: [0, 1], opacity: [0, 1] },
+      { type: "spring", stiffness: 400, damping: 15, delay: stagger(0.07) }
+    );
+  };
+
+  // --- Back-to-top paw + a little paw confetti burst on click ---
   const toTop = document.getElementById("back-to-top");
   if (toTop) {
     const toggle = () => {
@@ -127,6 +185,26 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", toggle, { passive: true });
     toggle();
     toTop.addEventListener("click", () => {
+      const rect = toTop.getBoundingClientRect();
+      for (let i = 0; i < 6; i++) {
+        const paw = document.createElement("span");
+        paw.className = "paw-burst text-lg";
+        paw.innerHTML = toTop.innerHTML;
+        paw.style.left = `${rect.left + rect.width / 2}px`;
+        paw.style.top = `${rect.top}px`;
+        document.body.appendChild(paw);
+        animate(
+          paw,
+          {
+            x: (Math.random() - 0.5) * 140,
+            y: -60 - Math.random() * 90,
+            rotate: (Math.random() - 0.5) * 180,
+            opacity: [1, 0],
+            scale: [1, 0.4],
+          },
+          { duration: 0.9, ease: "easeOut" }
+        ).finished.then(() => paw.remove());
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
