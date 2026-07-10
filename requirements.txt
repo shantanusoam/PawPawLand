@@ -1,0 +1,11 @@
+Django>=5.2,<5.3
+django-environ>=0.11,<0.13
+django-tinymce>=4.1,<5.0
+whitenoise>=6.7,<7.0
+Pillow>=10.4,<12.0
+gunicorn>=22.0,<24.0
+pytest>=8.0,<9.0
+pytest-django>=4.8,<5.0
+ruff>=0.12,<0.13
+djlint>=1.36,<2.0
+pre-commit>=3.8,<4.0

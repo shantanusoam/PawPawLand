@@ -1,0 +1,21 @@
+{
+  "name": "pawpawland",
+  "private": true,
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./website/static/src/styles.css -o ./website/static/css/site.css --minify",
+    "watch:css": "npx @tailwindcss/cli -i ./website/static/src/styles.css -o ./website/static/css/site.css --watch",
+    "vendor:js": "cp node_modules/alpinejs/dist/cdn.min.js website/static/js/alpine.min.js && cp node_modules/motion/dist/motion.js website/static/js/motion.min.js",
+    "dev": "npm run vendor:js && npm run watch:css",
+    "build": "npm run vendor:js && npm run build:css",
+    "deploy": "scripts/deploy.sh"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.2",
+    "tailwindcss": "^4.3.2"
+  },
+  "dependencies": {
+    "alpinejs": "^3.15.12",
+    "lucide": "^1.24.0",
+    "motion": "^12.42.2"
+  }
+}

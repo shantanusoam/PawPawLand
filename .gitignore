@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+.env
+node_modules/
+staticfiles/
+media/
+.pytest_cache/
+.ruff_cache/
+website/static/css/site.css
+website/static/js/alpine.min.js
+website/static/js/motion.min.js

@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% block title %}
+        Paw Paw Land — Doggy Daycare
+      {% endblock title %}
+    </title>
+    <meta name="description"
+          content="Australia's most loving dog daycare and grooming centre. Daycare, grooming, puppy playground and birthday parties in Sydney.">
+    <link rel="icon"
+          type="image/svg+xml"
+          href="{% static 'img/logo-mark.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+    <script defer src="{% static 'js/alpine.min.js' %}"></script>
+    <script defer src="{% static 'js/motion.min.js' %}"></script>
+    <script defer src="{% static 'js/site.js' %}"></script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-50 bg-cream shadow-[0_4px_4px_rgba(0,0,0,0.08)]"
+            x-data="{ open: false }">
+      <div class="mx-auto flex h-[88px] max-w-[1280px] items-center justify-between px-6">
+        <a href="{% url 'website:home' %}" class="flex items-center gap-3">
+          <img src="{% static 'img/logo-mark.svg' %}"
+               alt="Paw Paw Land logo"
+               class="h-14 w-14">
+          <span class="flex flex-col leading-tight">
+            <span class="font-display text-xl font-bold text-navy">PawPaw Land</span>
+            <span class="text-[10px] font-semibold tracking-[0.35em] text-coral uppercase">Doggy Daycare</span>
+          </span>
+        </a>
+        <nav class="hidden items-center gap-8 lg:flex" aria-label="Main">
+          <a href="{% url 'website:home' %}"
+             class="font-semibold text-ink transition-colors hover:text-coral">Home</a>
+          <a href="{% url 'website:about' %}"
+             class="font-semibold text-ink transition-colors hover:text-coral">About</a>
+          <a href="{% url 'website:services' %}"
+             class="font-semibold text-ink transition-colors hover:text-coral">Services</a>
+          <a href="{% url 'website:gallery' %}"
+             class="font-semibold text-ink transition-colors hover:text-coral">Gallery</a>
+          <a href="{% url 'website:contact' %}"
+             class="font-semibold text-ink transition-colors hover:text-coral">Contact</a>
+          <a href="{% url 'website:contact' %}" class="btn-navy px-6 py-2.5">Book Now</a>
+        </nav>
+        <button type="button"
+                class="text-navy lg:hidden"
+                @click="open = !open"
+                :aria-expanded="open"
+                aria-label="Toggle menu">
+          <span class="text-3xl" x-show="!open">{% include "website/icons/menu.html" %}</span>
+          <span class="text-3xl" x-show="open" x-cloak>{% include "website/icons/x.html" %}</span>
+        </button>
+      </div>
+      <nav class="border-t border-ink/10 bg-cream px-6 pt-2 pb-6 lg:hidden"
+           x-show="open"
+           x-cloak
+           aria-label="Mobile">
+        <a href="{% url 'website:home' %}"
+           class="block py-2 font-semibold text-ink">Home</a>
+        <a href="{% url 'website:about' %}"
+           class="block py-2 font-semibold text-ink">About</a>
+        <a href="{% url 'website:services' %}"
+           class="block py-2 font-semibold text-ink">Services</a>
+        <a href="{% url 'website:gallery' %}"
+           class="block py-2 font-semibold text-ink">Gallery</a>
+        <a href="{% url 'website:contact' %}"
+           class="block py-2 font-semibold text-ink">Contact</a>
+        <a href="{% url 'website:contact' %}" class="btn-navy mt-3 px-6 py-2.5">Book Now</a>
+      </nav>
+    </header>
+    <main class="flex-1">
+      {% block content %}
+      {% endblock content %}
+    </main>
+    <footer class="relative mt-24">
+      <div class="relative z-10 h-20 md:h-28" aria-hidden="true">
+        <img src="{% static 'img/footer-wave-2.svg' %}"
+             alt=""
+             class="absolute inset-x-0 -bottom-1 h-full w-full">
+        <img src="{% static 'img/footer-wave-1.svg' %}"
+             alt=""
+             class="absolute inset-x-0 -bottom-3 h-full w-full">
+      </div>
+      <div class="bg-navy-deep text-white">
+        <div class="mx-auto grid max-w-[1280px] gap-10 px-6 pt-6 pb-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-7 w-7">
+              <span class="font-display text-xl font-bold">Paw Paw Land</span>
+            </div>
+            <p class="mt-4 text-sm leading-relaxed">
+              Australia's most loving dog daycare and grooming centre. Where every tail wags with happiness.
+            </p>
+            <div class="mt-5 flex gap-3">
+              <a href="#"
+                 class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg transition-colors hover:bg-white/20"
+                 aria-label="Facebook">{% include "website/icons/facebook.html" %}</a>
+              <a href="#"
+                 class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg transition-colors hover:bg-white/20"
+                 aria-label="Instagram">{% include "website/icons/instagram.html" %}</a>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-display text-base font-bold text-gold">Quick Links</h4>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li>
+                <a href="{% url 'website:home' %}"
+                   class="transition-colors hover:text-gold">Home</a>
+              </li>
+              <li>
+                <a href="{% url 'website:about' %}"
+                   class="transition-colors hover:text-gold">About Us</a>
+              </li>
+              <li>
+                <a href="{% url 'website:services' %}"
+                   class="transition-colors hover:text-gold">Services</a>
+              </li>
+              <li>
+                <a href="{% url 'website:gallery' %}"
+                   class="transition-colors hover:text-gold">Gallery</a>
+              </li>
+              <li>
+                <a href="{% url 'website:contact' %}"
+                   class="transition-colors hover:text-gold">Contact</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-display text-base font-bold text-gold">Services</h4>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li>Dog Daycare</li>
+              <li>Dog Grooming</li>
+              <li>Puppy Playground</li>
+              <li>Birthday Parties</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-display text-base font-bold text-gold">Contact Us</h4>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="mt-0.5 text-base">{% include "website/icons/map-pin.html" %}</span>
+                123 Happy Paws Lane, Sydney NSW 2000
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-base">{% include "website/icons/phone.html" %}</span>
+                (02) 9123 4567
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-base">{% include "website/icons/mail.html" %}</span>
+                hello@pawpawland.com.au
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="mt-0.5 text-base">{% include "website/icons/clock.html" %}</span>
+                <span>Mon–Fri: 7am–6pm
+                  <br>
+                Sat–Sun: 8am–4pm</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mx-auto max-w-[1280px] px-6 pb-8">
+          <div class="flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row">
+            <p class="flex items-center gap-1">
+              © 2025 Paw Paw Land. All rights reserved. Made with
+              <span class="text-coral">{% include "website/icons/heart.html" %}</span>
+              for dogs everywhere.
+            </p>
+            <div class="flex gap-6">
+              <a href="#" class="transition-colors hover:text-white">Privacy Policy</a>
+              <a href="#" class="transition-colors hover:text-white">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

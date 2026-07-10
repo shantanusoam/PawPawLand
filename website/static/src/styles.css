@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paw Paw Land palette — extracted from Figma (Paw Paw Land, node 1:5) */
+  --color-navy: #2a2860;
+  --color-navy-deep: #292760;
+  --color-gold: #ffc93c;
+  --color-coral: #ff7a59;
+  --color-ink: #263238;
+  --color-muted: #6a7282;
+  --color-muted-dark: #4a5565;
+  --color-cream: #fffcf6;
+  --color-cream-warm: #fff9f2;
+  --color-cream-soft: #fbf6f1;
+  --color-pink-pastel: #f8c2cb;
+  --color-pink-soft: #fbe2e7;
+  --color-blue-pastel: #def0ff;
+  --color-blue-soft: #dbecfe;
+  --color-peach-pastel: #fff0dc;
+  --color-mint-pastel: #f1fff7;
+  --color-aqua-pastel: #e0f7fa;
+
+  --font-display: "Fredoka", "Poppins", sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-soft: 0 4px 3px rgb(0 0 0 / 0.1), 0 2px 2px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold;
+  }
+}
+
+@layer components {
+  .btn-pill,
+  .btn-navy,
+  .btn-gold,
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold transition-transform duration-200 hover:-translate-y-0.5;
+  }
+
+  .btn-navy {
+    @apply bg-navy text-white shadow-card hover:bg-navy-deep;
+  }
+
+  .btn-gold {
+    @apply bg-gold text-navy shadow-card;
+  }
+
+  .btn-outline {
+    @apply border-2 border-navy bg-white/60 text-navy;
+  }
+
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold tracking-[0.2em] text-coral uppercase;
+  }
+
+  /* Rich text rendered from the admin editor (TinyMCE) */
+  .prose-rte :is(p, ul, ol) {
+    @apply mb-3 last:mb-0;
+  }
+
+  .prose-rte ul {
+    @apply list-disc pl-5;
+  }
+
+  .prose-rte ol {
+    @apply list-decimal pl-5;
+  }
+
+  .prose-rte a {
+    @apply text-coral underline;
+  }
+
+  .prose-rte strong {
+    @apply font-semibold;
+  }
+}
+
+/* Motion reveal targets start hidden; JS animates them in. */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    opacity: 0;
+  }
+}
