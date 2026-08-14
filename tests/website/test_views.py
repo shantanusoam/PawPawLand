@@ -33,7 +33,33 @@ def test_home_shows_seeded_content(client, django_user_model):
     assert "What does my dog need before their first visit?" in content
 
 
-@pytest.mark.parametrize("name", ["about", "services", "gallery", "contact"])
+@pytest.mark.parametrize("name", ["about", "gallery", "contact"])
 def test_stub_pages_render(client, name):
     response = client.get(reverse(f"website:{name}"))
     assert response.status_code == 200
+
+
+def test_services_page_renders_pricing_plans(client):
+    response = client.get(reverse("website:services"))
+    content = response.content.decode()
+    assert response.status_code == 200
+    for copy in [
+        "Meet &amp; Greet",
+        "A Happy Day,",
+        "Give Your Pup More Play &amp;",
+        "Two Pups,",
+        "Casual Day",
+        "$65",
+        "Value Pack",
+        "$305",
+        "Paw-some Plan",
+        "$1,100",
+        "Double Paw Day",
+        "$110",
+        "Paws &amp; Play Pack",
+        "$1,000",
+        "Ultimate Paw Pack",
+        "$1,900",
+        "Ready to make your pup's day?",
+    ]:
+        assert copy in content, f"missing section copy: {copy}"

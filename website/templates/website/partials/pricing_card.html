@@ -1,0 +1,22 @@
+{% load static %}
+<article class="fade-up card-lift relative flex flex-col rounded-[32px] border-2 {{ plan.tone.bg }} {{ plan.tone.border }} pt-16 pb-8">
+  <img src="{% static 'img/' %}{{ plan.photo }}"
+       alt="{{ plan.name }} — dogs peeking over the card"
+       class="pointer-events-none absolute -top-14 left-1/2 h-28 w-auto -translate-x-1/2 drop-shadow-lg"
+       data-pop>
+  <div class="px-8 text-center">
+    <h3 class="font-display text-3xl font-bold tracking-wide {{ plan.tone.title }}">{{ plan.name }}</h3>
+    <div class="mt-4 rounded-lg {{ plan.tone.chip }} px-4 py-4">
+      <span class="font-display text-4xl font-bold text-navy-deep">{{ plan.price }}</span>
+      <span class="text-lg text-navy-deep/80">{{ plan.period }}</span>
+    </div>
+    <ul class="mt-5 space-y-2 text-left text-sm text-muted-dark">
+      {% for feature in plan.features %}
+        <li class="flex items-start gap-2">
+          <span class="mt-0.5 shrink-0 {{ plan.tone.check }}">{% include "website/icons/check-circle.html" %}</span>
+          {{ feature }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</article>

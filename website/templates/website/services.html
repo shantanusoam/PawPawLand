@@ -1,0 +1,159 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  Services — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  {# Hero #}
+  <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2">
+      <div class="max-w-xl">
+        <img src="{% static 'img/free-badge.webp' %}"
+             alt="Free"
+             class="hero-intro h-14 w-auto"
+             data-pop>
+        <h1 class="hero-intro font-display text-6xl leading-[1.05] font-bold text-gold">Meet &amp; Greet</h1>
+        <p class="hero-intro mt-4 max-w-md text-navy-deep">
+          Bring your furry best friend along and join us for a fun-filled day of wagging tails, happy moments, and pawsome memories!
+        </p>
+      </div>
+      <div class="relative">
+        <div class="pointer-events-none absolute top-1/2 right-0 -z-10 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-pastel"
+             data-parallax="-20"
+             aria-hidden="true"></div>
+        <div class="pointer-events-none absolute top-0 right-24 -z-10 h-36 w-36 rounded-full bg-pink-pastel"
+             data-parallax="30"
+             aria-hidden="true"></div>
+        <img src="{% static 'img/services-hero.webp' %}"
+             alt="A woman playfully lifting her fluffy brown poodle"
+             class="relative mx-auto w-full max-w-[520px]"
+             data-parallax="-15">
+      </div>
+    </div>
+    <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
+         viewBox="0 0 1440 96"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+      <path d="M0 55 C 240 15, 480 15, 720 45 C 960 75, 1200 80, 1440 45 L 1440 96 L 0 96 Z" fill="#2a2860" />
+      <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
+    </svg>
+  </section>
+  {# A Happy Day, Filled With Care #}
+  <section class="bg-white py-24">
+    <div class="mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
+      <div class="relative order-2 lg:order-1">
+        <img src="{% static 'img/doodle-scatter.webp' %}"
+             alt=""
+             class="pointer-events-none absolute -inset-8 h-[calc(100%+64px)] w-[calc(100%+64px)] object-contain"
+             data-parallax="-25"
+             aria-hidden="true">
+        <div class="relative mx-auto flex max-w-[420px] items-center justify-center">
+          <img src="{% static 'img/daycare-blob-1.webp' %}"
+               alt="Two dogs relaxing together on a colourful play structure"
+               class="w-[70%] -rotate-6"
+               data-parallax="15">
+          <img src="{% static 'img/daycare-blob-2.webp' %}"
+               alt="A Shiba Inu playing with a red toy"
+               class="absolute right-0 bottom-0 w-[55%] rotate-6"
+               data-parallax="-15">
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <p class="section-eyebrow text-gold">
+          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+          Our Daycare
+        </p>
+        <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
+          A Happy Day,
+          <br>
+          <span class="relative inline-block text-gold">Filled With Care
+            {% include "website/partials/squiggle.html" %}
+          </span>
+        </h2>
+        <p class="mt-5 font-semibold text-muted-dark">Not Just Daycare, It's Their Second Home</p>
+        <p class="mt-3 leading-relaxed text-muted-dark">
+          We know leaving your dog for the day isn't always easy. That's why we've created a safe, caring, and happy space where they can play, socialise, relax, and simply be themselves.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-dark">
+          With supervised play, personalised attention, plenty of cuddles, and comfortable rest time, every pup gets a day that suits their personality and energy.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-dark">
+          You go about your day worry-free. They spend theirs playing, making friends, and coming home happy.
+        </p>
+        <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">Discover Our Daycare →</a>
+      </div>
+    </div>
+  </section>
+  {# Daycare Plans for 1 dog #}
+  <section class="bg-cream py-24">
+    {% include "website/partials/paw_trail.html" with tone="text-gold" %}
+    <div class="mx-auto max-w-[1280px] px-6 pt-4">
+      <div class="fade-up text-center">
+        <p class="section-eyebrow justify-center">
+          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+          Daycare Plans for 1 dog
+        </p>
+        <h2 class="mt-4 font-display text-4xl font-bold text-navy-deep md:text-5xl">
+          Give Your Pup More Play &amp; <span class="relative inline-block text-gold">Save More!
+          {% include "website/partials/squiggle.html" %}
+        </span>
+      </h2>
+    </div>
+    <div class="mt-20 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
+         data-stagger>
+      {% for plan in plans_one_dog %}
+        {% include "website/partials/pricing_card.html" %}
+      {% endfor %}
+    </div>
+    <p class="fade-up mt-10 text-center text-sm text-muted">
+      *All prices are per dog. Day passes are valid from the date of purchase as specified above.
+    </p>
+  </div>
+</section>
+{# Daycare Plans for 2 dogs #}
+<section class="bg-cream pb-4">
+  <div class="mx-auto max-w-[1280px] px-6">
+    <div class="fade-up text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Daycare Plans for 2 dogs
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-bold md:text-5xl">
+        <span class="text-navy-deep">Two Pups,</span>
+        <span class="relative inline-block text-gold">Twice the Happiness!
+          {% include "website/partials/squiggle.html" %}
+        </span>
+      </h2>
+    </div>
+    <div class="mt-20 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
+         data-stagger>
+      {% for plan in plans_two_dogs %}
+        {% include "website/partials/pricing_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{# CTA #}
+<section class="bg-cream px-6 pt-16 pb-4">
+  {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
+  <div class="fade-up relative mx-auto mt-6 max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
+    <img src="{% static 'img/paw-print.svg' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute top-8 right-[38%] hidden h-8 w-8 md:block [--pp-rotate:20deg]"
+         aria-hidden="true">
+    <span class="float-slow pointer-events-none absolute bottom-10 left-[45%] hidden text-3xl text-navy/40 md:block [--pp-rotate:-15deg]"
+          aria-hidden="true">{% include "website/icons/bone.html" %}</span>
+    <div class="max-w-[500px]">
+      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
+      <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
+        Book their next adventure today. First visit? We'd love to meet your furry best friend.
+      </p>
+      <a href="{% url 'website:contact' %}" class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
+    </div>
+    <img src="{% static 'img/cta-dogs.webp' %}"
+         alt="A Border Collie and a Golden Retriever sitting together"
+         class="pointer-events-none right-4 -bottom-4 mx-auto mt-8 w-full max-w-[440px] md:absolute md:mt-0 md:w-[45%]"
+         data-pop>
+  </div>
+</section>
+{% endblock content %}
