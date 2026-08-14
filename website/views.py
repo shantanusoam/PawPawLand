@@ -33,8 +33,63 @@ def _stub(request, title):
     return render(request, "website/page_stub.html", {"title": title})
 
 
+# Team bios for the About page, matching the Figma copy verbatim.
+_KAREN_BIO = (
+    "I love working with dogs! I have worked with dogs for over 15 years in the dog "
+    "training and dog daycare industries.\n\n"
+    "I love working at Pawpaw Land because we build such a wonderful relationship with "
+    "each of the dogs, it makes coming to work a pleasure.\n\n"
+    "I have a Labrador named Sage and I am very lucky to be able to bring Sage to work "
+    "with me here at Pawpaw Land."
+)
+_LEAH_BIO = (
+    "I have been working with dogs for just over 3 years in day care and kennel "
+    "settings, but have been working in the animal industry for over 10 years!\n\n"
+    "I don't have any dogs at home so my favourite part of my job is getting to see all "
+    "the beautiful dogs and treating them all like they're my own.\n\n"
+    "A fun fact about me is my animal experience started with crocodiles, snakes and "
+    "stingrays at Crocosaurus Cove in Darwin!"
+)
+
+TEAM_MEMBERS = [
+    {
+        "name": "Karen",
+        "role": "Puppy Specialist",
+        "photo": "team-karen.webp",
+        "bio": _KAREN_BIO,
+        "tone": "bg-[#def0ff]",
+    },
+    {
+        "name": "Leah",
+        "role": "Puppy Specialist",
+        "photo": "team-leah.webp",
+        "bio": _LEAH_BIO,
+        "tone": "bg-[#fbe2e7]",
+    },
+    {
+        "name": "Karen",
+        "role": "Puppy Specialist",
+        "photo": "team-karen.webp",
+        "bio": _KAREN_BIO,
+        "tone": "bg-[#fff2c8]",
+    },
+    {
+        "name": "Leah",
+        "role": "Puppy Specialist",
+        "photo": "team-leah.webp",
+        "bio": _LEAH_BIO,
+        "tone": "bg-[#fcf1ff]",
+    },
+]
+
+
 def about(request):
-    return _stub(request, "About Us")
+    context = {
+        "team_members": TEAM_MEMBERS,
+        "gallery_row_1": GalleryImage.objects.filter(is_active=True, row=1),
+        "gallery_row_2": GalleryImage.objects.filter(is_active=True, row=2),
+    }
+    return render(request, "website/about.html", context)
 
 
 # Pricing plan copy for the Services page, mirroring the Figma design 1:1.

@@ -68,46 +68,7 @@
       <path d="M0 52 C 240 102, 480 102, 720 67 C 960 32, 1200 27, 1440 67 L 1440 96 L 0 96 Z" fill="#fefefe" />
     </svg>
   </section>
-  {# Our Story #}
-  <section class="bg-[#fefefe]">
-    <div class="mx-auto grid max-w-[1280px] items-center gap-12 px-6 py-20 lg:grid-cols-2">
-      <div class="fade-up relative">
-        <img src="{% static 'img/story-doodles.webp' %}"
-             alt=""
-             class="pointer-events-none absolute inset-0 h-full w-full object-contain"
-             data-parallax="-30"
-             aria-hidden="true">
-        <img src="{% static 'img/story-blob.webp' %}"
-             alt="The Paw Paw Land founders celebrating with their Golden Retriever"
-             class="relative mx-auto w-full max-w-[600px]"
-             data-parallax="20">
-      </div>
-      <div class="fade-up">
-        <p class="section-eyebrow text-gold">
-          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-          Our Story
-        </p>
-        <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
-          Born From Love,
-          <br>
-          <span class="relative inline-block text-gold">Not Just Business
-            {% include "website/partials/squiggle.html" %}
-          </span>
-        </h2>
-        <p class="mt-6 leading-relaxed text-muted-dark">
-          Our inspiration came from our own journey with our Golden Retriever puppy, who needed thoughtful
-          supervision, emotional reassurance, and carefully managed socialisation, especially after
-          experiencing health complications as a curious young pup.
-        </p>
-        <p class="mt-4 leading-relaxed text-muted-dark">
-          Through that experience, we learned firsthand what modern dog parents are searching for: not just
-          care, but comfort. Not just supervision, but understanding. Not just socialisation, but meaningful,
-          well-matched interactions shaped around each dog's temperament and energy.
-        </p>
-        <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">Meet Our Family →</a>
-      </div>
-    </div>
-  </section>
+  {% include "website/partials/section_our_story.html" %}
   {# Services #}
   <section class="bg-cream pb-20" id="services">
     {% include "website/partials/paw_trail.html" with tone="text-gold" %}
@@ -152,29 +113,7 @@
     </div>
   </div>
 </section>
-{# Why Dogs Love #}
-<section class="bg-cream pb-20">
-  <div class="mx-auto max-w-[1280px] px-6">
-    <div class="fade-up text-center">
-      <p class="section-eyebrow justify-center">
-        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-        Why They Love It Here
-      </p>
-      <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">
-        Why Dogs Love <span class="relative inline-block text-gold">Paw Paw Land
-        {% include "website/partials/squiggle.html" %}
-      </span>
-    </h2>
-  </div>
-  <div class="mt-14 grid gap-10 text-center sm:grid-cols-2 lg:grid-cols-4"
-       data-stagger>
-    {% include "website/partials/feature.html" with title="Social Playtime" text="Dogs thrive with friends. We create structured, fun group play sessions tailored to each dog's personality and size." %}
-    {% include "website/partials/feature.html" with title="Safe Supervision" text="Our trained carers watch over every interaction, ensuring all dogs stay safe, comfortable, and happy throughout the day." %}
-    {% include "website/partials/feature.html" with title="Lots of Exercise" text="From outdoor runs to agility courses, we make sure every dog gets the physical activity they need to sleep well tonight." %}
-    {% include "website/partials/feature.html" with title="Tail-Wagging Fun" text="Toys, tunnels, splash zones, and nap zones — every moment is designed to make tails wag from drop-off to pick-up." %}
-  </div>
-</div>
-</section>
+{% include "website/partials/section_why_dogs_love.html" %}
 {# Testimonials #}
 {% if testimonials %}
   <section class="relative overflow-hidden bg-cream-warm py-20">
@@ -258,62 +197,7 @@
     </div>
   </section>
 {% endif %}
-{# Gallery #}
-<section class="overflow-hidden bg-cream py-20">
-  <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
-    <p class="section-eyebrow justify-center">
-      <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-      Happy Moments
-    </p>
-    <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">
-      Life at <span class="relative inline-block text-gold">Paw Paw Land
-      {% include "website/partials/squiggle.html" %}
-    </span>
-  </h2>
-</div>
-<div class="mt-14 space-y-3">
-  <div class="marquee overflow-hidden">
-    <div class="marquee-track [--pp-marquee-duration:48s]">
-      {% for photo in gallery_row_1 %}
-        <img src="{{ photo.image.url }}"
-             alt="{{ photo.alt_text }}"
-             class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
-             loading="lazy">
-      {% endfor %}
-      <div class="marquee-copy contents" aria-hidden="true">
-        {% for photo in gallery_row_1 %}
-          <img src="{{ photo.image.url }}"
-               alt=""
-               class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
-               loading="lazy">
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="marquee marquee-reverse overflow-hidden">
-    <div class="marquee-track [--pp-marquee-duration:60s]">
-      {% for photo in gallery_row_2 %}
-        <img src="{{ photo.image.url }}"
-             alt="{{ photo.alt_text }}"
-             class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
-             loading="lazy">
-      {% endfor %}
-      <div class="marquee-copy contents" aria-hidden="true">
-        {% for photo in gallery_row_2 %}
-          <img src="{{ photo.image.url }}"
-               alt=""
-               class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
-               loading="lazy">
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
-<div class="mt-14 text-center">
-  <a href="{% url 'website:gallery' %}"
-     class="btn-pill border-2 border-ink px-8 py-3.5 font-semibold text-ink">View Full Gallery</a>
-</div>
-</section>
+{% include "website/partials/section_gallery.html" %}
 {# CTA #}
 <section class="bg-cream px-6 pt-2 pb-4">
   {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}

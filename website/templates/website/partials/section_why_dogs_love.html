@@ -1,0 +1,24 @@
+{% load static %}
+{# Why Dogs Love Paw Paw Land — shared between the homepage and About Us #}
+<section class="bg-cream pb-20">
+  <div class="mx-auto max-w-[1280px] px-6">
+    <div class="fade-up text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Why They Love It Here
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">
+        Why Dogs Love <span class="relative inline-block text-gold">Paw Paw Land
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h2>
+  </div>
+  <div class="mt-14 grid gap-10 text-center sm:grid-cols-2 lg:grid-cols-4"
+       data-stagger>
+    {% include "website/partials/feature.html" with title="Social Playtime" text="Dogs thrive with friends. We create structured, fun group play sessions tailored to each dog's personality and size." %}
+    {% include "website/partials/feature.html" with title="Safe Supervision" text="Our trained carers watch over every interaction, ensuring all dogs stay safe, comfortable, and happy throughout the day." %}
+    {% include "website/partials/feature.html" with title="Lots of Exercise" text="From outdoor runs to agility courses, we make sure every dog gets the physical activity they need to sleep well tonight." %}
+    {% include "website/partials/feature.html" with title="Tail-Wagging Fun" text="Toys, tunnels, splash zones, and nap zones — every moment is designed to make tails wag from drop-off to pick-up." %}
+  </div>
+</div>
+</section>

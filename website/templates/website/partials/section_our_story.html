@@ -1,0 +1,41 @@
+{% load static %}
+{# Our Story — shared between the homepage and About Us #}
+<section class="bg-[#fefefe]">
+  <div class="mx-auto grid max-w-[1280px] items-center gap-12 px-6 py-20 lg:grid-cols-2">
+    <div class="fade-up relative">
+      <img src="{% static 'img/story-doodles.webp' %}"
+           alt=""
+           class="pointer-events-none absolute inset-0 h-full w-full object-contain"
+           data-parallax="-30"
+           aria-hidden="true">
+      <img src="{% static 'img/story-blob.webp' %}"
+           alt="The Paw Paw Land founders celebrating with their Golden Retriever"
+           class="relative mx-auto w-full max-w-[600px]"
+           data-parallax="20">
+    </div>
+    <div class="fade-up">
+      <p class="section-eyebrow text-gold">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Our Story
+      </p>
+      <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
+        Born From Love,
+        <br>
+        <span class="relative inline-block text-gold">Not Just Business
+          {% include "website/partials/squiggle.html" %}
+        </span>
+      </h2>
+      <p class="mt-6 leading-relaxed text-muted-dark">
+        Our inspiration came from our own journey with our Golden Retriever puppy, who needed thoughtful
+        supervision, emotional reassurance, and carefully managed socialisation, especially after
+        experiencing health complications as a curious young pup.
+      </p>
+      <p class="mt-4 leading-relaxed text-muted-dark">
+        Through that experience, we learned firsthand what modern dog parents are searching for: not just
+        care, but comfort. Not just supervision, but understanding. Not just socialisation, but meaningful,
+        well-matched interactions shaped around each dog's temperament and energy.
+      </p>
+      <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">Meet Our Family →</a>
+    </div>
+  </div>
+</section>

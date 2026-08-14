@@ -1,0 +1,15 @@
+{% load static %}
+{# Expects: photo (bare filename in static/img/), name, role, bio, tone (card bg color class) #}
+<article class="fade-up card-lift relative overflow-hidden rounded-[32px] {{ tone }} p-6">
+  <div class="relative h-[300px] overflow-hidden rounded-2xl">
+    <img src="{% static 'img/' %}{{ photo }}"
+         alt="{{ name }}, {{ role }} at Paw Paw Land"
+         class="card-photo h-full w-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+    <div class="absolute bottom-4 left-6">
+      <h3 class="font-display text-3xl font-bold tracking-wide text-white">{{ name }}</h3>
+      <p class="text-sm text-white italic">{{ role }}</p>
+    </div>
+  </div>
+  <p class="mt-5 text-sm leading-relaxed whitespace-pre-line text-muted-dark">{{ bio }}</p>
+</article>

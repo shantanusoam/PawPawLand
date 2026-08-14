@@ -1,0 +1,65 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  About Us — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  {# Hero #}
+  <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="pointer-events-none absolute top-10 -right-24 h-72 w-72 rounded-full bg-blue-pastel"
+         data-parallax="-20"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-24 h-64 w-64 rounded-full bg-gold/40"
+         data-parallax="25"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2">
+      <div class="max-w-xl">
+        <h1 class="hero-intro font-display text-5xl leading-[1.1] font-bold text-navy-deep md:text-6xl">
+          Meet the humans behind the <span class="text-gold">happy tails.</span>
+        </h1>
+        <p class="hero-intro mt-6 max-w-md text-navy-deep">
+          We're a small, passionate family who believe every dog deserves a second home filled with play, patience and cuddles.
+        </p>
+      </div>
+      <div class="relative">
+        <img src="{% static 'img/about-hero.webp' %}"
+             alt="A woman feeding a treat to a Border Collie sitting beside her"
+             class="mx-auto w-full max-w-[560px]"
+             data-parallax="-15">
+      </div>
+    </div>
+    <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
+         viewBox="0 0 1440 96"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+      <path d="M0 55 C 240 15, 480 15, 720 45 C 960 75, 1200 80, 1440 45 L 1440 96 L 0 96 Z" fill="#2a2860" />
+      <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
+    </svg>
+  </section>
+  {% include "website/partials/section_our_story.html" %}
+  {# The pack behind the pack #}
+  <section class="bg-white py-24">
+    {% include "website/partials/paw_trail.html" with tone="text-gold" %}
+    <div class="mx-auto max-w-[1280px] px-6 pt-4">
+      <div class="fade-up text-center">
+        <p class="section-eyebrow justify-center">
+          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+          Meet The Team
+        </p>
+        <h2 class="mt-4 font-display text-4xl font-bold md:text-5xl">
+          <span class="relative inline-block text-gold">The pack
+            {% include "website/partials/squiggle.html" %}
+          </span>
+          <span class="text-ink">behind the pack.</span>
+        </h2>
+      </div>
+      <div class="mt-14 grid gap-8 md:grid-cols-2" data-stagger>
+        {% for member in team_members %}
+          {% include "website/partials/team_card.html" with photo=member.photo name=member.name role=member.role bio=member.bio tone=member.tone %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% include "website/partials/section_why_dogs_love.html" %}
+  {% include "website/partials/section_gallery.html" %}
+{% endblock content %}

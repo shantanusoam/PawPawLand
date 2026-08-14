@@ -33,10 +33,32 @@ def test_home_shows_seeded_content(client, django_user_model):
     assert "What does my dog need before their first visit?" in content
 
 
-@pytest.mark.parametrize("name", ["about", "gallery", "contact"])
+@pytest.mark.parametrize("name", ["gallery", "contact"])
 def test_stub_pages_render(client, name):
     response = client.get(reverse(f"website:{name}"))
     assert response.status_code == 200
+
+
+def test_about_page_renders_team_and_shared_sections(client):
+    response = client.get(reverse("website:about"))
+    content = response.content.decode()
+    assert response.status_code == 200
+    for copy in [
+        "Meet the humans behind the",
+        "happy tails.",
+        "Born From Love,",
+        "The pack",
+        "behind the pack.",
+        "Karen",
+        "Leah",
+        "Puppy Specialist",
+        "Why Dogs Love",
+        "Life at",
+    ]:
+        assert copy in content, f"missing section copy: {copy}"
+    # Card 4 (Leah, second instance) must show Leah's own bio, not Karen's.
+    assert content.count("Crocosaurus Cove") == 2
+    assert content.count("Labrador named Sage") == 2
 
 
 def test_services_page_renders_pricing_plans(client):
