@@ -40,6 +40,9 @@ def test_stub_pages_render(client, name):
 
 
 def test_about_page_renders_team_and_shared_sections(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
     response = client.get(reverse("website:about"))
     content = response.content.decode()
     assert response.status_code == 200
@@ -56,12 +59,15 @@ def test_about_page_renders_team_and_shared_sections(client):
         "Life at",
     ]:
         assert copy in content, f"missing section copy: {copy}"
-    # Card 4 (Leah, second instance) must show Leah's own bio, not Karen's.
-    assert content.count("Crocosaurus Cove") == 2
-    assert content.count("Labrador named Sage") == 2
+    # Each team member shows their own bio, not a shared/duplicated one.
+    assert content.count("Crocosaurus Cove") == 1
+    assert content.count("Labrador named Sage") == 1
 
 
 def test_services_page_renders_pricing_plans(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
     response = client.get(reverse("website:services"))
     content = response.content.decode()
     assert response.status_code == 200
@@ -70,6 +76,10 @@ def test_services_page_renders_pricing_plans(client):
         "A Happy Day,",
         "Give Your Pup More Play &amp;",
         "Two Pups,",
+        "Dog Daycare",
+        "Dog Grooming",
+        "Puppy Playground",
+        "Dog Birthday Parties",
         "Casual Day",
         "$65",
         "Value Pack",
@@ -85,3 +95,34 @@ def test_services_page_renders_pricing_plans(client):
         "Ready to make your pup's day?",
     ]:
         assert copy in content, f"missing section copy: {copy}"
+
+
+def test_services_page_dropdown_anchors_match_service_cards(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    home = client.get(reverse("website:home")).content.decode()
+    services_page = client.get(reverse("website:services")).content.decode()
+    for slug in ["dog-daycare", "dog-grooming", "puppy-playground", "dog-birthday-parties"]:
+        assert f'href="/services/#{slug}"' in home
+        assert f'id="{slug}"' in services_page
+
+
+def test_gallery_page_shows_seeded_images(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    response = client.get(reverse("website:gallery"))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert content.count("<img") >= 11
+
+
+def test_footer_uses_site_settings(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(reverse("website:home")).content.decode()
+    assert "(02) 9123 4567" in content
+    assert "hello@pawpawland.com.au" in content
+    assert "123 Happy Paws Lane, Sydney NSW 2000" in content

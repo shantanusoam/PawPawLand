@@ -1,19 +1,21 @@
-{% load static %}
-<article class="fade-up card-lift relative flex flex-col rounded-[32px] border-2 {{ plan.tone.bg }} {{ plan.tone.border }} pt-16 pb-8">
-  <img src="{% static 'img/' %}{{ plan.photo }}"
-       alt="{{ plan.name }} — dogs peeking over the card"
-       class="pointer-events-none absolute -top-14 left-1/2 h-28 w-auto -translate-x-1/2 drop-shadow-lg"
-       data-pop>
+{# Expects a PricingPlan instance with .tone_style attached (see views.py: _with_tone_style). #}
+<article class="fade-up card-lift relative flex w-[320px] shrink-0 flex-col rounded-[32px] border-2 {{ plan.tone_style.bg }} {{ plan.tone_style.border }} pt-16 pb-8 sm:w-[340px]">
+  {% if plan.photo %}
+    <img src="{{ plan.photo.url }}"
+         alt="{{ plan.name }} — dogs peeking over the card"
+         class="pointer-events-none absolute -top-14 left-1/2 h-28 w-auto -translate-x-1/2 drop-shadow-lg"
+         data-pop>
+  {% endif %}
   <div class="px-8 text-center">
-    <h3 class="font-display text-3xl font-bold tracking-wide {{ plan.tone.title }}">{{ plan.name }}</h3>
-    <div class="mt-4 rounded-lg {{ plan.tone.chip }} px-4 py-4">
-      <span class="font-display text-4xl font-bold text-navy-deep">{{ plan.price }}</span>
-      <span class="text-lg text-navy-deep/80">{{ plan.period }}</span>
+    <h3 class="font-display text-3xl font-bold tracking-wide {{ plan.tone_style.title }}">{{ plan.name }}</h3>
+    <div class="mt-4 rounded-lg {{ plan.tone_style.chip }} px-4 py-4">
+      <span class="font-display text-4xl font-bold text-navy-deep">{{ plan.price_display }}</span>
+      <span class="text-lg text-navy-deep/80">/ {{ plan.period_label }}</span>
     </div>
     <ul class="mt-5 space-y-2 text-left text-sm text-muted-dark">
-      {% for feature in plan.features %}
+      {% for feature in plan.feature_list %}
         <li class="flex items-start gap-2">
-          <span class="mt-0.5 shrink-0 {{ plan.tone.check }}">{% include "website/icons/check-circle.html" %}</span>
+          <span class="mt-0.5 shrink-0 {{ plan.tone_style.check }}">{% include "website/icons/check-circle.html" %}</span>
           {{ feature }}
         </li>
       {% endfor %}

@@ -1,0 +1,48 @@
+{% load static %}
+{# Our Services grid — shared between the homepage and the Services page. Expects `services`. #}
+{# Each card carries id="{{ service.slug }}" so the header dropdown can deep-link/anchor to it. #}
+<section class="bg-cream pb-20" id="services">
+  {% include "website/partials/paw_trail.html" with tone="text-gold" %}
+  <div class="mx-auto max-w-[1280px] px-6 pt-4">
+    <div class="fade-up text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        What We Offer
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">
+        Our <span class="relative inline-block text-gold">Services
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h2>
+  </div>
+  <div class="mt-14 grid scroll-mt-28 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+       data-stagger>
+    {% for service in services %}
+      <article id="{{ service.slug }}"
+               class="fade-up card-lift scroll-mt-28 flex flex-col overflow-hidden rounded-3xl bg-white shadow-card">
+        <div class="relative h-56 overflow-hidden">
+          {% if service.image %}
+            <img src="{{ service.image.url }}"
+                 alt="{{ service.name }}"
+                 class="card-photo h-full w-full object-cover">
+          {% else %}
+            <div class="h-full w-full bg-peach-pastel"></div>
+          {% endif %}
+          <span class="card-badge absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-2xl {{ service.tone.badge }} text-2xl shadow-soft">
+            {{ service.emoji_badge }}
+          </span>
+        </div>
+        <div class="flex flex-1 flex-col p-6">
+          <h3 class="font-display text-xl font-bold text-ink">{{ service.name }}</h3>
+          <div class="prose-rte mt-2 flex-1 text-sm leading-relaxed text-muted">{{ service.description|safe }}</div>
+          <div class="mt-4 flex items-center justify-between">
+            <span class="text-sm font-bold text-ink">{{ service.price_label }}</span>
+            <a href="{% url 'website:contact' %}"
+               class="btn-pill {{ service.tone.button }} px-4 py-2 text-sm">Book →</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</div>
+</section>

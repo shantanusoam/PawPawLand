@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from tinymce.models import HTMLField
 
@@ -59,3 +61,77 @@ class GalleryImage(OrderedActiveModel):
 
     def __str__(self):
         return self.alt_text
+
+
+class PricingPlan(OrderedActiveModel):
+    DOG_COUNT_CHOICES = [(1, "1 dog"), (2, "2 dogs")]
+    TONE_CHOICES = [
+        ("blue", "Blue"),
+        ("gold", "Gold"),
+        ("pink", "Pink"),
+        ("mint", "Mint"),
+    ]
+
+    name = models.CharField(max_length=100, help_text='e.g. "Casual Day"')
+    dog_count = models.PositiveSmallIntegerField(
+        choices=DOG_COUNT_CHOICES, default=1, help_text="Which pricing grid this plan appears in"
+    )
+    photo = models.ImageField(upload_to="pricing/", blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    period_label = models.CharField(max_length=30, help_text='e.g. "1 Day", "10 Days"')
+    tone = models.CharField(max_length=10, choices=TONE_CHOICES, default="blue")
+    features_text = models.TextField(help_text="One feature per line.")
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def feature_list(self):
+        return [line.strip() for line in self.features_text.splitlines() if line.strip()]
+
+    @property
+    def price_display(self):
+        formatted = f"{Decimal(self.price):,.2f}".rstrip("0").rstrip(".")
+        return f"${formatted}"
+
+
+class TeamMember(OrderedActiveModel):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, default="Puppy Specialist")
+    photo = models.ImageField(upload_to="team/", blank=True)
+    bio = HTMLField()
+
+    def __str__(self):
+        return self.name
+
+
+class SiteSettings(models.Model):
+    """Singleton: site-wide contact info and social links, editable from admin."""
+
+    phone = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True)
+    address_line = models.CharField(max_length=200, blank=True)
+    hours_weekday = models.CharField(
+        max_length=100, blank=True, help_text='e.g. "Mon–Fri: 7am–6pm"'
+    )
+    hours_weekend = models.CharField(
+        max_length=100, blank=True, help_text='e.g. "Sat–Sun: 8am–4pm"'
+    )
+    facebook_url = models.URLField(blank=True)
+    instagram_url = models.URLField(blank=True)
+
+    class Meta:
+        verbose_name = "Site settings"
+        verbose_name_plural = "Site settings"
+
+    def __str__(self):
+        return "Site settings"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj

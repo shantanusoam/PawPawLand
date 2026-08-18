@@ -55,7 +55,7 @@
       </div>
       <div class="mt-14 grid gap-8 md:grid-cols-2" data-stagger>
         {% for member in team_members %}
-          {% include "website/partials/team_card.html" with photo=member.photo name=member.name role=member.role bio=member.bio tone=member.tone %}
+          {% include "website/partials/team_card.html" %}
         {% endfor %}
       </div>
     </div>

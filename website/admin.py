@@ -1,6 +1,16 @@
 from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import reverse
 
-from .models import FAQ, GalleryImage, Service, Testimonial
+from .models import (
+    FAQ,
+    GalleryImage,
+    PricingPlan,
+    Service,
+    SiteSettings,
+    TeamMember,
+    Testimonial,
+)
 
 
 @admin.register(Service)
@@ -26,3 +36,30 @@ class FAQAdmin(admin.ModelAdmin):
 class GalleryImageAdmin(admin.ModelAdmin):
     list_display = ["alt_text", "row", "sort_order", "is_active"]
     list_editable = ["row", "sort_order", "is_active"]
+
+
+@admin.register(PricingPlan)
+class PricingPlanAdmin(admin.ModelAdmin):
+    list_display = ["name", "dog_count", "price", "period_label", "tone", "sort_order", "is_active"]
+    list_editable = ["sort_order", "is_active"]
+    list_filter = ["dog_count", "tone"]
+
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ["name", "role", "sort_order", "is_active"]
+    list_editable = ["sort_order", "is_active"]
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        # Singleton: skip the list page and go straight to the one editable row.
+        SiteSettings.load()
+        return redirect(reverse("admin:website_sitesettings_change", args=[1]))

@@ -6,7 +6,15 @@ from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
-from website.models import FAQ, GalleryImage, Service, Testimonial
+from website.models import (
+    FAQ,
+    GalleryImage,
+    PricingPlan,
+    Service,
+    SiteSettings,
+    TeamMember,
+    Testimonial,
+)
 
 STATIC_IMG = Path(settings.BASE_DIR) / "website" / "static" / "img"
 
@@ -127,6 +135,138 @@ FAQS = [
     },
 ]
 
+PRICING_PLANS = [
+    {
+        "name": "Casual Day",
+        "dog_count": 1,
+        "photo": "pup-corgi.webp",
+        "price": "65.00",
+        "period_label": "1 Day",
+        "tone": "blue",
+        "features_text": (
+            "Perfect for occasional daycare\n"
+            "Full day of supervised care\n"
+            "Play, socialisation & enrichment\n"
+            "Safe spaces for rest & relaxation\n"
+            "No long-term commitment"
+        ),
+    },
+    {
+        "name": "Value Pack",
+        "dog_count": 1,
+        "photo": "pup-golden.webp",
+        "price": "305.00",
+        "period_label": "10 Days",
+        "tone": "gold",
+        "features_text": (
+            "Ideal for regular daycare visits\n"
+            "Flexible use across 10 daycare days\n"
+            "Valid for 6 months from purchase\n"
+            "Consistent routine & socialisation\n"
+            "Keep your pup active & happy"
+        ),
+    },
+    {
+        "name": "Paw-some Plan",
+        "dog_count": 1,
+        "photo": "pup-bordercollie.webp",
+        "price": "1100.00",
+        "period_label": "20 Days",
+        "tone": "pink",
+        "features_text": (
+            "Best for frequent daycare needs\n"
+            "Flexible use across 20 daycare days\n"
+            "Valid for 12 months from purchase\n"
+            "Consistent care, play & enrichment\n"
+            "Best long-term value for regular pups"
+        ),
+    },
+    {
+        "name": "Double Paw Day",
+        "dog_count": 2,
+        "photo": "pair-corgi-golden.webp",
+        "price": "110.00",
+        "period_label": "1 Day",
+        "tone": "mint",
+        "features_text": (
+            "Full day of supervised daycare\n"
+            "$55/day per dog\n"
+            "Safe, playful & social environment\n"
+            "Play, enrichment & downtime\n"
+            "Socialisation with compatible pups"
+        ),
+    },
+    {
+        "name": "Paws & Play Pack",
+        "dog_count": 2,
+        "photo": "pair-samoyed-golden.webp",
+        "price": "1000.00",
+        "period_label": "10 Days",
+        "tone": "gold",
+        "features_text": (
+            "10 full days of daycare\n"
+            "$50/day per dog • Valid 6 months\n"
+            "Consistent routine & socialisation\n"
+            "Supervised play & enrichment\n"
+            "Plenty of rest & relaxation"
+        ),
+    },
+    {
+        "name": "Ultimate Paw Pack",
+        "dog_count": 2,
+        "photo": "pair-poodle-collie.webp",
+        "price": "1900.00",
+        "period_label": "20 Days",
+        "tone": "pink",
+        "features_text": (
+            "20 full days of daycare\n"
+            "$47.50/day per dog • Valid 12 months\n"
+            "Best value for regular pups\n"
+            "Daily play & enrichment\n"
+            "Consistent care & social time"
+        ),
+    },
+]
+
+TEAM_MEMBERS = [
+    {
+        "name": "Karen",
+        "role": "Puppy Specialist",
+        "photo": "team-karen.webp",
+        "bio": (
+            "<p>I love working with dogs! I have worked with dogs for over 15 years in the "
+            "dog training and dog daycare industries.</p>"
+            "<p>I love working at Pawpaw Land because we build such a wonderful relationship "
+            "with each of the dogs, it makes coming to work a pleasure.</p>"
+            "<p>I have a Labrador named Sage and I am very lucky to be able to bring Sage to "
+            "work with me here at Pawpaw Land.</p>"
+        ),
+    },
+    {
+        "name": "Leah",
+        "role": "Puppy Specialist",
+        "photo": "team-leah.webp",
+        "bio": (
+            "<p>I have been working with dogs for just over 3 years in day care and kennel "
+            "settings, but have been working in the animal industry for over 10 years!</p>"
+            "<p>I don't have any dogs at home so my favourite part of my job is getting to "
+            "see all the beautiful dogs and treating them all like they're my own.</p>"
+            "<p>A fun fact about me is my animal experience started with crocodiles, snakes "
+            "and stingrays at Crocosaurus Cove in Darwin!</p>"
+        ),
+    },
+]
+
+SITE_SETTINGS = {
+    "phone": "(02) 9123 4567",
+    "email": "hello@pawpawland.com.au",
+    "address_line": "123 Happy Paws Lane, Sydney NSW 2000",
+    "hours_weekday": "Mon–Fri: 7am–6pm",
+    "hours_weekend": "Sat–Sun: 8am–4pm",
+    "facebook_url": "",
+    "instagram_url": "",
+}
+
 # Gallery photos: (static filename, alt text, row)
 GALLERY = [
     ("gallery-01.webp", "Fluffy dog smiling at the camera", 1),
@@ -194,5 +334,34 @@ class Command(BaseCommand):
             if self._attach_image(photo, "image", filename) or created:
                 photo.save()
             self.stdout.write(f"Gallery: {alt_text} ({'created' if created else 'exists'})")
+
+        for i, data in enumerate(PRICING_PLANS):
+            photo = data["photo"]
+            defaults = {k: v for k, v in data.items() if k != "photo"}
+            plan, created = PricingPlan.objects.get_or_create(
+                name=data["name"], defaults={**defaults, "sort_order": i}
+            )
+            if self._attach_image(plan, "photo", photo) or created:
+                plan.save()
+            self.stdout.write(f"Pricing plan: {plan.name} ({'created' if created else 'exists'})")
+
+        for i, data in enumerate(TEAM_MEMBERS):
+            photo = data["photo"]
+            defaults = {k: v for k, v in data.items() if k != "photo"}
+            member, created = TeamMember.objects.get_or_create(
+                name=data["name"], defaults={**defaults, "sort_order": i}
+            )
+            if self._attach_image(member, "photo", photo) or created:
+                member.save()
+            self.stdout.write(f"Team member: {member.name} ({'created' if created else 'exists'})")
+
+        settings_obj = SiteSettings.load()
+        if not settings_obj.phone and not settings_obj.email:
+            for key, value in SITE_SETTINGS.items():
+                setattr(settings_obj, key, value)
+            settings_obj.save()
+            self.stdout.write("Site settings: seeded")
+        else:
+            self.stdout.write("Site settings: exists")
 
         self.stdout.write(self.style.SUCCESS("Demo content seeded."))

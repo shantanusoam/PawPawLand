@@ -43,7 +43,23 @@
         <nav class="hidden items-center gap-8 lg:flex" aria-label="Main">
           <a href="{% url 'website:home' %}" class="nav-link">Home</a>
           <a href="{% url 'website:about' %}" class="nav-link">About</a>
-          <a href="{% url 'website:services' %}" class="nav-link">Services</a>
+          <div class="group relative">
+            <a href="{% url 'website:services' %}"
+               class="nav-link inline-flex items-center gap-1">
+              Services
+              <span class="text-xs transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180">
+                {% include "website/icons/chevron-down.html" %}
+              </span>
+            </a>
+            <div class="invisible absolute top-full left-1/2 z-10 w-56 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div class="rounded-2xl border border-ink/10 bg-white p-2 shadow-card">
+                {% for svc in nav_services %}
+                  <a href="{% url 'website:services' %}#{{ svc.slug }}"
+                     class="block rounded-xl px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-cream hover:text-coral">{{ svc.name }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
           <a href="{% url 'website:gallery' %}" class="nav-link">Gallery</a>
           <a href="{% url 'website:contact' %}" class="nav-link">Contact</a>
           <a href="{% url 'website:contact' %}" class="btn-navy px-6 py-2.5">Book Now</a>
@@ -73,6 +89,12 @@
            class="block py-2 font-semibold text-ink">About</a>
         <a href="{% url 'website:services' %}"
            class="block py-2 font-semibold text-ink">Services</a>
+        <div class="ml-3 space-y-1 border-l-2 border-ink/10 pl-3">
+          {% for svc in nav_services %}
+            <a href="{% url 'website:services' %}#{{ svc.slug }}"
+               class="block py-1.5 text-sm text-muted-dark">{{ svc.name }}</a>
+          {% endfor %}
+        </div>
         <a href="{% url 'website:gallery' %}"
            class="block py-2 font-semibold text-ink">Gallery</a>
         <a href="{% url 'website:contact' %}"
@@ -108,10 +130,10 @@
               Australia's most loving dog daycare and grooming centre. Where every tail wags with happiness.
             </p>
             <div class="mt-5 flex gap-3">
-              <a href="#"
+              <a href="{{ site_settings.facebook_url|default:'#' }}"
                  class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg transition-colors hover:bg-white/20"
                  aria-label="Facebook">{% include "website/icons/facebook.html" %}</a>
-              <a href="#"
+              <a href="{{ site_settings.instagram_url|default:'#' }}"
                  class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg transition-colors hover:bg-white/20"
                  aria-label="Instagram">{% include "website/icons/instagram.html" %}</a>
             </div>
@@ -144,33 +166,43 @@
           <div>
             <h4 class="font-display text-base font-bold text-gold">Services</h4>
             <ul class="mt-4 space-y-2 text-sm">
-              <li>Dog Daycare</li>
-              <li>Dog Grooming</li>
-              <li>Puppy Playground</li>
-              <li>Birthday Parties</li>
+              {% for svc in nav_services %}
+                <li>
+                  <a href="{% url 'website:services' %}#{{ svc.slug }}"
+                     class="transition-colors hover:text-gold">{{ svc.name }}</a>
+                </li>
+              {% endfor %}
             </ul>
           </div>
           <div>
             <h4 class="font-display text-base font-bold text-gold">Contact Us</h4>
             <ul class="mt-4 space-y-3 text-sm">
-              <li class="flex items-start gap-2">
-                <span class="mt-0.5 text-base">{% include "website/icons/map-pin.html" %}</span>
-                123 Happy Paws Lane, Sydney NSW 2000
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-base">{% include "website/icons/phone.html" %}</span>
-                (02) 9123 4567
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-base">{% include "website/icons/mail.html" %}</span>
-                hello@pawpawland.com.au
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="mt-0.5 text-base">{% include "website/icons/clock.html" %}</span>
-                <span>Mon–Fri: 7am–6pm
-                  <br>
-                Sat–Sun: 8am–4pm</span>
-              </li>
+              {% if site_settings.address_line %}
+                <li class="flex items-start gap-2">
+                  <span class="mt-0.5 text-base">{% include "website/icons/map-pin.html" %}</span>
+                  {{ site_settings.address_line }}
+                </li>
+              {% endif %}
+              {% if site_settings.phone %}
+                <li class="flex items-center gap-2">
+                  <span class="text-base">{% include "website/icons/phone.html" %}</span>
+                  {{ site_settings.phone }}
+                </li>
+              {% endif %}
+              {% if site_settings.email %}
+                <li class="flex items-center gap-2">
+                  <span class="text-base">{% include "website/icons/mail.html" %}</span>
+                  {{ site_settings.email }}
+                </li>
+              {% endif %}
+              {% if site_settings.hours_weekday or site_settings.hours_weekend %}
+                <li class="flex items-start gap-2">
+                  <span class="mt-0.5 text-base">{% include "website/icons/clock.html" %}</span>
+                  <span>{{ site_settings.hours_weekday }}
+                    <br>
+                  {{ site_settings.hours_weekend }}</span>
+                </li>
+              {% endif %}
             </ul>
           </div>
         </div>

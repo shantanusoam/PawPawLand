@@ -84,54 +84,68 @@
       </div>
     </div>
   </section>
+  {% include "website/partials/section_services.html" %}
   {# Daycare Plans for 1 dog #}
   <section class="bg-cream py-24">
-    {% include "website/partials/paw_trail.html" with tone="text-gold" %}
-    <div class="mx-auto max-w-[1280px] px-6 pt-4">
-      <div class="fade-up text-center">
-        <p class="section-eyebrow justify-center">
-          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-          Daycare Plans for 1 dog
-        </p>
-        <h2 class="mt-4 font-display text-4xl font-bold text-navy-deep md:text-5xl">
-          Give Your Pup More Play &amp; <span class="relative inline-block text-gold">Save More!
-          {% include "website/partials/squiggle.html" %}
-        </span>
-      </h2>
-    </div>
-    <div class="mt-20 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
-         data-stagger>
-      {% for plan in plans_one_dog %}
-        {% include "website/partials/pricing_card.html" %}
-      {% endfor %}
-    </div>
-    <p class="fade-up mt-10 text-center text-sm text-muted">
-      *All prices are per dog. Day passes are valid from the date of purchase as specified above.
-    </p>
+    <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Daycare Plans for 1 dog
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-bold text-navy-deep md:text-5xl">
+        Give Your Pup More Play &amp; <span class="relative inline-block text-gold">Save More!
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h2>
   </div>
+  {% if plans_one_dog %}
+    <div class="marquee mt-20 overflow-hidden">
+      <div class="marquee-track items-stretch"
+           style="--pp-marquee-duration: {{ plans_one_dog_duration }}s">
+        {% for plan in plans_one_dog %}
+          {% include "website/partials/pricing_card.html" %}
+        {% endfor %}
+        <div class="marquee-copy contents" aria-hidden="true">
+          {% for plan in plans_one_dog %}
+            {% include "website/partials/pricing_card.html" %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <p class="fade-up mt-10 text-center text-sm text-muted">
+    *All prices are per dog. Day passes are valid from the date of purchase as specified above.
+  </p>
 </section>
 {# Daycare Plans for 2 dogs #}
 <section class="bg-cream pb-4">
-  <div class="mx-auto max-w-[1280px] px-6">
-    <div class="fade-up text-center">
-      <p class="section-eyebrow justify-center">
-        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-        Daycare Plans for 2 dogs
-      </p>
-      <h2 class="mt-4 font-display text-4xl font-bold md:text-5xl">
-        <span class="text-navy-deep">Two Pups,</span>
-        <span class="relative inline-block text-gold">Twice the Happiness!
-          {% include "website/partials/squiggle.html" %}
-        </span>
-      </h2>
-    </div>
-    <div class="mt-20 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
-         data-stagger>
-      {% for plan in plans_two_dogs %}
-        {% include "website/partials/pricing_card.html" %}
-      {% endfor %}
-    </div>
+  <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
+    <p class="section-eyebrow justify-center">
+      <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+      Daycare Plans for 2 dogs
+    </p>
+    <h2 class="mt-4 font-display text-4xl font-bold md:text-5xl">
+      <span class="text-navy-deep">Two Pups,</span>
+      <span class="relative inline-block text-gold">Twice the Happiness!
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h2>
   </div>
+  {% if plans_two_dogs %}
+    <div class="marquee marquee-reverse mt-20 overflow-hidden">
+      <div class="marquee-track items-stretch"
+           style="--pp-marquee-duration: {{ plans_two_dogs_duration }}s">
+        {% for plan in plans_two_dogs %}
+          {% include "website/partials/pricing_card.html" %}
+        {% endfor %}
+        <div class="marquee-copy contents" aria-hidden="true">
+          {% for plan in plans_two_dogs %}
+            {% include "website/partials/pricing_card.html" %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
 </section>
 {# CTA #}
 <section class="bg-cream px-6 pt-16 pb-4">

@@ -1,0 +1,70 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  Gallery — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  {# Hero #}
+  <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="pointer-events-none absolute top-10 -right-24 h-72 w-72 rounded-full bg-pink-pastel"
+         data-parallax="-20"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-24 h-64 w-64 rounded-full bg-gold/40"
+         data-parallax="25"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-[1280px] px-6 pt-14 pb-24 text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Happy Moments
+      </p>
+      <h1 class="hero-intro mt-4 font-display text-5xl font-bold text-navy-deep md:text-6xl">
+        Life at <span class="relative inline-block text-gold">Paw Paw Land
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h1>
+    <p class="hero-intro mx-auto mt-6 max-w-md text-navy-deep">
+      Every wag, zoom, and nap — a look at what a real day here actually looks like.
+    </p>
+  </div>
+  <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
+       viewBox="0 0 1440 96"
+       preserveAspectRatio="none"
+       aria-hidden="true">
+    <path d="M0 55 C 240 15, 480 15, 720 45 C 960 75, 1200 80, 1440 45 L 1440 96 L 0 96 Z" fill="#2a2860" />
+    <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
+  </svg>
+</section>
+{# Full grid #}
+<section class="bg-white py-20">
+  <div class="mx-auto max-w-[1280px] px-6">
+    {% if images %}
+      <div class="columns-2 gap-4 sm:columns-3 lg:columns-4" data-stagger>
+        {% for photo in images %}
+          <img src="{{ photo.image.url }}"
+               alt="{{ photo.alt_text }}"
+               class="card-lift fade-up mb-4 w-full rounded-2xl object-cover shadow-card"
+               loading="lazy">
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="fade-up text-center text-muted-dark">More photos coming soon — check back shortly!</p>
+    {% endif %}
+  </div>
+</section>
+{# CTA #}
+<section class="bg-cream px-6 pt-2 pb-24">
+  <div class="fade-up relative mx-auto mt-6 max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
+    <div class="max-w-[500px]">
+      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
+      <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
+        Book their next adventure today. First visit? We'd love to meet your furry best friend.
+      </p>
+      <a href="{% url 'website:contact' %}" class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
+    </div>
+    <img src="{% static 'img/cta-dogs.webp' %}"
+         alt="A Border Collie and a Golden Retriever sitting together"
+         class="pointer-events-none right-4 -bottom-4 mx-auto mt-8 w-full max-w-[440px] md:absolute md:mt-0 md:w-[45%]"
+         data-pop>
+  </div>
+</section>
+{% endblock content %}
