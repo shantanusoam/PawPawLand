@@ -6,18 +6,22 @@
     <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gold"
          data-parallax="40"
          aria-hidden="true"></div>
-    <img src="{% static 'img/paw-print.svg' %}"
+    <img src="{% static 'img/hero-paws.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-14 left-16 h-12 w-12 [--pp-rotate:-12deg]"
+         class="float-slow pointer-events-none absolute top-14 left-16 h-16 w-16"
          aria-hidden="true">
-    <img src="{% static 'img/paw-print.svg' %}"
+    <img src="{% static 'img/hero-heart-dots-1.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute top-24 left-32 h-8 w-8 [--pp-rotate:12deg]"
+         class="float-slow pointer-events-none absolute top-10 right-[6%] hidden h-28 w-auto lg:block"
          aria-hidden="true">
-    <span class="float-slow pointer-events-none absolute top-16 right-[8%] hidden text-4xl text-navy/70 lg:block [--pp-rotate:15deg]"
-          aria-hidden="true">{% include "website/icons/heart.html" %}</span>
-    <span class="float-fast pointer-events-none absolute bottom-40 left-[45%] hidden text-4xl text-blue-soft lg:block [--pp-rotate:-20deg]"
-          aria-hidden="true">{% include "website/icons/bone.html" %}</span>
+    <img src="{% static 'img/hero-bone.webp' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute bottom-44 left-[44%] hidden h-16 w-auto lg:block"
+         aria-hidden="true">
+    <img src="{% static 'img/hero-heart-dots-2.webp' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute right-[3%] bottom-20 hidden h-24 w-auto lg:block"
+         aria-hidden="true">
     <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-10 pb-28 lg:grid-cols-2 lg:pb-36">
       <div class="max-w-xl">
         <h1 class="font-display text-5xl leading-[1.1] font-bold text-navy md:text-6xl">
@@ -54,9 +58,15 @@
         </div>
       </div>
       <div class="relative">
-        <img src="{% static 'img/hero-shiba.webp' %}"
+        <img src="{% static 'img/hero-dog-blob.webp' %}"
+             alt=""
+             class="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[125%] max-w-[620px] -translate-x-1/2 -translate-y-[45%]"
+             data-parallax="-10"
+             aria-hidden="true">
+        <img src="{% static 'img/hero-dog.webp' %}"
              alt="A smiling Shiba Inu wearing a straw hat and a yellow striped bandana"
-             class="mx-auto w-full max-w-[560px]"
+             class="relative mx-auto w-full max-w-[480px]"
+             data-parallax="-15"
              id="hero-dog">
       </div>
     </div>
