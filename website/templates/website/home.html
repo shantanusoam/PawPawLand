@@ -6,21 +6,41 @@
     <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gold"
          data-parallax="40"
          aria-hidden="true"></div>
+    <img src="{% static 'img/paw-print.svg' %}"
+         alt=""
+         class="float-slow pointer-events-none absolute top-14 left-16 h-12 w-12 [--pp-rotate:-12deg]"
+         aria-hidden="true">
+    <img src="{% static 'img/paw-print.svg' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute top-24 left-32 h-8 w-8 [--pp-rotate:12deg]"
+         aria-hidden="true">
     <img src="{% static 'img/hero-paws.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-14 left-16 h-16 w-16"
+         class="float-slow pointer-events-none absolute top-[13%] left-[37%] z-10 hidden h-20 w-auto lg:block"
          aria-hidden="true">
-    <img src="{% static 'img/hero-heart-dots-1.webp' %}"
+    <img src="{% static 'img/hero-dots-1.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-10 right-[6%] hidden h-28 w-auto lg:block"
+         class="float-fast pointer-events-none absolute top-[6%] left-[45%] z-10 hidden h-16 w-auto lg:block"
          aria-hidden="true">
     <img src="{% static 'img/hero-bone.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute bottom-44 left-[44%] hidden h-16 w-auto lg:block"
+         class="float-fast pointer-events-none absolute top-[24%] left-[42%] z-10 hidden h-14 w-auto lg:block"
          aria-hidden="true">
-    <img src="{% static 'img/hero-heart-dots-2.webp' %}"
+    <img src="{% static 'img/hero-heart-1.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute right-[3%] bottom-20 hidden h-24 w-auto lg:block"
+         class="float-slow pointer-events-none absolute top-[3%] left-[53%] z-10 hidden h-20 w-auto lg:block"
+         aria-hidden="true">
+    <img src="{% static 'img/hero-dots-pair.webp' %}"
+         alt=""
+         class="float-slow pointer-events-none absolute top-[7%] right-[9%] z-10 hidden h-24 w-auto lg:block"
+         aria-hidden="true">
+    <img src="{% static 'img/hero-dots-2.webp' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute bottom-[30%] left-[56%] z-10 hidden h-14 w-auto lg:block"
+         aria-hidden="true">
+    <img src="{% static 'img/hero-heart-2.webp' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute right-[4%] bottom-[17%] z-10 hidden h-20 w-auto lg:block"
          aria-hidden="true">
     <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-10 pb-28 lg:grid-cols-2 lg:pb-36">
       <div class="max-w-xl">
@@ -33,7 +53,7 @@
                  class="wiggle-hover inline-block h-9 w-9 align-baseline">
           </span>
           <br>
-          <span class="hero-intro inline-block">Happy Tale.</span>
+          <span class="hero-intro inline-block text-navy/45">Happy Tale.</span>
         </h1>
         <p class="hero-intro mt-6 text-lg leading-relaxed text-navy-deep">
           <strong>Safe. Fun. Loving.</strong>
@@ -60,7 +80,7 @@
       <div class="relative">
         <img src="{% static 'img/hero-dog-blob.webp' %}"
              alt=""
-             class="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[125%] max-w-[620px] -translate-x-1/2 -translate-y-[45%]"
+             class="pointer-events-none absolute top-1/2 left-[58%] z-0 w-[145%] max-w-[700px] -translate-x-[38%] -translate-y-[45%]"
              data-parallax="-10"
              aria-hidden="true">
         <img src="{% static 'img/hero-dog.webp' %}"
