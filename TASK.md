@@ -36,9 +36,39 @@
 - Gallery page is real now (masonry grid of all active `GalleryImage`s), not a stub.
 - `seed_demo` extended to seed all of the above.
 
+## Done (2026-08-25, individual service pages + real Contact page)
+
+- Each service now has its own detail page at `/services/<slug>/` (`service_detail` view +
+  template), built from new Figma frames for Day Care, Puppy Playground, and Birthday
+  Parties — unique hero art/heading, unique intro copy, then the same universal pricing
+  marquees + CTA (extracted into shared partials `section_pricing_plans.html` and
+  `section_cta.html`, also used by the hub `/services/` page). `dog-grooming` has no Figma
+  design yet, so it falls back to the generic Meet & Greet copy the other three originally
+  shared (`_GENERIC_DETAIL` in views.py) — swap in real content once that design exists.
+- Header dropdown, mobile menu, footer Services list, and the "Our Services" cards all link
+  to these detail pages now instead of `/services/#anchor`.
+- On the `/services/` hub page, the "Our Services" 4-card grid moved to the last content
+  section (right before the CTA) so pricing leads, matching the Figma flow.
+- Real Contact page built from Figma (`ContactSubmission` model + `ContactForm` +
+  `contact()` view) — submissions save to the database and show up in admin
+  (read-only, `is_read` triage checkbox), not just a decorative form. Contact info cards
+  pull from `SiteSettings` rather than Figma's placeholder address, for consistency with
+  the rest of the site.
+- Fixed pricing card photo cropping: the marquee's `overflow-hidden` was clipping the dog
+  photos that poke above each card — moved the section's top spacing from margin to padding
+  so it stays inside the clipped box.
+- Removed now-dead `_stub()` view helper and `page_stub.html` (Gallery and Contact both
+  have real implementations).
+
 ## Next up
 
-- Real pages for Contact (currently a stub sharing `page_stub.html`).
-- Booking flow behind the "Book Now" / "Book A Visit" buttons (currently link to contact stub).
+- Hero banner dog on the homepage still needs re-cutting as an isolated element — it's
+  currently a flattened rectangular crop with its own background baked in, sitting as a
+  hard box over the decorative heart/dots/blob. Confirmed live; blocked on Figma layers
+  or a proper cutout to fix cleanly.
+- A footer visual bug was flagged (screenshot showed a hand-drawn circle over the top-right
+  wave/corner) but never got a description — the footer renders clean locally, so this is
+  still open pending detail.
+- Booking flow behind the "Book Now" / "Book A Visit" buttons (currently link to Contact).
 - Production hardening: real `SECRET_KEY`, `DEBUG=False` env, Nginx/systemd unit files.
-- Consider individual detail pages per service (currently anchor-links on one Services page).
+- Real Grooming detail page once its Figma design exists (see `_GENERIC_DETAIL` fallback).

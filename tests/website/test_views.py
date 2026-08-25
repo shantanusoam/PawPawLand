@@ -33,9 +33,8 @@ def test_home_shows_seeded_content(client, django_user_model):
     assert "What does my dog need before their first visit?" in content
 
 
-@pytest.mark.parametrize("name", ["gallery", "contact"])
-def test_stub_pages_render(client, name):
-    response = client.get(reverse(f"website:{name}"))
+def test_gallery_page_renders(client):
+    response = client.get(reverse("website:gallery"))
     assert response.status_code == 200
 
 
@@ -97,15 +96,50 @@ def test_services_page_renders_pricing_plans(client):
         assert copy in content, f"missing section copy: {copy}"
 
 
-def test_services_page_dropdown_anchors_match_service_cards(client):
+def test_services_page_shows_services_grid_last(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(reverse("website:services")).content.decode()
+    # "Our Services" grid must render after both pricing sections (moved to last).
+    assert content.index("Two Pups,") < content.index("What We Offer")
+    assert content.index("What We Offer") < content.index("Ready to make your pup's day?")
+
+
+def test_header_dropdown_links_to_service_detail_pages(client):
     from django.core.management import call_command
 
     call_command("seed_demo")
     home = client.get(reverse("website:home")).content.decode()
-    services_page = client.get(reverse("website:services")).content.decode()
     for slug in ["dog-daycare", "dog-grooming", "puppy-playground", "dog-birthday-parties"]:
-        assert f'href="/services/#{slug}"' in home
-        assert f'id="{slug}"' in services_page
+        assert f'href="/services/{slug}/"' in home
+
+
+@pytest.mark.parametrize(
+    ("slug", "expected_heading"),
+    [
+        ("dog-daycare", "First 3 sessions for $75"),
+        ("puppy-playground", "A Little Adventure"),
+        ("dog-birthday-parties", "A Party"),
+        ("dog-grooming", "A Happy Day,"),
+    ],
+)
+def test_service_detail_pages_render_unique_content(client, slug, expected_heading):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    response = client.get(reverse("website:service_detail", args=[slug]))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert expected_heading in content
+    # Universal pricing plans still appear on every service detail page.
+    assert "Casual Day" in content
+    assert "Double Paw Day" in content
+
+
+def test_service_detail_404s_for_unknown_slug(client):
+    response = client.get("/services/not-a-real-service/")
+    assert response.status_code == 404
 
 
 def test_gallery_page_shows_seeded_images(client):

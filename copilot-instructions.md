@@ -38,14 +38,22 @@ Run all three before considering a change done. Tests live under `tests/website/
   (vendored `motion.min.js`, exposed as `window.Motion`) wired up in `website/static/js/site.js`.
 - Content models: `Service`, `Testimonial`, `FAQ`, `GalleryImage`, `PricingPlan`,
   `TeamMember` (all with `sort_order`/`is_active`), plus the `SiteSettings` singleton
-  (`SiteSettings.load()`, pk always 1). Rich text fields use `tinymce.models.HTMLField`
-  and render with `|safe` inside `.prose-rte` wrappers (admin-authored content only).
+  (`SiteSettings.load()`, pk always 1) and `ContactSubmission` (read-only in admin, no
+  add permission — created only via the Contact form). Rich text fields use
+  `tinymce.models.HTMLField` and render with `|safe` inside `.prose-rte` wrappers
+  (admin-authored content only).
 - `website.context_processors.site_globals` injects `nav_services` and `site_settings`
   into every template's context (registered in `TEMPLATES.OPTIONS.context_processors`) —
   don't re-query these in individual views.
 - Sections shared between pages live as standalone partials
   (`partials/section_our_story.html`, `section_why_dogs_love.html`, `section_gallery.html`,
-  `section_services.html`) — include them rather than duplicating markup across templates.
+  `section_services.html`, `section_pricing_plans.html`, `section_cta.html`) — include them
+  rather than duplicating markup across templates.
+- Each service has its own detail page (`service_detail` view, `/services/<slug>/`),
+  content keyed by slug in `views.py`'s `SERVICE_DETAIL_CONTENT` (hero art/heading, intro
+  copy — hardcoded, same as hero/CTA text elsewhere). Services without a dedicated Figma
+  design fall back to `_GENERIC_DETAIL`. Pricing/CTA sections are the shared partials above,
+  identical on the hub `/services/` page and every detail page.
 - Auto-scrolling rows (`.marquee`/`.marquee-track`/`.marquee-copy`, pause on hover) are used
   for the photo gallery and the pricing plan rows so admins can add more items without
   breaking the layout. Scroll speed is set per-instance via an inline

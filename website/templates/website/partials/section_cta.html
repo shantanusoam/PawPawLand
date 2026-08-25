@@ -1,0 +1,24 @@
+{% load static %}
+{# "Ready to make your pup's day?" CTA banner — shared across the Services hub and detail pages. #}
+<section class="bg-cream px-6 pt-16 pb-4">
+  {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
+  <div class="fade-up relative mx-auto mt-6 max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
+    <img src="{% static 'img/paw-print.svg' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute top-8 right-[38%] hidden h-8 w-8 md:block [--pp-rotate:20deg]"
+         aria-hidden="true">
+    <span class="float-slow pointer-events-none absolute bottom-10 left-[45%] hidden text-3xl text-navy/40 md:block [--pp-rotate:-15deg]"
+          aria-hidden="true">{% include "website/icons/bone.html" %}</span>
+    <div class="max-w-[500px]">
+      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
+      <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
+        Book their next adventure today. First visit? We'd love to meet your furry best friend.
+      </p>
+      <a href="{% url 'website:contact' %}" class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
+    </div>
+    <img src="{% static 'img/cta-dogs.webp' %}"
+         alt="A Border Collie and a Golden Retriever sitting together"
+         class="pointer-events-none right-4 -bottom-4 mx-auto mt-8 w-full max-w-[440px] md:absolute md:mt-0 md:w-[45%]"
+         data-pop>
+  </div>
+</section>

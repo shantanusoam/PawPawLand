@@ -21,6 +21,7 @@ def test_admin_index_lists_content_models(admin_client_logged_in):
         "Pricing plans",
         "Team members",
         "Site settings",
+        "Contact submissions",
     ]:
         assert label in content
 
@@ -44,4 +45,19 @@ def test_site_settings_is_singleton_in_admin(admin_client_logged_in):
     assert SiteSettings.objects.count() == 1
 
     add_response = admin_client_logged_in.get(reverse("admin:website_sitesettings_add"))
+    assert add_response.status_code == 403
+
+
+def test_contact_submissions_are_visible_but_not_addable(admin_client_logged_in):
+    from website.models import ContactSubmission
+
+    ContactSubmission.objects.create(
+        full_name="Jamie Smith", email="jamie@example.com", message="Hi there"
+    )
+    content = admin_client_logged_in.get(
+        reverse("admin:website_contactsubmission_changelist")
+    ).content.decode()
+    assert "Jamie Smith" in content
+
+    add_response = admin_client_logged_in.get(reverse("admin:website_contactsubmission_add"))
     assert add_response.status_code == 403

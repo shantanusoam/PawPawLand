@@ -20,7 +20,8 @@
     {% for service in services %}
       <article id="{{ service.slug }}"
                class="fade-up card-lift scroll-mt-28 flex flex-col overflow-hidden rounded-3xl bg-white shadow-card">
-        <div class="relative h-56 overflow-hidden">
+        <a href="{% url 'website:service_detail' service.slug %}"
+           class="relative block h-56 overflow-hidden">
           {% if service.image %}
             <img src="{{ service.image.url }}"
                  alt="{{ service.name }}"
@@ -31,9 +32,12 @@
           <span class="card-badge absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-2xl {{ service.tone.badge }} text-2xl shadow-soft">
             {{ service.emoji_badge }}
           </span>
-        </div>
+        </a>
         <div class="flex flex-1 flex-col p-6">
-          <h3 class="font-display text-xl font-bold text-ink">{{ service.name }}</h3>
+          <h3 class="font-display text-xl font-bold text-ink">
+            <a href="{% url 'website:service_detail' service.slug %}"
+               class="transition-colors hover:text-coral">{{ service.name }}</a>
+          </h3>
           <div class="prose-rte mt-2 flex-1 text-sm leading-relaxed text-muted">{{ service.description|safe }}</div>
           <div class="mt-4 flex items-center justify-between">
             <span class="text-sm font-bold text-ink">{{ service.price_label }}</span>

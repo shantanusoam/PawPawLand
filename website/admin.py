@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from .models import (
     FAQ,
+    ContactSubmission,
     GalleryImage,
     PricingPlan,
     Service,
@@ -63,3 +64,15 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         # Singleton: skip the list page and go straight to the one editable row.
         SiteSettings.load()
         return redirect(reverse("admin:website_sitesettings_change", args=[1]))
+
+
+@admin.register(ContactSubmission)
+class ContactSubmissionAdmin(admin.ModelAdmin):
+    list_display = ["full_name", "email", "service_requested", "created_at", "is_read"]
+    list_editable = ["is_read"]
+    list_filter = ["is_read", "service_requested"]
+    search_fields = ["full_name", "email", "message"]
+    readonly_fields = ["full_name", "email", "phone", "service_requested", "message", "created_at"]
+
+    def has_add_permission(self, request):
+        return False
