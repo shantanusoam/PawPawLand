@@ -42,21 +42,28 @@
   <section class="bg-white py-24">
     <div class="mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
       <div class="relative order-2 lg:order-1">
-        <img src="{% static 'img/doodle-scatter.webp' %}"
-             alt=""
-             class="pointer-events-none absolute -inset-8 h-[calc(100%+64px)] w-[calc(100%+64px)] object-contain"
-             data-parallax="-25"
-             aria-hidden="true">
-        <div class="relative mx-auto flex max-w-[420px] items-center justify-center">
-          <img src="{% static 'img/daycare-blob-1.webp' %}"
+        {% if detail.intro_image %}
+          <img src="{% static 'img/' %}{{ detail.intro_image }}"
                alt=""
-               class="w-[70%] -rotate-6"
-               data-parallax="15">
-          <img src="{% static 'img/daycare-blob-2.webp' %}"
-               alt=""
-               class="absolute right-0 bottom-0 w-[55%] rotate-6"
+               class="mx-auto w-full max-w-[480px]"
                data-parallax="-15">
-        </div>
+        {% else %}
+          <img src="{% static 'img/doodle-scatter.webp' %}"
+               alt=""
+               class="pointer-events-none absolute -inset-8 h-[calc(100%+64px)] w-[calc(100%+64px)] object-contain"
+               data-parallax="-25"
+               aria-hidden="true">
+          <div class="relative mx-auto flex max-w-[420px] items-center justify-center">
+            <img src="{% static 'img/daycare-blob-1.webp' %}"
+                 alt=""
+                 class="w-[70%] -rotate-6"
+                 data-parallax="15">
+            <img src="{% static 'img/daycare-blob-2.webp' %}"
+                 alt=""
+                 class="absolute right-0 bottom-0 w-[55%] rotate-6"
+                 data-parallax="-15">
+          </div>
+        {% endif %}
       </div>
       <div class="order-1 lg:order-2">
         <p class="section-eyebrow text-gold">

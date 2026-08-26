@@ -114,6 +114,7 @@ _GENERIC_DETAIL = {
         "wagging tails, happy moments, and pawsome memories!"
     ),
     "hero_photo": "services-hero.webp",
+    "intro_image": "service-daycare-intro.webp",
     "intro_heading_line1": "A Happy Day,",
     "intro_heading_highlight": "Filled With Care",
     "intro_subheading": "Not Just Daycare, It's Their Second Home",
@@ -190,6 +191,7 @@ SERVICE_DETAIL_CONTENT = {
             "memories!"
         ),
         "hero_photo": "service-party-hero.webp",
+        "intro_image": "service-party-intro.webp",
         "intro_heading_line1": None,
         "intro_heading_highlight_prefix": "A Party",
         "intro_heading_suffix": "They'll Love,",
