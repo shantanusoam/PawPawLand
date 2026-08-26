@@ -51,9 +51,16 @@ Run all three before considering a change done. Tests live under `tests/website/
   rather than duplicating markup across templates.
 - Each service has its own detail page (`service_detail` view, `/services/<slug>/`),
   content keyed by slug in `views.py`'s `SERVICE_DETAIL_CONTENT` (hero art/heading, intro
-  copy — hardcoded, same as hero/CTA text elsewhere). Services without a dedicated Figma
-  design fall back to `_GENERIC_DETAIL`. Pricing/CTA sections are the shared partials above,
-  identical on the hub `/services/` page and every detail page.
+  copy — hardcoded, same as hero/CTA text elsewhere). All four services (Daycare, Grooming,
+  Puppy Playground, Birthday Parties) now have real content pulled from their own Figma
+  frames; `_GENERIC_DETAIL` (the Daycare copy) is kept only as a last-resort fallback for
+  any future slug added without its own entry. The intro heading supports three layouts —
+  two-line (`intro_heading_line1` + `intro_heading_highlight`), gold-then-plain same-line
+  (`intro_heading_highlight_prefix` + `intro_heading_suffix`, used by Parties), and
+  plain-then-gold same-line (`intro_heading_plain_prefix` + `intro_heading_highlight`, used
+  by Grooming) — set only the fields for the layout a given service uses. Pricing/CTA
+  sections are the shared partials above, identical on the hub `/services/` page and every
+  detail page.
 - Auto-scrolling rows (`.marquee`/`.marquee-track`/`.marquee-copy`, pause on hover) are used
   for the photo gallery and the pricing plan rows so admins can add more items without
   breaking the layout. Scroll speed is set per-instance via an inline

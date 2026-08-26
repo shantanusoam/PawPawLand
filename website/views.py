@@ -103,8 +103,8 @@ def services(request):
 
 
 # Per-service detail page content, matching each Figma variant of the Services page.
-# "dog-grooming" has no Figma design yet, so it falls back to the generic Meet & Greet
-# copy the other three originally shared — swap in real content once that design exists.
+# _GENERIC_DETAIL is the Day Care copy, reused as a last-resort fallback for any
+# service slug that doesn't have its own entry below.
 _GENERIC_DETAIL = {
     "eyebrow": "Our Daycare",
     "promo": None,
@@ -132,7 +132,30 @@ _GENERIC_DETAIL = {
 
 SERVICE_DETAIL_CONTENT = {
     "dog-daycare": _GENERIC_DETAIL,
-    "dog-grooming": _GENERIC_DETAIL,
+    "dog-grooming": {
+        "eyebrow": "PAW PAW's SPA",
+        "promo": None,
+        "hero_heading_svg": "heading-spa.svg",
+        "hero_body": (
+            "Treat your furry best friend to a pampering spa day filled with "
+            "gentle care, fresh fluff, and plenty of tail-wagging happiness!"
+        ),
+        "hero_photo": "service-spa-hero.webp",
+        "intro_heading_line1": None,
+        "intro_heading_plain_prefix": "A Fresh",
+        "intro_heading_highlight": "New Look,",
+        "intro_subheading": "A Spa Day They'll Love",
+        "intro_body": [
+            "We know grooming is more than just looking good. At Paw Paw's "
+            "Spa, every pup gets a gentle, caring, and stress-free experience "
+            "tailored to their needs.",
+            "With expert grooming, gentle handling, a refreshing bath, and "
+            "plenty of care, we make sure they leave feeling clean, "
+            "comfortable, and looking their very best.",
+            "You drop off a pup. You pick up a fresher, fluffier, happier one.",
+        ],
+        "intro_button_label": "Discover Our Spa →",
+    },
     "puppy-playground": {
         "eyebrow": "Puppy Playground",
         "promo": None,

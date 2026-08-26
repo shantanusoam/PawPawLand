@@ -64,7 +64,12 @@
           {{ detail.eyebrow }}
         </p>
         <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
-          {% if detail.intro_heading_line1 %}
+          {% if detail.intro_heading_plain_prefix %}
+            {{ detail.intro_heading_plain_prefix }}
+            <span class="relative inline-block text-gold">{{ detail.intro_heading_highlight }}
+              {% include "website/partials/squiggle.html" %}
+            </span>
+          {% elif detail.intro_heading_line1 %}
             {{ detail.intro_heading_line1 }}
             <br>
             <span class="relative inline-block text-gold">{{ detail.intro_heading_highlight }}

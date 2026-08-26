@@ -121,7 +121,7 @@ def test_header_dropdown_links_to_service_detail_pages(client):
         ("dog-daycare", "First 3 sessions for $75"),
         ("puppy-playground", "A Little Adventure"),
         ("dog-birthday-parties", "A Party"),
-        ("dog-grooming", "A Happy Day,"),
+        ("dog-grooming", "A Fresh"),
     ],
 )
 def test_service_detail_pages_render_unique_content(client, slug, expected_heading):

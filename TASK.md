@@ -59,16 +59,27 @@
   so it stays inside the clipped box.
 - Removed now-dead `_stub()` view helper and `page_stub.html` (Gallery and Contact both
   have real implementations).
+- Fixed the diagonal notch in the footer's top-right corner — the source wave SVGs
+  (`footer-wave-1.svg`, `footer-wave-2.svg`) had off-screen-only-safe geometry that became
+  visible once stretched to `w-full`; edited the path data directly rather than relying on
+  CSS width/overflow tricks.
+
+## Done (2026-08-26, hero banner dog + Grooming detail page)
+
+- Homepage hero dog is now a real cutout (`hero-dog.webp`) with independently layered
+  decorations (`hero-dog-blob.webp`, paw/bone/heart/dot assets) behind and around it,
+  replacing the old flattened `hero-shiba.webp` box. Positions were measured directly off
+  a 1:1 Figma export (node `256:4`) rather than eyeballed.
+- Built the real Grooming/Spa detail page (`dog-grooming` in `SERVICE_DETAIL_CONTENT`) from
+  its own Figma frame (node `128:111`) — real hero art (`heading-spa.svg`,
+  `service-spa-hero.webp`) and intro copy, no longer falling back to `_GENERIC_DETAIL`.
+  Verified Day Care, Puppy Playground, and Birthday Parties against their Figma frames
+  (`217:2`, `229:1380`, `226:722`) at the same time — all three already matched exactly.
+- Added a third intro-heading layout to `service_detail.html` (plain text then a gold
+  same-line highlight) for Grooming's "A Fresh **New Look,**" heading — see
+  `copilot-instructions.md` for all three layouts.
 
 ## Next up
 
-- Hero banner dog on the homepage still needs re-cutting as an isolated element — it's
-  currently a flattened rectangular crop with its own background baked in, sitting as a
-  hard box over the decorative heart/dots/blob. Confirmed live; blocked on Figma layers
-  or a proper cutout to fix cleanly.
-- A footer visual bug was flagged (screenshot showed a hand-drawn circle over the top-right
-  wave/corner) but never got a description — the footer renders clean locally, so this is
-  still open pending detail.
 - Booking flow behind the "Book Now" / "Book A Visit" buttons (currently link to Contact).
 - Production hardening: real `SECRET_KEY`, `DEBUG=False` env, Nginx/systemd unit files.
-- Real Grooming detail page once its Figma design exists (see `_GENERIC_DETAIL` fallback).
