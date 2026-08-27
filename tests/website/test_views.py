@@ -84,8 +84,8 @@ def test_services_page_renders_pricing_plans(client):
     content = response.content.decode()
     assert response.status_code == 200
     for copy in [
-        "Meet &amp; Greet",
-        "A Happy Day,",
+        "Needs &amp; Loves",
+        "Four Ways We",
         "Give Your Pup More Play &amp;",
         "Two Pups,",
         "Dog Daycare",
@@ -107,6 +107,23 @@ def test_services_page_renders_pricing_plans(client):
         "Ready to make your pup's day?",
     ]:
         assert copy in content, f"missing section copy: {copy}"
+
+
+def test_services_hub_page_is_distinct_from_daycare_detail_page(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    hub_content = client.get(reverse("website:services")).content.decode()
+    daycare_content = client.get(
+        reverse("website:service_detail", args=["dog-daycare"])
+    ).content.decode()
+    # The hub page must not just be reusing the Daycare page's hero/intro copy.
+    # ("Meet & Greet" is baked into heading-daycare.svg, not live text, so only the
+    # intro heading — real text on both pages before this fix — is checked here.)
+    assert "A Happy Day," not in hub_content
+    assert "A Happy Day," in daycare_content
+    assert "Needs &amp; Loves" in hub_content
+    assert "Needs &amp; Loves" not in daycare_content
 
 
 def test_services_page_shows_services_grid_last(client):
