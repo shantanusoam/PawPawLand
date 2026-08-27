@@ -79,6 +79,11 @@
   same-line highlight) for Grooming's "A Fresh **New Look,**" heading — see
   `copilot-instructions.md` for all three layouts.
 
+## In progress (2026-08-27)
+
+- Restyle homepage hero to match the target reference: all-navy heading, paw in
+  the A of "Happy", paragraph copy, dog overlapping the navy wave (negative margin).
+
 ## Next up
 
 - Booking flow behind the "Book Now" / "Book A Visit" buttons (currently link to Contact).

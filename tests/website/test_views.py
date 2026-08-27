@@ -10,7 +10,9 @@ def test_home_renders_all_sections(client):
     assert response.status_code == 200
     for copy in [
         "Every Tail",
-        "Happy Tale.",
+        "ppy Tale.",
+        "tail-wagging adventures",
+        "hero-dog-wrap",
         "Born From Love,",
         "What We Offer",
         "Why Dogs Love",
@@ -22,7 +24,18 @@ def test_home_renders_all_sections(client):
         assert copy in content, f"missing section copy: {copy}"
 
 
-def test_home_shows_seeded_content(client, django_user_model):
+def test_home_hero_dog_overlaps_wave(client):
+    content = client.get(reverse("website:home")).content.decode()
+    assert "hero-dog-wrap" in content
+    assert "lg:-mb-28" in content
+    assert 'id="hero-dog"' in content
+
+
+def test_home_hero_heading_uses_navy_not_faded_line(client):
+    content = client.get(reverse("website:home")).content.decode()
+    assert "text-navy/45" not in content
+    assert "From playful days to cozy nights" in content
+
     from django.core.management import call_command
 
     call_command("seed_demo")

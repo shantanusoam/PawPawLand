@@ -173,6 +173,11 @@
     height: 64px;
   }
 
+  /* Hero dog sits in front of the navy wave (negative margin on .hero-dog-wrap). */
+  .hero-dog-wrap {
+    isolation: isolate;
+  }
+
   /* Paw confetti sprites spawned on back-to-top clicks */
   .paw-burst {
     position: fixed;

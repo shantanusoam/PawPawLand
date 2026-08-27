@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
   {# Hero #}
-  <section class="relative overflow-hidden bg-[#fcf7f1]">
-    <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gold"
+  <section class="relative overflow-hidden bg-cream-warm">
+    <div class="pointer-events-none absolute -bottom-8 -left-28 z-[6] h-72 w-72 rounded-full bg-gold md:h-80 md:w-80"
          data-parallax="40"
          aria-hidden="true"></div>
     <img src="{% static 'img/paw-print.svg' %}"
@@ -50,212 +50,215 @@
          alt=""
          class="float-fast pointer-events-none absolute right-[2%] bottom-[26%] z-10 hidden h-20 w-auto lg:block"
          aria-hidden="true">
-    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-10 pb-28 lg:grid-cols-2 lg:pb-36">
-      <div class="max-w-xl">
-        <h1 class="font-display text-5xl leading-[1.1] font-bold text-navy md:text-6xl">
+    <div class="relative z-10 mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-10 pb-16 lg:grid-cols-2 lg:items-end lg:pb-8">
+      <div class="max-w-xl pb-6 lg:pb-16">
+        <h1 class="font-display text-5xl leading-[1.05] font-bold tracking-tight text-navy md:text-6xl lg:text-[4.25rem]">
           <span class="hero-intro inline-block">Every Tail</span>
           <br>
-          <span class="hero-intro inline-block">Deserves A
+          <span class="hero-intro inline-block">Deserves A</span>
+          <br>
+          <span class="hero-intro inline-block">
+            H<span class="relative inline-block w-[0.72em]">
+            <span class="sr-only">a</span>
             <img src="{% static 'img/paw-print.svg' %}"
                  alt=""
-                 class="wiggle-hover inline-block h-9 w-9 align-baseline">
+                 class="wiggle-hover absolute top-[52%] left-1/2 h-[0.78em] w-[0.78em] -translate-x-1/2 -translate-y-1/2"
+                 aria-hidden="true">
+          </span>ppy Tale.
+        </span>
+      </h1>
+      <p class="hero-intro mt-6 max-w-[26rem] text-base leading-relaxed text-navy md:text-lg">
+        From playful days to cozy nights, we offer a world of tail-wagging adventures, gourmet snacks, and endless cuddles.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="{% url 'website:services' %}"
+           class="hero-intro btn-gold px-7 py-3.5">
+          Explore Services
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-sm text-white">
+            {% include "website/icons/paw-print.html" %}
           </span>
-          <br>
-          <span class="hero-intro inline-block text-navy/45">Happy Tale.</span>
-        </h1>
-        <p class="hero-intro mt-6 text-lg leading-relaxed text-navy-deep">
-          <strong>Safe. Fun. Loving.</strong>
-          <br>
-          A home away from home for your furry best friend.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="{% url 'website:services' %}"
-             class="hero-intro btn-gold px-7 py-3.5">
-            Explore Services
-            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-sm text-white">
-              {% include "website/icons/paw-print.html" %}
-            </span>
-          </a>
-          <a href="{% url 'website:contact' %}"
-             class="hero-intro btn-outline px-7 py-3.5">
-            Book A Visit
-            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-sm text-white">
-              {% include "website/icons/paw-print.html" %}
-            </span>
-          </a>
-        </div>
-      </div>
-      <div class="relative">
-        <img src="{% static 'img/hero-dog-blob.webp' %}"
-             alt=""
-             class="pointer-events-none absolute top-1/2 left-[58%] z-0 w-[145%] max-w-[700px] -translate-x-[38%] -translate-y-[45%]"
-             data-parallax="-10"
-             aria-hidden="true">
-        <img src="{% static 'img/hero-dog.webp' %}"
-             alt="A smiling Shiba Inu wearing a straw hat and a yellow striped bandana"
-             class="relative mx-auto w-full max-w-[480px]"
-             data-parallax="-15"
-             id="hero-dog">
+        </a>
+        <a href="{% url 'website:contact' %}"
+           class="hero-intro btn-outline px-7 py-3.5">
+          Book A Visit
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-sm text-white">
+            {% include "website/icons/paw-print.html" %}
+          </span>
+        </a>
       </div>
     </div>
-    <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
-         viewBox="0 0 1440 96"
-         preserveAspectRatio="none"
+    <div class="hero-dog-wrap relative z-20 -mb-10 md:-mb-16 lg:-mb-28 xl:-mb-36">
+      <img src="{% static 'img/hero-dog-blob.webp' %}"
+           alt=""
+           class="pointer-events-none absolute top-1/2 left-[58%] z-0 w-[145%] max-w-[700px] -translate-x-[38%] -translate-y-[42%]"
+           data-parallax="-10"
+           aria-hidden="true">
+      <img src="{% static 'img/hero-dog.webp' %}"
+           alt="A smiling Shiba Inu wearing a straw hat and a yellow striped bandana"
+           class="relative z-10 mx-auto w-full max-w-[520px] lg:max-w-[580px]"
+           data-parallax="-15"
+           id="hero-dog">
+    </div>
+  </div>
+  <svg class="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-20 w-full md:h-28"
+       viewBox="0 0 1440 112"
+       preserveAspectRatio="none"
+       aria-hidden="true">
+    {# Reason: the wave stacks above the grid so the dog sits behind the navy band, matching the target hero. #}
+    <path d="M0 38 C 240 92, 480 98, 720 58 C 960 18, 1200 22, 1440 62 L 1440 112 L 0 112 Z" fill="#2a2860" />
+    <path d="M0 72 C 240 118, 480 124, 720 84 C 960 44, 1200 48, 1440 88 L 1440 112 L 0 112 Z" fill="#fefefe" />
+  </svg>
+</section>
+{% include "website/partials/section_our_story.html" %}
+{% include "website/partials/section_services.html" %}
+{% include "website/partials/section_why_dogs_love.html" %}
+{# Testimonials #}
+{% if testimonials %}
+  <section class="relative overflow-hidden bg-cream-warm py-20">
+    <img src="{% static 'img/blob.svg' %}"
+         alt=""
+         class="pointer-events-none absolute -top-5 right-24 h-80 w-80"
          aria-hidden="true">
-      <path d="M0 40 C 240 90, 480 90, 720 55 C 960 20, 1200 15, 1440 55 L 1440 96 L 0 96 Z" fill="#2a2860" />
-      <path d="M0 52 C 240 102, 480 102, 720 67 C 960 32, 1200 27, 1440 67 L 1440 96 L 0 96 Z" fill="#fefefe" />
-    </svg>
-  </section>
-  {% include "website/partials/section_our_story.html" %}
-  {% include "website/partials/section_services.html" %}
-  {% include "website/partials/section_why_dogs_love.html" %}
-  {# Testimonials #}
-  {% if testimonials %}
-    <section class="relative overflow-hidden bg-cream-warm py-20">
-      <img src="{% static 'img/blob.svg' %}"
-           alt=""
-           class="pointer-events-none absolute -top-5 right-24 h-80 w-80"
-           aria-hidden="true">
-      <img src="{% static 'img/blob.svg' %}"
-           alt=""
-           class="pointer-events-none absolute bottom-0 left-24 h-80 w-80 rotate-180"
-           aria-hidden="true">
-      <span class="float-slow pointer-events-none absolute top-24 left-[12%] hidden text-3xl text-pink-pastel lg:block"
-            aria-hidden="true">{% include "website/icons/heart.html" %}</span>
-      <span class="float-fast pointer-events-none absolute right-[10%] bottom-24 hidden text-2xl text-coral/50 lg:block [--pp-rotate:15deg]"
-            aria-hidden="true">{% include "website/icons/heart.html" %}</span>
-      <div class="relative mx-auto max-w-[896px] px-6"
-           x-data="{ current: 0, count: {{ testimonials|length }}, timer: null, start() { this.timer = setInterval(() => this.current = (this.current + 1) % this.count, 6000) }, stop() { clearInterval(this.timer) }, init() { if (this.count > 1) this.start() }, }"
-           @mouseenter="stop()"
-           @mouseleave="if (count > 1) start()">
-        <div class="fade-up text-center">
-          <p class="section-eyebrow justify-center">
-            <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-            What Pawrents Say
-          </p>
-          <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">Tails Don't Lie 🐾</h2>
-        </div>
-        <div class="fade-up relative mt-14">
-          <div class="grid">
-            {% for testimonial in testimonials %}
-              <figure class="rounded-3xl bg-peach-pastel p-10 [grid-area:1/1]"
-                      x-show="current === {{ forloop.counter0 }}"
-                      x-transition:enter="transition duration-500 ease-out"
-                      x-transition:enter-start="translate-x-6 opacity-0"
-                      x-transition:enter-end="translate-x-0 opacity-100"
-                      x-transition:leave="transition duration-300 ease-in"
-                      x-transition:leave-start="opacity-100"
-                      x-transition:leave-end="opacity-0"
-                      {% if not forloop.first %}x-cloak{% endif %}>
-                <div class="flex justify-center gap-1 text-xl text-gold"
-                     x-effect="current === {{ forloop.counter0 }} && $nextTick(() => window.ppPopStars && window.ppPopStars($el))"
-                     aria-label="{{ testimonial.rating }} out of 5 stars">
-                  {% for _ in "12345"|slice:testimonial.rating %}
-                    <span class="[&_svg]:fill-current">{% include "website/icons/star.html" %}</span>
-                  {% endfor %}
-                </div>
-                <blockquote class="prose-rte mt-6 text-center text-xl leading-relaxed text-ink italic">
-                  {{ testimonial.quote|safe }}
-                </blockquote>
-                <figcaption class="mt-8 flex items-center justify-center gap-4">
-                  {% if testimonial.avatar %}
-                    <img src="{{ testimonial.avatar.url }}"
-                         alt=""
-                         class="h-14 w-14 rounded-full border-3 border-white object-cover shadow-card">
-                  {% endif %}
-                  <span class="flex flex-col">
-                    <span class="font-display font-bold text-ink">{{ testimonial.author_name }}</span>
-                    <span class="text-sm text-muted">{{ testimonial.dog_name }}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            {% endfor %}
-          </div>
-          <div class="mt-8 flex items-center justify-center gap-3">
-            <button type="button"
-                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-soft transition-transform hover:scale-110"
-                    @click="stop(); current = (current - 1 + count) % count"
-                    aria-label="Previous testimonial">{% include "website/icons/arrow-left.html" %}</button>
-            {% for testimonial in testimonials %}
-              <button type="button"
-                      class="h-3 rounded-full transition-all"
-                      :class="current === {{ forloop.counter0 }} ? 'w-6 bg-gold' : 'w-3 bg-[#d1d5dc]'"
-                      @click="stop(); current = {{ forloop.counter0 }}"
-                      aria-label="Go to testimonial {{ forloop.counter }}"></button>
-            {% endfor %}
-            <button type="button"
-                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-soft transition-transform hover:scale-110"
-                    @click="stop(); current = (current + 1) % count"
-                    aria-label="Next testimonial">{% include "website/icons/arrow-right.html" %}</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  {% endif %}
-  {% include "website/partials/section_gallery.html" %}
-  {# CTA #}
-  <section class="bg-cream px-6 pt-2 pb-4">
-    {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
-    <div class="fade-up relative mx-auto max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
-      <img src="{% static 'img/paw-print.svg' %}"
-           alt=""
-           class="float-fast pointer-events-none absolute top-8 right-[38%] hidden h-8 w-8 md:block [--pp-rotate:20deg]"
-           aria-hidden="true">
-      <span class="float-slow pointer-events-none absolute bottom-10 left-[45%] hidden text-3xl text-navy/40 md:block [--pp-rotate:-15deg]"
-            aria-hidden="true">{% include "website/icons/bone.html" %}</span>
-      <div class="max-w-[500px]">
-        <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
-        <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
-          Book their next adventure today. First visit? We'd love to meet your furry best friend.
-        </p>
-        <a href="{% url 'website:contact' %}" class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
-      </div>
-      <img src="{% static 'img/cta-dogs.webp' %}"
-           alt="A Border Collie and a Golden Retriever sitting together"
-           class="pointer-events-none right-4 -bottom-4 mx-auto mt-8 w-full max-w-[440px] md:absolute md:mt-0 md:w-[45%]"
-           data-pop>
-    </div>
-  </section>
-  {# FAQ #}
-  <section class="bg-[#fdf9eb] pb-20">
-    {% include "website/partials/paw_trail.html" with tone="text-coral/50" %}
-    <div class="mx-auto max-w-[1280px] px-6 pt-4">
+    <img src="{% static 'img/blob.svg' %}"
+         alt=""
+         class="pointer-events-none absolute bottom-0 left-24 h-80 w-80 rotate-180"
+         aria-hidden="true">
+    <span class="float-slow pointer-events-none absolute top-24 left-[12%] hidden text-3xl text-pink-pastel lg:block"
+          aria-hidden="true">{% include "website/icons/heart.html" %}</span>
+    <span class="float-fast pointer-events-none absolute right-[10%] bottom-24 hidden text-2xl text-coral/50 lg:block [--pp-rotate:15deg]"
+          aria-hidden="true">{% include "website/icons/heart.html" %}</span>
+    <div class="relative mx-auto max-w-[896px] px-6"
+         x-data="{ current: 0, count: {{ testimonials|length }}, timer: null, start() { this.timer = setInterval(() => this.current = (this.current + 1) % this.count, 6000) }, stop() { clearInterval(this.timer) }, init() { if (this.count > 1) this.start() }, }"
+         @mouseenter="stop()"
+         @mouseleave="if (count > 1) start()">
       <div class="fade-up text-center">
         <p class="section-eyebrow justify-center">
           <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-          Good To Know
+          What Pawrents Say
         </p>
-        <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">Frequently Asked Questions 🐾</h2>
+        <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">Tails Don't Lie 🐾</h2>
       </div>
-      <div class="mt-14 grid items-start gap-10 lg:grid-cols-[437px_1fr]">
-        <img src="{% static 'img/faq-dog.webp' %}"
-             alt="A long-haired Dachshund sitting patiently"
-             class="fade-up hidden w-full rounded-3xl object-cover lg:block"
-             data-parallax="18">
-        <div class="fade-up space-y-4" x-data="{ open: 0 }">
-          {% for faq in faqs %}
-            <div class="rounded-xl {{ faq.tone }}">
-              <button type="button"
-                      class="flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
-                      @click="open = open === {{ forloop.counter0 }} ? null : {{ forloop.counter0 }}"
-                      :aria-expanded="open === {{ forloop.counter0 }}">
-                <span class="font-display text-lg font-bold text-ink md:text-xl">{{ faq.question }}</span>
-                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/40 font-display text-xl font-bold text-ink">
-                  <span class="faq-toggle"
-                        :class="open === {{ forloop.counter0 }} ? 'faq-open' : ''">+</span>
-                </span>
-              </button>
-              <div class="faq-panel"
-                   :class="open === {{ forloop.counter0 }} ? 'faq-open' : ''"
-                   {% if forloop.first %}x-init="$el.classList.add('faq-open')"{% endif %}>
-                <div>
-                  <div class="prose-rte px-7 pb-6 text-sm leading-relaxed text-muted-dark">{{ faq.answer|safe }}</div>
-                </div>
+      <div class="fade-up relative mt-14">
+        <div class="grid">
+          {% for testimonial in testimonials %}
+            <figure class="rounded-3xl bg-peach-pastel p-10 [grid-area:1/1]"
+                    x-show="current === {{ forloop.counter0 }}"
+                    x-transition:enter="transition duration-500 ease-out"
+                    x-transition:enter-start="translate-x-6 opacity-0"
+                    x-transition:enter-end="translate-x-0 opacity-100"
+                    x-transition:leave="transition duration-300 ease-in"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    {% if not forloop.first %}x-cloak{% endif %}>
+              <div class="flex justify-center gap-1 text-xl text-gold"
+                   x-effect="current === {{ forloop.counter0 }} && $nextTick(() => window.ppPopStars && window.ppPopStars($el))"
+                   aria-label="{{ testimonial.rating }} out of 5 stars">
+                {% for _ in "12345"|slice:testimonial.rating %}
+                  <span class="[&_svg]:fill-current">{% include "website/icons/star.html" %}</span>
+                {% endfor %}
               </div>
-            </div>
+              <blockquote class="prose-rte mt-6 text-center text-xl leading-relaxed text-ink italic">
+                {{ testimonial.quote|safe }}
+              </blockquote>
+              <figcaption class="mt-8 flex items-center justify-center gap-4">
+                {% if testimonial.avatar %}
+                  <img src="{{ testimonial.avatar.url }}"
+                       alt=""
+                       class="h-14 w-14 rounded-full border-3 border-white object-cover shadow-card">
+                {% endif %}
+                <span class="flex flex-col">
+                  <span class="font-display font-bold text-ink">{{ testimonial.author_name }}</span>
+                  <span class="text-sm text-muted">{{ testimonial.dog_name }}</span>
+                </span>
+              </figcaption>
+            </figure>
           {% endfor %}
+        </div>
+        <div class="mt-8 flex items-center justify-center gap-3">
+          <button type="button"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-soft transition-transform hover:scale-110"
+                  @click="stop(); current = (current - 1 + count) % count"
+                  aria-label="Previous testimonial">{% include "website/icons/arrow-left.html" %}</button>
+          {% for testimonial in testimonials %}
+            <button type="button"
+                    class="h-3 rounded-full transition-all"
+                    :class="current === {{ forloop.counter0 }} ? 'w-6 bg-gold' : 'w-3 bg-[#d1d5dc]'"
+                    @click="stop(); current = {{ forloop.counter0 }}"
+                    aria-label="Go to testimonial {{ forloop.counter }}"></button>
+          {% endfor %}
+          <button type="button"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-soft transition-transform hover:scale-110"
+                  @click="stop(); current = (current + 1) % count"
+                  aria-label="Next testimonial">{% include "website/icons/arrow-right.html" %}</button>
         </div>
       </div>
     </div>
   </section>
+{% endif %}
+{% include "website/partials/section_gallery.html" %}
+{# CTA #}
+<section class="bg-cream px-6 pt-2 pb-4">
+  {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
+  <div class="fade-up relative mx-auto max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
+    <img src="{% static 'img/paw-print.svg' %}"
+         alt=""
+         class="float-fast pointer-events-none absolute top-8 right-[38%] hidden h-8 w-8 md:block [--pp-rotate:20deg]"
+         aria-hidden="true">
+    <span class="float-slow pointer-events-none absolute bottom-10 left-[45%] hidden text-3xl text-navy/40 md:block [--pp-rotate:-15deg]"
+          aria-hidden="true">{% include "website/icons/bone.html" %}</span>
+    <div class="max-w-[500px]">
+      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
+      <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
+        Book their next adventure today. First visit? We'd love to meet your furry best friend.
+      </p>
+      <a href="{% url 'website:contact' %}" class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
+    </div>
+    <img src="{% static 'img/cta-dogs.webp' %}"
+         alt="A Border Collie and a Golden Retriever sitting together"
+         class="pointer-events-none right-4 -bottom-4 mx-auto mt-8 w-full max-w-[440px] md:absolute md:mt-0 md:w-[45%]"
+         data-pop>
+  </div>
+</section>
+{# FAQ #}
+<section class="bg-[#fdf9eb] pb-20">
+  {% include "website/partials/paw_trail.html" with tone="text-coral/50" %}
+  <div class="mx-auto max-w-[1280px] px-6 pt-4">
+    <div class="fade-up text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Good To Know
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">Frequently Asked Questions 🐾</h2>
+    </div>
+    <div class="mt-14 grid items-start gap-10 lg:grid-cols-[437px_1fr]">
+      <img src="{% static 'img/faq-dog.webp' %}"
+           alt="A long-haired Dachshund sitting patiently"
+           class="fade-up hidden w-full rounded-3xl object-cover lg:block"
+           data-parallax="18">
+      <div class="fade-up space-y-4" x-data="{ open: 0 }">
+        {% for faq in faqs %}
+          <div class="rounded-xl {{ faq.tone }}">
+            <button type="button"
+                    class="flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                    @click="open = open === {{ forloop.counter0 }} ? null : {{ forloop.counter0 }}"
+                    :aria-expanded="open === {{ forloop.counter0 }}">
+              <span class="font-display text-lg font-bold text-ink md:text-xl">{{ faq.question }}</span>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/40 font-display text-xl font-bold text-ink">
+                <span class="faq-toggle"
+                      :class="open === {{ forloop.counter0 }} ? 'faq-open' : ''">+</span>
+              </span>
+            </button>
+            <div class="faq-panel"
+                 :class="open === {{ forloop.counter0 }} ? 'faq-open' : ''"
+                 {% if forloop.first %}x-init="$el.classList.add('faq-open')"{% endif %}>
+              <div>
+                <div class="prose-rte px-7 pb-6 text-sm leading-relaxed text-muted-dark">{{ faq.answer|safe }}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock content %}

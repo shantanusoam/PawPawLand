@@ -6,6 +6,12 @@
 {% block content %}
   {# Hero #}
   <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-pink-pastel/60 md:h-72 md:w-72"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute bottom-16 left-[38%] hidden h-64 w-64 rounded-full bg-blue-pastel lg:block"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-gold/30"
+         aria-hidden="true"></div>
     <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2">
       <div class="max-w-xl">
         <img src="{% static 'img/' %}{{ detail.hero_heading_svg }}"
@@ -39,8 +45,12 @@
     </svg>
   </section>
   {# Intro #}
-  <section class="bg-white py-24">
-    <div class="mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
+  <section class="relative overflow-hidden bg-white py-24">
+    <div class="pointer-events-none absolute top-10 -left-24 h-64 w-64 rounded-full bg-pink-pastel/60"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-blue-pastel"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
       <div class="relative order-2 lg:order-1">
         {% if detail.intro_image %}
           <img src="{% static 'img/' %}{{ detail.intro_image }}"
