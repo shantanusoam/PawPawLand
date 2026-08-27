@@ -23,7 +23,7 @@ SERVICES = [
         "name": "Dog Daycare",
         "slug": "dog-daycare",
         "emoji_badge": "☀️",
-        "image": "card-daycare-dog.webp",
+        "image": "service-daycare.webp",
         "description": (
             "<p>Full day of supervised play, socialisation, exercise, "
             "and rest in a safe, loving environment.</p>"
@@ -34,7 +34,7 @@ SERVICES = [
         "name": "Dog Grooming",
         "slug": "dog-grooming",
         "emoji_badge": "✂️",
-        "image": "card-grooming-dog.webp",
+        "image": "service-grooming.webp",
         "description": (
             "<p>Bath, nail trim, coat brush, ear cleaning, and breed-specific "
             "styling by our professional groomers.</p>"
@@ -45,7 +45,7 @@ SERVICES = [
         "name": "Puppy Playground",
         "slug": "puppy-playground",
         "emoji_badge": "🐶",
-        "image": "card-puppy-dog.webp",
+        "image": "service-puppy.webp",
         "description": (
             "<p>A gentle, age-appropriate zone where puppies learn to socialise, "
             "explore, and build confidence safely.</p>"
@@ -56,7 +56,7 @@ SERVICES = [
         "name": "Dog Birthday Parties",
         "slug": "dog-birthday-parties",
         "emoji_badge": "🎂",
-        "image": "card-parties-dog.webp",
+        "image": "service-parties-birthday.webp",
         "description": (
             "<p>Private celebrations with decorations, dog-safe treats, playtime, "
             "and photos your pup will never forget.</p>"
