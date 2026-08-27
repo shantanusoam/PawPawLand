@@ -21,24 +21,23 @@
       </span>
     </h2>
   </div>
-  <div class="relative mt-14 grid scroll-mt-28 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+  <div class="relative mt-14 grid scroll-mt-28 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-4"
        data-stagger>
     {% for service in services %}
       <article id="{{ service.slug }}"
-               class="fade-up card-lift scroll-mt-28 flex flex-col overflow-hidden rounded-3xl bg-white shadow-card">
-        <a href="{% url 'website:service_detail' service.slug %}"
-           class="relative block h-56 overflow-hidden">
-          {% if service.image %}
+               class="fade-up card-lift scroll-mt-28 relative flex flex-col rounded-3xl bg-white pt-16 shadow-card">
+        {% if service.image %}
+          <a href="{% url 'website:service_detail' service.slug %}"
+             class="absolute -top-14 left-1/2 block -translate-x-1/2">
             <img src="{{ service.image.url }}"
-                 alt="{{ service.name }}"
-                 class="card-photo h-full w-full object-cover">
-          {% else %}
-            <div class="h-full w-full bg-peach-pastel"></div>
-          {% endif %}
-          <span class="card-badge absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-2xl {{ service.tone.badge }} text-2xl shadow-soft">
-            {{ service.emoji_badge }}
-          </span>
-        </a>
+                 alt="{{ service.name }} — a happy pup"
+                 class="card-photo h-28 w-auto drop-shadow-lg"
+                 data-pop>
+          </a>
+        {% endif %}
+        <span class="card-badge absolute top-4 right-4 flex h-12 w-12 items-center justify-center rounded-2xl {{ service.tone.badge }} text-2xl shadow-soft">
+          {{ service.emoji_badge }}
+        </span>
         <div class="flex flex-1 flex-col p-6">
           <h3 class="font-display text-xl font-bold text-ink">
             <a href="{% url 'website:service_detail' service.slug %}"

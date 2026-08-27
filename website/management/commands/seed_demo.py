@@ -23,7 +23,7 @@ SERVICES = [
         "name": "Dog Daycare",
         "slug": "dog-daycare",
         "emoji_badge": "☀️",
-        "image": "service-daycare.webp",
+        "image": "card-daycare-dog.webp",
         "description": (
             "<p>Full day of supervised play, socialisation, exercise, "
             "and rest in a safe, loving environment.</p>"
@@ -34,7 +34,7 @@ SERVICES = [
         "name": "Dog Grooming",
         "slug": "dog-grooming",
         "emoji_badge": "✂️",
-        "image": "service-grooming.webp",
+        "image": "card-grooming-dog.webp",
         "description": (
             "<p>Bath, nail trim, coat brush, ear cleaning, and breed-specific "
             "styling by our professional groomers.</p>"
@@ -45,7 +45,7 @@ SERVICES = [
         "name": "Puppy Playground",
         "slug": "puppy-playground",
         "emoji_badge": "🐶",
-        "image": "service-puppy.webp",
+        "image": "card-puppy-dog.webp",
         "description": (
             "<p>A gentle, age-appropriate zone where puppies learn to socialise, "
             "explore, and build confidence safely.</p>"
@@ -56,7 +56,7 @@ SERVICES = [
         "name": "Dog Birthday Parties",
         "slug": "dog-birthday-parties",
         "emoji_badge": "🎂",
-        "image": "service-parties.webp",
+        "image": "card-parties-dog.webp",
         "description": (
             "<p>Private celebrations with decorations, dog-safe treats, playtime, "
             "and photos your pup will never forget.</p>"
@@ -288,7 +288,9 @@ class Command(BaseCommand):
 
     def _attach_image(self, instance, field_name, filename):
         field = getattr(instance, field_name)
-        if not filename or field:
+        if not filename:
+            return False
+        if field and Path(field.name).name == filename:
             return False
         path = STATIC_IMG / filename
         if not path.exists():
