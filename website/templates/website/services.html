@@ -6,8 +6,8 @@
 {% block content %}
   {# Hero #}
   <section class="relative overflow-hidden bg-[#fbf6f0]">
-    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2">
-      <div class="max-w-xl">
+    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2 lg:items-end lg:pb-8">
+      <div class="max-w-xl pb-6 lg:pb-16">
         <p class="hero-intro section-eyebrow">
           <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
           Paw Paw Land Services
@@ -29,13 +29,15 @@
         <div class="pointer-events-none absolute top-0 right-24 -z-10 h-36 w-36 rounded-full bg-pink-pastel"
              data-parallax="30"
              aria-hidden="true"></div>
-        <img src="{% static 'img/pair-corgi-golden.webp' %}"
-             alt="A Corgi and a Golden Retriever peeking over the frame together"
-             class="relative mx-auto w-full max-w-[480px]"
-             data-parallax="-15">
+        <div class="relative z-20 -mb-8 md:-mb-12 lg:-mb-16">
+          <img src="{% static 'img/pair-corgi-golden.webp' %}"
+               alt="A Corgi and a Golden Retriever peeking over the frame together"
+               class="relative mx-auto w-full max-w-[420px]"
+               data-parallax="-15">
+        </div>
       </div>
     </div>
-    <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
+    <svg class="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-16 w-full md:h-24"
          viewBox="0 0 1440 96"
          preserveAspectRatio="none"
          aria-hidden="true">
