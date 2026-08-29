@@ -142,6 +142,7 @@ SERVICE_DETAIL_CONTENT = {
             "gentle care, fresh fluff, and plenty of tail-wagging happiness!"
         ),
         "hero_photo": "service-spa-hero.webp",
+        "intro_image": "service-grooming-intro.webp",
         "intro_heading_line1": None,
         "intro_heading_plain_prefix": "A Fresh",
         "intro_heading_highlight": "New Look,",

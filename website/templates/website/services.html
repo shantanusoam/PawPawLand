@@ -45,54 +45,7 @@
       <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
     </svg>
   </section>
-  {# Four Ways We Show The Love #}
-  <section class="bg-white py-24">
-    <div class="mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
-      <div class="relative order-2 lg:order-1">
-        <img src="{% static 'img/doodle-scatter.webp' %}"
-             alt=""
-             class="pointer-events-none absolute -inset-8 h-[calc(100%+64px)] w-[calc(100%+64px)] object-contain"
-             data-parallax="-25"
-             aria-hidden="true">
-        <div class="relative mx-auto flex max-w-[420px] items-center justify-center">
-          <img src="{% static 'img/pair-samoyed-golden.webp' %}"
-               alt="A Samoyed and a Golden Retriever peeking over the frame together"
-               class="w-[70%] -rotate-6"
-               data-parallax="15">
-          <img src="{% static 'img/pair-poodle-collie.webp' %}"
-               alt="A Poodle and a Border Collie peeking over the frame together"
-               class="absolute right-0 bottom-0 w-[55%] rotate-6"
-               data-parallax="-15">
-        </div>
-      </div>
-      <div class="order-1 lg:order-2">
-        <p class="section-eyebrow text-gold">
-          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-          Our Services
-        </p>
-        <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
-          Four Ways We
-          <br>
-          <span class="relative inline-block text-gold">Show The Love
-            {% include "website/partials/squiggle.html" %}
-          </span>
-        </h2>
-        <p class="mt-5 font-semibold text-muted-dark">One Home For Every Stage of Their Day</p>
-        <p class="mt-3 leading-relaxed text-muted-dark">
-          From sunrise play sessions to sleepover-worthy pampering, every service is built around one thing: your dog's happiness.
-        </p>
-        <p class="mt-4 leading-relaxed text-muted-dark">
-          Whether it's a full day of daycare, a fresh groom, puppy socialisation, or a tail-wagging birthday bash, our team treats every visit like family.
-        </p>
-        <p class="mt-4 leading-relaxed text-muted-dark">
-          Explore what's below and find the perfect fit for your best friend — or mix and match as their needs change.
-        </p>
-        <a href="#services" class="btn-navy mt-8 px-8 py-3.5">Explore Our Services →</a>
-      </div>
-    </div>
-  </section>
-  {% include "website/partials/section_pricing_plans.html" %}
-  {# Our Services — kept last on this hub page, right before the CTA #}
   {% include "website/partials/section_services.html" %}
+  {% include "website/partials/section_pricing_plans.html" %}
   {% include "website/partials/section_cta.html" %}
 {% endblock content %}

@@ -85,7 +85,6 @@ def test_services_page_renders_pricing_plans(client):
     assert response.status_code == 200
     for copy in [
         "Needs &amp; Loves",
-        "Four Ways We",
         "Give Your Pup More Play &amp;",
         "Two Pups,",
         "Dog Daycare",
@@ -126,14 +125,14 @@ def test_services_hub_page_is_distinct_from_daycare_detail_page(client):
     assert "Needs &amp; Loves" not in daycare_content
 
 
-def test_services_page_shows_services_grid_last(client):
+def test_services_page_shows_services_grid_first(client):
     from django.core.management import call_command
 
     call_command("seed_demo")
     content = client.get(reverse("website:services")).content.decode()
-    # "Our Services" grid must render after both pricing sections (moved to last).
-    assert content.index("Two Pups,") < content.index("What We Offer")
-    assert content.index("What We Offer") < content.index("Ready to make your pup's day?")
+    # "Our Services" grid renders right after the hero, before pricing and the CTA.
+    assert content.index("What We Offer") < content.index("Two Pups,")
+    assert content.index("Two Pups,") < content.index("Ready to make your pup's day?")
 
 
 def test_header_dropdown_links_to_service_detail_pages(client):

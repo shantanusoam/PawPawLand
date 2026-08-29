@@ -47,8 +47,8 @@
           <div class="prose-rte mt-2 flex-1 text-sm leading-relaxed text-muted">{{ service.description|safe }}</div>
           <div class="mt-4 flex items-center justify-between">
             <span class="text-sm font-bold text-ink">{{ service.price_label }}</span>
-            <a href="{% url 'website:contact' %}"
-               class="btn-pill {{ service.tone.button }} px-4 py-2 text-sm">Book →</a>
+            <a href="{% url 'website:service_detail' service.slug %}"
+               class="btn-pill {{ service.tone.button }} px-4 py-2 text-sm">View →</a>
           </div>
         </div>
       </article>
