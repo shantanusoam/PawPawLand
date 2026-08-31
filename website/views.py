@@ -167,6 +167,7 @@ SERVICE_DETAIL_CONTENT = {
             "fun-filled day made just for tiny paws and big adventures!"
         ),
         "hero_photo": "service-puppy-hero.webp",
+        "intro_image": "service-daycare-intro.webp",
         "intro_heading_line1": "A Little Adventure",
         "intro_heading_highlight": "They'll Love,",
         "intro_subheading": "A Playground Made Just for Pups",
