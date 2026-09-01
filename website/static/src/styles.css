@@ -173,7 +173,7 @@
     height: 64px;
   }
 
-  /* Hero dog sits in front of the navy wave (negative margin on .hero-dog-wrap). */
+  /* Hero dog overlaps the soft white wave at the bottom of the homepage hero. */
   .hero-dog-wrap {
     isolation: isolate;
   }
