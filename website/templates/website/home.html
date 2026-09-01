@@ -42,8 +42,8 @@
          alt=""
          class="float-fast pointer-events-none absolute right-[2%] bottom-[26%] z-10 hidden h-20 w-auto lg:block"
          aria-hidden="true">
-    <div class="relative z-10 mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-10 pb-16 lg:grid-cols-2 lg:items-end lg:pb-8">
-      <div class="max-w-xl pb-6 lg:pb-16">
+    <div class="relative z-10 mx-auto grid min-h-[20rem] max-w-[1280px] items-center gap-8 px-6 pb-20 md:min-h-[34rem] md:pb-24 lg:min-h-[38rem] lg:grid-cols-2 lg:items-end lg:pb-28 xl:min-h-[42rem] xl:pb-32">
+      <div class="max-w-xl pb-6 lg:pb-24 xl:pb-32">
         <h1 class="font-display text-5xl leading-[1.05] font-bold tracking-tight text-navy md:text-6xl lg:text-[4.25rem]">
           <span class="hero-intro inline-block">Every Tail</span>
           <br>
@@ -92,12 +92,7 @@
            id="hero-dog">
     </div>
   </div>
-  <svg class="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-20 w-full md:h-28"
-       viewBox="0 0 1440 112"
-       preserveAspectRatio="none"
-       aria-hidden="true">
-    <path d="M0 72 C 240 118, 480 124, 720 84 C 960 44, 1200 48, 1440 88 L 1440 112 L 0 112 Z" fill="#fefefe" />
-  </svg>
+  {% include "website/partials/hero_wave.html" %}
 </section>
 {% include "website/partials/section_our_story.html" %}
 {% include "website/partials/section_services.html" %}
@@ -154,7 +149,7 @@
                 {% if testimonial.avatar %}
                   <img src="{{ testimonial.avatar.url }}"
                        alt=""
-                       class="h-14 w-14 rounded-full border-3 border-white object-cover shadow-card">
+                       class="h-14 w-14 rounded-full border-3 border-white object-cover object-center shadow-card">
                 {% endif %}
                 <span class="flex flex-col">
                   <span class="font-display font-bold text-ink">{{ testimonial.author_name }}</span>
@@ -223,7 +218,7 @@
     <div class="mt-14 grid items-start gap-10 lg:grid-cols-[437px_1fr]">
       <img src="{% static 'img/faq-dog.webp' %}"
            alt="A long-haired Dachshund sitting patiently"
-           class="fade-up hidden w-full rounded-3xl object-cover lg:block"
+           class="fade-up hidden w-full rounded-3xl object-cover object-center lg:block"
            data-parallax="18">
       <div class="fade-up space-y-4" x-data="{ open: 0 }">
         {% for faq in faqs %}

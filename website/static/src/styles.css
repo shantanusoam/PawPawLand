@@ -130,6 +130,7 @@
   }
 
   .card-lift .card-photo {
+    /* object-position comes from the img utility (object-top / object-center) */
     @apply transition-transform duration-500 ease-out;
   }
 
@@ -296,4 +297,52 @@
   .marquee-copy {
     display: none;
   }
+}
+
+/* Pricing plan carousel: manual scroll + progress dots */
+.pricing-carousel-scroller {
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.pricing-carousel-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.pricing-carousel-track {
+  display: flex;
+  width: max-content;
+  gap: 1.25rem;
+  padding-block: 3.5rem 0.5rem;
+  padding-inline: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+}
+
+.pricing-carousel-slide {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+}
+
+.pricing-dot {
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--color-navy-deep, #2a2860) 25%, transparent);
+  transition:
+    width 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.pricing-dot:hover {
+  transform: scale(1.15);
+}
+
+.pricing-dot-active {
+  width: 1.75rem;
+  background: var(--color-gold, #f5b942);
 }

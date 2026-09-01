@@ -1,17 +1,17 @@
 {# Expects a TeamMember instance with .tone attached (see views.py: about()). #}
 <article class="fade-up card-lift relative overflow-hidden rounded-[32px] {{ member.tone }} p-6">
-  <div class="relative h-[300px] overflow-hidden rounded-2xl">
+  <div class="relative h-[320px] overflow-hidden rounded-2xl bg-white/40">
     {% if member.photo %}
       <img src="{{ member.photo.url }}"
            alt="{{ member.name }}, {{ member.role }} at Paw Paw Land"
-           class="card-photo h-full w-full object-cover">
+           class="card-photo h-full w-full object-cover object-top">
     {% else %}
       <div class="h-full w-full bg-peach-pastel"></div>
     {% endif %}
-    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-    <div class="absolute bottom-4 left-6">
+    <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/55 via-black/20 to-transparent"></div>
+    <div class="absolute bottom-4 left-6 right-6">
       <h3 class="font-display text-3xl font-bold tracking-wide text-white">{{ member.name }}</h3>
-      <p class="text-sm text-white italic">{{ member.role }}</p>
+      <p class="text-sm text-white/95 italic">{{ member.role }}</p>
     </div>
   </div>
   <div class="prose-rte mt-5 text-sm leading-relaxed text-muted-dark">{{ member.bio|safe }}</div>

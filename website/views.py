@@ -83,21 +83,13 @@ def _with_tone_style(plans):
     return plans
 
 
-def _marquee_duration(count):
-    # Scales with card count so the scroll speed stays roughly constant
-    # however many plans get added in admin later.
-    return max(24, count * 10)
-
-
 def services(request):
     plans_one_dog = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=1))
     plans_two_dogs = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=2))
     context = {
         "services": Service.objects.filter(is_active=True),
         "plans_one_dog": plans_one_dog,
-        "plans_one_dog_duration": _marquee_duration(len(plans_one_dog)),
         "plans_two_dogs": plans_two_dogs,
-        "plans_two_dogs_duration": _marquee_duration(len(plans_two_dogs)),
     }
     return render(request, "website/services.html", context)
 
@@ -227,9 +219,7 @@ def service_detail(request, slug):
         "service": service,
         "detail": detail,
         "plans_one_dog": plans_one_dog,
-        "plans_one_dog_duration": _marquee_duration(len(plans_one_dog)),
         "plans_two_dogs": plans_two_dogs,
-        "plans_two_dogs_duration": _marquee_duration(len(plans_two_dogs)),
     }
     return render(request, "website/service_detail.html", context)
 

@@ -2,6 +2,52 @@
 // Everything is gated behind prefers-reduced-motion; CSS keyframe effects
 // (floating paws, gallery marquee) are gated in styles.css the same way.
 document.addEventListener("DOMContentLoaded", () => {
+  // Pricing plan carousel: manual horizontal scroll + progress dots.
+  document.querySelectorAll("[data-pricing-carousel]").forEach((root) => {
+    const scroller = root.querySelector("[data-pricing-scroller]");
+    const slides = Array.from(root.querySelectorAll("[data-slide]"));
+    const dots = Array.from(root.querySelectorAll("[data-dot-index]"));
+    if (!scroller || !slides.length || !dots.length) return;
+
+    const setActive = (index) => {
+      dots.forEach((dot, i) => {
+        const on = i === index;
+        dot.classList.toggle("pricing-dot-active", on);
+        dot.setAttribute("aria-current", on ? "true" : "false");
+      });
+    };
+
+    const syncFromScroll = () => {
+      const center = scroller.scrollLeft + scroller.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      slides.forEach((slide, i) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const dist = Math.abs(slideCenter - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      });
+      setActive(best);
+    };
+
+    scroller.addEventListener("scroll", syncFromScroll, { passive: true });
+    window.addEventListener("resize", syncFromScroll, { passive: true });
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.dataset.dotIndex || 0);
+        const slide = slides[index];
+        if (!slide) return;
+        const left =
+          slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2;
+        scroller.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+        setActive(index);
+      });
+    });
+    syncFromScroll();
+  });
+
   if (typeof Motion === "undefined") return;
   const { animate, inView, scroll, stagger } = Motion;
 

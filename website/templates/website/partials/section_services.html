@@ -1,7 +1,7 @@
 {% load static %}
 {# Our Services grid — shared between the homepage and the Services page. Expects `services`. #}
 {# Each card carries id="{{ service.slug }}" so the header dropdown can deep-link/anchor to it. #}
-<section class="relative overflow-hidden bg-cream pb-20" id="services">
+<section class="relative overflow-hidden bg-cream pb-8" id="services">
   {% include "website/partials/paw_trail.html" with tone="text-gold" %}
   <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-pink-pastel/60 md:h-96 md:w-96"
        aria-hidden="true"></div>
@@ -31,7 +31,7 @@
           {% if service.image %}
             <img src="{{ service.image.url }}"
                  alt="{{ service.name }}"
-                 class="card-photo h-full w-full object-cover">
+                 class="card-photo h-full w-full object-cover object-center">
           {% else %}
             <div class="h-full w-full bg-peach-pastel"></div>
           {% endif %}

@@ -4,89 +4,101 @@
   Contact Us — Paw Paw Land
 {% endblock title %}
 {% block content %}
-  {# Hero #}
+  {# Hero — Figma node 314:2: cream field, full scene, navy internal wave #}
   <section class="relative overflow-hidden bg-[#fbf6f0]">
-    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2">
-      <div class="max-w-xl">
+    <div class="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-pink-pastel/80 md:h-80 md:w-80"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute top-32 left-[46%] hidden h-72 w-72 -translate-x-1/2 rounded-full bg-blue-pastel lg:block"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-gold/35"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto flex min-h-[400px] max-w-[1400px] flex-col items-center gap-2 px-6 pt-10 md:min-h-[460px] md:pt-12 lg:min-h-[500px] lg:flex-row lg:items-end lg:gap-0 lg:px-10 lg:pb-0">
+      <div class="relative z-20 w-full max-w-xl shrink-0 self-start py-2 lg:mb-24 lg:w-[40%] lg:self-center lg:py-0">
         <img src="{% static 'img/heading-contact.svg' %}"
              alt="Contact Us"
-             class="hero-intro h-auto w-full max-w-[420px]"
+             class="hero-intro h-auto w-full max-w-[440px]"
              data-pop>
       </div>
-      <div class="relative">
-        <div class="pointer-events-none absolute top-1/2 right-0 -z-10 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-pastel"
+      <div class="relative z-10 -mb-6 w-full flex-1 md:-mb-10 lg:-mb-14 lg:w-[60%]">
+        <div class="pointer-events-none absolute top-[8%] left-[2%] -z-10 h-56 w-56 rounded-full bg-blue-pastel md:h-72 md:w-72"
              data-parallax="-20"
              aria-hidden="true"></div>
-        <div class="pointer-events-none absolute top-0 right-24 -z-10 h-36 w-36 rounded-full bg-pink-pastel"
-             data-parallax="30"
+        <div class="pointer-events-none absolute -top-2 right-[6%] -z-10 h-44 w-44 rounded-full bg-pink-pastel"
+             data-parallax="25"
              aria-hidden="true"></div>
+        {# Full scene — sits on the navy swoosh like Figma 314:2 #}
         <img src="{% static 'img/contact-hero.webp' %}"
              alt="A French Bulldog wearing headphones and glasses at a computer"
-             class="relative mx-auto w-full max-w-[520px]"
-             data-parallax="-15">
+             class="relative ml-auto block h-auto w-full max-w-[780px] object-contain object-bottom lg:max-w-none lg:w-[min(108%,820px)] lg:translate-x-4"
+             width="1536"
+             height="1024"
+             data-parallax="-10">
       </div>
     </div>
-    <svg class="absolute inset-x-0 bottom-0 h-16 w-full md:h-24"
-         viewBox="0 0 1440 96"
-         preserveAspectRatio="none"
-         aria-hidden="true">
-      <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
-    </svg>
+    {% include "website/partials/hero_wave.html" %}
   </section>
-  {# Info + Form #}
-  <section class="bg-white py-24">
-    <div class="mx-auto grid max-w-[1280px] gap-16 px-6 lg:grid-cols-[300px_1fr]">
-      <div class="fade-up space-y-10">
+  {# Contact info + form #}
+  <section class="relative overflow-hidden bg-white py-20 md:py-24">
+    <div class="mx-auto grid max-w-[1280px] items-start gap-12 px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+      <div class="fade-up space-y-8 md:space-y-10">
         {% if site_settings.address_line %}
           <div class="flex items-center gap-5">
-            <div class="relative h-16 w-16 shrink-0">
+            <div class="relative h-[72px] w-[72px] shrink-0 md:h-20 md:w-20">
               <img src="{% static 'img/feature-circle.svg' %}"
                    alt=""
                    class="h-full w-full">
-              <span class="absolute inset-0 flex items-center justify-center text-2xl text-white">
-                {% include "website/icons/map-pin.html" %}
+              <span class="absolute inset-0 flex items-center justify-center">
+                <img src="{% static 'img/paw-print.svg' %}"
+                     alt=""
+                     class="h-7 w-7 brightness-0 invert">
               </span>
             </div>
-            <div>
-              <h3 class="font-display text-lg font-bold text-ink">Address</h3>
-              <p class="mt-1 text-sm text-muted-dark">{{ site_settings.address_line }}</p>
+            <div class="min-w-0">
+              <h3 class="font-display text-xl font-bold text-ink">Address</h3>
+              <p class="mt-1 max-w-[220px] text-sm leading-relaxed text-muted-dark">{{ site_settings.address_line }}</p>
             </div>
           </div>
         {% endif %}
         {% if site_settings.email %}
           <div class="flex items-center gap-5">
-            <div class="relative h-16 w-16 shrink-0">
+            <div class="relative h-[72px] w-[72px] shrink-0 md:h-20 md:w-20">
               <img src="{% static 'img/feature-circle.svg' %}"
                    alt=""
                    class="h-full w-full">
-              <span class="absolute inset-0 flex items-center justify-center text-2xl text-white">
-                {% include "website/icons/mail.html" %}
+              <span class="absolute inset-0 flex items-center justify-center">
+                <img src="{% static 'img/paw-print.svg' %}"
+                     alt=""
+                     class="h-7 w-7 brightness-0 invert">
               </span>
             </div>
-            <div>
-              <h3 class="font-display text-lg font-bold text-ink">Email</h3>
-              <p class="mt-1 text-sm text-muted-dark">{{ site_settings.email }}</p>
+            <div class="min-w-0">
+              <h3 class="font-display text-xl font-bold text-ink">Email</h3>
+              <a href="mailto:{{ site_settings.email }}"
+                 class="mt-1 block text-sm text-muted-dark transition-colors hover:text-coral">{{ site_settings.email }}</a>
             </div>
           </div>
         {% endif %}
         {% if site_settings.phone %}
           <div class="flex items-center gap-5">
-            <div class="relative h-16 w-16 shrink-0">
+            <div class="relative h-[72px] w-[72px] shrink-0 md:h-20 md:w-20">
               <img src="{% static 'img/feature-circle.svg' %}"
                    alt=""
                    class="h-full w-full">
-              <span class="absolute inset-0 flex items-center justify-center text-2xl text-white">
-                {% include "website/icons/phone.html" %}
+              <span class="absolute inset-0 flex items-center justify-center">
+                <img src="{% static 'img/paw-print.svg' %}"
+                     alt=""
+                     class="h-7 w-7 brightness-0 invert">
               </span>
             </div>
-            <div>
-              <h3 class="font-display text-lg font-bold text-ink">Call Us</h3>
-              <p class="mt-1 text-sm text-muted-dark">{{ site_settings.phone }}</p>
+            <div class="min-w-0">
+              <h3 class="font-display text-xl font-bold text-ink">Call Us</h3>
+              <a href="tel:{{ site_settings.phone }}"
+                 class="mt-1 block text-sm text-muted-dark transition-colors hover:text-coral">{{ site_settings.phone }}</a>
             </div>
           </div>
         {% endif %}
       </div>
-      <div class="fade-up rounded-2xl border-t-4 border-gold bg-white p-9 shadow-[0_8px_20px_rgba(13,43,92,0.08)]">
+      <div class="fade-up rounded-[28px] border border-navy/5 border-t-[5px] border-t-gold bg-white p-7 shadow-[0_12px_32px_rgba(42,40,96,0.08)] sm:p-9">
         {% if messages %}
           {% for message in messages %}
             <div class="mb-6 rounded-lg bg-mint-pastel px-5 py-4 text-sm font-semibold text-ink">{{ message }}</div>
@@ -125,7 +137,7 @@
             {{ form.message.errors }}
           </div>
           <button type="submit"
-                  class="mt-7 w-full rounded-lg bg-navy-deep py-4 text-sm font-bold tracking-wider text-white uppercase transition-transform hover:-translate-y-0.5">
+                  class="mt-7 w-full rounded-xl bg-navy-deep py-4 text-sm font-bold tracking-wider text-white uppercase transition-transform hover:-translate-y-0.5">
             Submit
           </button>
         </form>

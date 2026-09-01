@@ -1,6 +1,6 @@
 {% load static %}
-{# Pricing marquees — shared between the Services hub and each service detail page. #}
-{# Expects: plans_one_dog, plans_one_dog_duration, plans_two_dogs, plans_two_dogs_duration. #}
+{# Pricing carousels — shared between the Services hub and each service detail page. #}
+{# Expects: plans_one_dog, plans_two_dogs. Manual scroll + progress dots (not auto-marquee). #}
 <section class="bg-cream py-24">
   <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
     <p class="section-eyebrow justify-center">
@@ -14,17 +14,29 @@
   </h2>
 </div>
 {% if plans_one_dog %}
-  <div class="marquee overflow-hidden pt-20">
-    <div class="marquee-track items-stretch"
-         style="--pp-marquee-duration: {{ plans_one_dog_duration }}s">
-      {% for plan in plans_one_dog %}
-        {% include "website/partials/pricing_card.html" %}
-      {% endfor %}
-      <div class="marquee-copy contents" aria-hidden="true">
+  <div class="pricing-carousel fade-up pt-20" data-pricing-carousel>
+    <div class="pricing-carousel-scroller"
+         data-pricing-scroller
+         tabindex="0"
+         role="region"
+         aria-label="Daycare plans for 1 dog">
+      <div class="pricing-carousel-track">
         {% for plan in plans_one_dog %}
-          {% include "website/partials/pricing_card.html" %}
+          <div class="pricing-carousel-slide" data-slide>{% include "website/partials/pricing_card.html" %}</div>
         {% endfor %}
       </div>
+    </div>
+    <div class="mt-8 flex items-center justify-center gap-2"
+         role="tablist"
+         aria-label="1-dog plan progress"
+         data-pricing-dots>
+      {% for plan in plans_one_dog %}
+        <button type="button"
+                class="pricing-dot{% if forloop.first %} pricing-dot-active{% endif %}"
+                data-dot-index="{{ forloop.counter0 }}"
+                aria-label="Go to plan {{ forloop.counter }}"
+                {% if forloop.first %}aria-current="true"{% else %}aria-current="false"{% endif %}></button>
+      {% endfor %}
     </div>
   </div>
 {% endif %}
@@ -46,17 +58,29 @@
     </h2>
   </div>
   {% if plans_two_dogs %}
-    <div class="marquee marquee-reverse overflow-hidden pt-20">
-      <div class="marquee-track items-stretch"
-           style="--pp-marquee-duration: {{ plans_two_dogs_duration }}s">
-        {% for plan in plans_two_dogs %}
-          {% include "website/partials/pricing_card.html" %}
-        {% endfor %}
-        <div class="marquee-copy contents" aria-hidden="true">
+    <div class="pricing-carousel fade-up pt-20" data-pricing-carousel>
+      <div class="pricing-carousel-scroller"
+           data-pricing-scroller
+           tabindex="0"
+           role="region"
+           aria-label="Daycare plans for 2 dogs">
+        <div class="pricing-carousel-track">
           {% for plan in plans_two_dogs %}
-            {% include "website/partials/pricing_card.html" %}
+            <div class="pricing-carousel-slide" data-slide>{% include "website/partials/pricing_card.html" %}</div>
           {% endfor %}
         </div>
+      </div>
+      <div class="mt-8 flex items-center justify-center gap-2"
+           role="tablist"
+           aria-label="2-dog plan progress"
+           data-pricing-dots>
+        {% for plan in plans_two_dogs %}
+          <button type="button"
+                  class="pricing-dot{% if forloop.first %} pricing-dot-active{% endif %}"
+                  data-dot-index="{{ forloop.counter0 }}"
+                  aria-label="Go to plan {{ forloop.counter }}"
+                  {% if forloop.first %}aria-current="true"{% else %}aria-current="false"{% endif %}></button>
+        {% endfor %}
       </div>
     </div>
   {% endif %}

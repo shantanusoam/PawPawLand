@@ -18,14 +18,14 @@
       {% for photo in gallery_row_1 %}
         <img src="{{ photo.image.url }}"
              alt="{{ photo.alt_text }}"
-             class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
+             class="h-40 w-40 shrink-0 rounded-xl object-cover object-center transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
              loading="lazy">
       {% endfor %}
       <div class="marquee-copy contents" aria-hidden="true">
         {% for photo in gallery_row_1 %}
           <img src="{{ photo.image.url }}"
                alt=""
-               class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
+               class="h-40 w-40 shrink-0 rounded-xl object-cover object-center transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
                loading="lazy">
         {% endfor %}
       </div>
@@ -36,14 +36,14 @@
       {% for photo in gallery_row_2 %}
         <img src="{{ photo.image.url }}"
              alt="{{ photo.alt_text }}"
-             class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
+             class="h-40 w-40 shrink-0 rounded-xl object-cover object-center transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
              loading="lazy">
       {% endfor %}
       <div class="marquee-copy contents" aria-hidden="true">
         {% for photo in gallery_row_2 %}
           <img src="{{ photo.image.url }}"
                alt=""
-               class="h-40 w-40 shrink-0 rounded-xl object-cover transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
+               class="h-40 w-40 shrink-0 rounded-xl object-cover object-center transition-transform duration-300 hover:scale-105 md:h-[236px] md:w-[236px]"
                loading="lazy">
         {% endfor %}
       </div>

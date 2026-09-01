@@ -4,46 +4,43 @@
   {{ service.name }} — Paw Paw Land
 {% endblock title %}
 {% block content %}
-  {# Hero #}
-  <section class="relative overflow-hidden bg-[#fbf6f0]">
-    <div class="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-pink-pastel/60 md:h-72 md:w-72"
+  {# Hero — desktop composition follows Figma 316:3's 575px artboard. #}
+  <section class="relative overflow-hidden bg-[#fbf6f0] lg:h-[575px]">
+    <div class="pointer-events-none absolute -top-16 -right-10 h-56 w-56 rounded-full bg-pink-pastel/60 md:-right-16 md:h-72 md:w-72"
          aria-hidden="true"></div>
-    <div class="pointer-events-none absolute bottom-16 left-[38%] hidden h-64 w-64 rounded-full bg-blue-pastel lg:block"
+    <div class="pointer-events-none absolute top-[193px] left-[37%] hidden h-[358px] w-[371px] rounded-full bg-blue-pastel lg:block"
          aria-hidden="true"></div>
-    <div class="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-gold/30"
+    <div class="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-gold/35 md:h-80 md:w-80"
          aria-hidden="true"></div>
-    <div class="relative mx-auto grid max-w-[1280px] items-center gap-8 px-6 pt-14 pb-24 lg:grid-cols-2 lg:items-end lg:pb-8">
-      <div class="max-w-xl pb-6 lg:pb-16">
+    <div class="relative mx-auto grid min-h-[28rem] max-w-[1280px] items-center gap-6 px-6 pt-12 pb-20 md:min-h-[32rem] md:gap-8 md:pb-24 lg:block lg:h-[575px] lg:min-h-0 lg:pt-0 lg:pb-0">
+      <div class="relative z-10 max-w-xl lg:absolute lg:top-[100px] lg:left-6 lg:max-w-[555px]">
         <img src="{% static 'img/' %}{{ detail.hero_heading_svg }}"
              alt="{{ service.name }}"
-             class="hero-intro h-auto w-full max-w-[420px]"
+             class="hero-intro h-auto w-full max-w-[34rem] lg:max-w-[555px]"
              data-pop>
         {% if detail.promo %}
           <p class="hero-intro mt-2 font-display text-2xl font-bold text-gold">{{ detail.promo }}</p>
         {% endif %}
-        <p class="hero-intro mt-4 max-w-md text-navy-deep">{{ detail.hero_body }}</p>
+        <p class="hero-intro mt-5 max-w-[32rem] text-base leading-relaxed text-navy-deep md:text-[1.05rem] md:leading-7 lg:mt-4 lg:max-w-[521px]">
+          {{ detail.hero_body }}
+        </p>
       </div>
-      <div class="relative">
-        <div class="pointer-events-none absolute top-1/2 right-0 -z-10 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-pastel"
+      <div class="relative flex justify-center lg:absolute lg:top-[59px] lg:right-6 lg:w-[548px]">
+        <div class="pointer-events-none absolute top-1/2 right-[8%] -z-10 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-pastel md:h-80 md:w-80 lg:hidden"
              data-parallax="-20"
              aria-hidden="true"></div>
-        <div class="pointer-events-none absolute top-0 right-24 -z-10 h-36 w-36 rounded-full bg-pink-pastel"
+        <div class="pointer-events-none absolute top-0 right-16 -z-10 h-36 w-36 rounded-full bg-pink-pastel md:right-24 md:h-44 md:w-44"
              data-parallax="30"
              aria-hidden="true"></div>
-        <div class="relative z-20 -mb-8 md:-mb-12 lg:-mb-16">
+        <div class="relative z-20 -mb-12 w-full max-w-[480px] md:-mb-16 lg:mb-0 lg:max-w-none">
           <img src="{% static 'img/' %}{{ detail.hero_photo }}"
                alt="{{ service.name }}"
-               class="relative mx-auto w-full max-w-[420px]"
+               class="relative mx-auto w-full"
                data-parallax="-15">
         </div>
       </div>
     </div>
-    <svg class="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-16 w-full md:h-24"
-         viewBox="0 0 1440 96"
-         preserveAspectRatio="none"
-         aria-hidden="true">
-      <path d="M0 67 C 240 27, 480 27, 720 57 C 960 87, 1200 92, 1440 57 L 1440 96 L 0 96 Z" fill="white" />
-    </svg>
+    {% include "website/partials/hero_wave.html" %}
   </section>
   {# Intro #}
   <section class="relative overflow-hidden bg-white py-24">
@@ -52,11 +49,11 @@
     <div class="pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-blue-pastel"
          aria-hidden="true"></div>
     <div class="relative mx-auto grid max-w-[1280px] items-center gap-16 px-6 lg:grid-cols-2">
-      <div class="relative order-2 lg:order-1">
+      <div class="relative order-2 flex items-center justify-center overflow-visible lg:order-1">
         {% if detail.intro_image %}
           <img src="{% static 'img/' %}{{ detail.intro_image }}"
                alt=""
-               class="mx-auto w-full max-w-[480px]"
+               class="relative z-10 mx-auto h-auto w-full max-w-[620px] object-contain object-center drop-shadow-sm lg:max-w-[680px]"
                data-parallax="-15">
         {% else %}
           <img src="{% static 'img/doodle-scatter.webp' %}"
