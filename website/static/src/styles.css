@@ -327,6 +327,11 @@
   flex: 0 0 auto;
 }
 
+/* Equalize card heights: slide stretches to the tallest card (flex default), article fills it */
+.pricing-carousel-slide > article {
+  height: 100%;
+}
+
 .pricing-dot {
   height: 0.625rem;
   width: 0.625rem;

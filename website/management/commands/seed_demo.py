@@ -139,7 +139,7 @@ PRICING_PLANS = [
     {
         "name": "Casual Day",
         "dog_count": 1,
-        "photo": "pup-corgi.webp",
+        "photo": "single-corgi.png",
         "price": "65.00",
         "period_label": "1 Day",
         "tone": "blue",
@@ -154,7 +154,7 @@ PRICING_PLANS = [
     {
         "name": "Value Pack",
         "dog_count": 1,
-        "photo": "pup-golden.webp",
+        "photo": "single-golden.png",
         "price": "305.00",
         "period_label": "10 Days",
         "tone": "gold",
@@ -169,7 +169,7 @@ PRICING_PLANS = [
     {
         "name": "Paw-some Plan",
         "dog_count": 1,
-        "photo": "pup-bordercollie.webp",
+        "photo": "single-bordercollie.png",
         "price": "1100.00",
         "period_label": "20 Days",
         "tone": "pink",
