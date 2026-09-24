@@ -79,6 +79,26 @@ class PricingPlan(OrderedActiveModel):
     photo = models.ImageField(upload_to="pricing/", blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     period_label = models.CharField(max_length=30, help_text='e.g. "1 Day", "10 Days"')
+    price_caption = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text='Short caption under this price, e.g. "Ideal for shorter visits". '
+        "Only shown when Price 2 is also set.",
+    )
+    price_2 = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Optional second price — fill this in to show a split two-price card "
+        "(e.g. Half-Day vs Session) instead of the single price above.",
+    )
+    period_label_2 = models.CharField(
+        max_length=30, blank=True, help_text='e.g. "Session" — only used when Price 2 is set.'
+    )
+    price_2_caption = models.CharField(
+        max_length=120, blank=True, help_text="Short caption under the second price."
+    )
     tone = models.CharField(max_length=10, choices=TONE_CHOICES, default="blue")
     features_text = models.TextField(help_text="One feature per line.")
 
@@ -92,6 +112,17 @@ class PricingPlan(OrderedActiveModel):
     @property
     def price_display(self):
         formatted = f"{Decimal(self.price):,.2f}".rstrip("0").rstrip(".")
+        return f"${formatted}"
+
+    @property
+    def is_dual_price(self):
+        return self.price_2 is not None
+
+    @property
+    def price_2_display(self):
+        if self.price_2 is None:
+            return ""
+        formatted = f"{Decimal(self.price_2):,.2f}".rstrip("0").rstrip(".")
         return f"${formatted}"
 
 

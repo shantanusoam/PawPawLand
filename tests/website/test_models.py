@@ -49,6 +49,31 @@ def test_pricing_plan_price_display_keeps_cents_when_not_whole():
     assert plan.price_display == "$47.5"
 
 
+def test_pricing_plan_is_single_priced_by_default():
+    plan = PricingPlan.objects.create(
+        name="Casual Day", dog_count=1, price="65.00", period_label="1 Day", features_text="x"
+    )
+    assert plan.is_dual_price is False
+    assert plan.price_2_display == ""
+
+
+def test_pricing_plan_dual_price_when_price_2_set():
+    plan = PricingPlan.objects.create(
+        name="Casual Day",
+        dog_count=1,
+        price="46.00",
+        period_label="Half-Day",
+        price_caption="Ideal for shorter visits",
+        price_2="65.00",
+        period_label_2="Session",
+        price_2_caption="Perfect for occasional daycare visits",
+        features_text="x",
+    )
+    assert plan.is_dual_price is True
+    assert plan.price_display == "$46"
+    assert plan.price_2_display == "$65"
+
+
 def test_team_member_str():
     member = TeamMember.objects.create(name="Karen", bio="<p>Loves dogs.</p>")
     assert str(member) == "Karen"

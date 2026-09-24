@@ -9,8 +9,27 @@
   <div class="px-8 text-center">
     <h3 class="font-display text-3xl font-bold tracking-wide {{ plan.tone_style.title }}">{{ plan.name }}</h3>
     <div class="mt-4 rounded-lg {{ plan.tone_style.chip }} px-4 py-4">
-      <span class="font-display text-4xl font-bold text-navy-deep">{{ plan.price_display }}</span>
-      <span class="text-lg text-navy-deep/80">/ {{ plan.period_label }}</span>
+      {% if plan.is_dual_price %}
+        <div class="grid grid-cols-2 divide-x divide-navy-deep/15">
+          <div class="px-2">
+            <div class="font-display text-3xl font-bold text-navy-deep">{{ plan.price_display }}</div>
+            <div class="mt-1 text-sm font-semibold text-navy-deep/80">{{ plan.period_label }}</div>
+            {% if plan.price_caption %}
+              <p class="mt-1 text-xs leading-snug text-muted-dark">{{ plan.price_caption }}</p>
+            {% endif %}
+          </div>
+          <div class="px-2">
+            <div class="font-display text-3xl font-bold text-navy-deep">{{ plan.price_2_display }}</div>
+            <div class="mt-1 text-sm font-semibold text-navy-deep/80">{{ plan.period_label_2 }}</div>
+            {% if plan.price_2_caption %}
+              <p class="mt-1 text-xs leading-snug text-muted-dark">{{ plan.price_2_caption }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% else %}
+        <span class="font-display text-4xl font-bold text-navy-deep">{{ plan.price_display }}</span>
+        <span class="text-lg text-navy-deep/80">/ {{ plan.period_label }}</span>
+      {% endif %}
     </div>
     <ul class="mt-5 space-y-2 text-left text-sm text-muted-dark">
       {% for feature in plan.feature_list %}

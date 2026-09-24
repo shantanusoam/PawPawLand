@@ -41,9 +41,35 @@ class GalleryImageAdmin(admin.ModelAdmin):
 
 @admin.register(PricingPlan)
 class PricingPlanAdmin(admin.ModelAdmin):
-    list_display = ["name", "dog_count", "price", "period_label", "tone", "sort_order", "is_active"]
+    list_display = [
+        "name",
+        "dog_count",
+        "price",
+        "period_label",
+        "dual_price_badge",
+        "tone",
+        "sort_order",
+        "is_active",
+    ]
     list_editable = ["sort_order", "is_active"]
     list_filter = ["dog_count", "tone"]
+
+    @admin.display(boolean=True, description="Two prices?")
+    def dual_price_badge(self, obj):
+        return obj.is_dual_price
+
+    fieldsets = [
+        (None, {"fields": ["name", "dog_count", "photo", "tone", "features_text"]}),
+        (
+            "Price 1",
+            {"fields": ["price", "period_label", "price_caption"]},
+        ),
+        (
+            "Price 2 (optional — leave blank for a single-price card)",
+            {"fields": ["price_2", "period_label_2", "price_2_caption"]},
+        ),
+        ("Visibility", {"fields": ["sort_order", "is_active"]}),
+    ]
 
 
 @admin.register(TeamMember)

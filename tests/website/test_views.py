@@ -108,6 +108,40 @@ def test_services_page_renders_pricing_plans(client):
         assert copy in content, f"missing section copy: {copy}"
 
 
+def test_pricing_card_shows_split_layout_only_when_price_2_is_set(client):
+    from website.models import PricingPlan
+
+    PricingPlan.objects.create(
+        name="Casual Day",
+        dog_count=1,
+        price="46.00",
+        period_label="Half-Day",
+        price_caption="Ideal for shorter visits",
+        price_2="65.00",
+        period_label_2="Session",
+        price_2_caption="Perfect for occasional daycare visits",
+        features_text="Flexible drop-in care",
+    )
+    PricingPlan.objects.create(
+        name="Value Pack",
+        dog_count=1,
+        price="305.00",
+        period_label="10 Days",
+        features_text="Ideal for regular daycare visits",
+    )
+    content = client.get(reverse("website:services")).content.decode()
+    # Dual-price plan shows both prices and their captions.
+    assert "$46" in content
+    assert "Half-Day" in content
+    assert "Ideal for shorter visits" in content
+    assert "$65" in content
+    assert "Session" in content
+    assert "Perfect for occasional daycare visits" in content
+    # Single-price plan is unaffected — no stray "/ None" or similar leaking through.
+    assert "$305" in content
+    assert "/ 10 Days" in content
+
+
 def test_services_hub_page_is_distinct_from_daycare_detail_page(client):
     from django.core.management import call_command
 
