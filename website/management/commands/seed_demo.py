@@ -286,6 +286,15 @@ GALLERY = [
 class Command(BaseCommand):
     help = "Seed demo services, testimonials, FAQs and gallery images (idempotent)."
 
+    def _get_or_create(self, model, defaults, **lookup):
+        """Like get_or_create, but tolerates duplicate rows already sharing the lookup
+        value (e.g. an admin-created plan with the same name) instead of raising
+        MultipleObjectsReturned — takes the first match rather than erroring."""
+        existing = model.objects.filter(**lookup).first()
+        if existing is not None:
+            return existing, False
+        return model.objects.create(**{**defaults, **lookup}), True
+
     def _attach_image(self, instance, field_name, filename):
         field = getattr(instance, field_name)
         if not filename:
@@ -304,8 +313,8 @@ class Command(BaseCommand):
         for i, data in enumerate(SERVICES):
             image = data["image"]
             defaults = {k: v for k, v in data.items() if k != "image"}
-            service, created = Service.objects.get_or_create(
-                slug=data["slug"], defaults={**defaults, "sort_order": i}
+            service, created = self._get_or_create(
+                Service, {**defaults, "sort_order": i}, slug=data["slug"]
             )
             if self._attach_image(service, "image", image) or created:
                 service.save()
@@ -314,8 +323,8 @@ class Command(BaseCommand):
         for i, data in enumerate(TESTIMONIALS):
             avatar = data["avatar"]
             defaults = {k: v for k, v in data.items() if k != "avatar"}
-            testimonial, created = Testimonial.objects.get_or_create(
-                author_name=data["author_name"], defaults={**defaults, "sort_order": i}
+            testimonial, created = self._get_or_create(
+                Testimonial, {**defaults, "sort_order": i}, author_name=data["author_name"]
             )
             if self._attach_image(testimonial, "avatar", avatar) or created:
                 testimonial.save()
@@ -324,14 +333,14 @@ class Command(BaseCommand):
             )
 
         for i, data in enumerate(FAQS):
-            faq, created = FAQ.objects.get_or_create(
-                question=data["question"], defaults={**data, "sort_order": i}
+            faq, created = self._get_or_create(
+                FAQ, {**data, "sort_order": i}, question=data["question"]
             )
             self.stdout.write(f"FAQ: {faq.question} ({'created' if created else 'exists'})")
 
         for i, (filename, alt_text, row) in enumerate(GALLERY):
-            photo, created = GalleryImage.objects.get_or_create(
-                alt_text=alt_text, defaults={"row": row, "sort_order": i}
+            photo, created = self._get_or_create(
+                GalleryImage, {"row": row, "sort_order": i}, alt_text=alt_text
             )
             if self._attach_image(photo, "image", filename) or created:
                 photo.save()
@@ -340,8 +349,8 @@ class Command(BaseCommand):
         for i, data in enumerate(PRICING_PLANS):
             photo = data["photo"]
             defaults = {k: v for k, v in data.items() if k != "photo"}
-            plan, created = PricingPlan.objects.get_or_create(
-                name=data["name"], defaults={**defaults, "sort_order": i}
+            plan, created = self._get_or_create(
+                PricingPlan, {**defaults, "sort_order": i}, name=data["name"]
             )
             if self._attach_image(plan, "photo", photo) or created:
                 plan.save()
@@ -350,8 +359,8 @@ class Command(BaseCommand):
         for i, data in enumerate(TEAM_MEMBERS):
             photo = data["photo"]
             defaults = {k: v for k, v in data.items() if k != "photo"}
-            member, created = TeamMember.objects.get_or_create(
-                name=data["name"], defaults={**defaults, "sort_order": i}
+            member, created = self._get_or_create(
+                TeamMember, {**defaults, "sort_order": i}, name=data["name"]
             )
             if self._attach_image(member, "photo", photo) or created:
                 member.save()

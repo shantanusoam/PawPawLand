@@ -47,6 +47,20 @@ def test_seed_pricing_plans_split_by_dog_count():
     assert PricingPlan.objects.filter(dog_count=2).count() == 3
 
 
+def test_seed_demo_tolerates_pre_existing_duplicate_names():
+    # Mirrors a real scenario: an admin created a second "Value Pack" by hand
+    # (e.g. duplicating a card to build a two-price layout) before seed_demo
+    # next ran. get_or_create would raise MultipleObjectsReturned here.
+    PricingPlan.objects.create(
+        name="Value Pack", dog_count=1, price="305.00", period_label="10 Days", features_text="x"
+    )
+    PricingPlan.objects.create(
+        name="Value Pack", dog_count=1, price="600.00", period_label="10 Days", features_text="x"
+    )
+    call_command("seed_demo")
+    assert PricingPlan.objects.filter(name="Value Pack").count() == 2
+
+
 def test_seed_site_settings_populated():
     call_command("seed_demo")
     settings_obj = SiteSettings.load()
