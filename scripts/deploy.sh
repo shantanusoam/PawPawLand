@@ -6,6 +6,7 @@
 # Usage:
 #   scripts/deploy.sh
 #   PORT=8014 SERVER_NAME=example.com scripts/deploy.sh
+#   SEED_DEMO=1 scripts/deploy.sh   # only for a fresh install with no real content yet
 set -Eeuo pipefail
 
 REMOTE_USER="${REMOTE_USER:-root}"
@@ -17,7 +18,12 @@ SERVER_NAME="${SERVER_NAME:-$REMOTE_HOST}"
 DJANGO_ALLOWED_HOSTS="${DJANGO_ALLOWED_HOSTS:-$SERVER_NAME,127.0.0.1,localhost}"
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-3}"
 CLIENT_MAX_BODY_SIZE="${CLIENT_MAX_BODY_SIZE:-25M}"
-SEED_DEMO="${SEED_DEMO:-1}"
+# Default OFF: production now has real, hand-curated pricing/gallery content that
+# diverges from seed_demo's fixtures. Re-running seed_demo on every deploy will
+# resurrect any of those fixture rows an admin has since deleted (it only fills in
+# rows that don't exist by name — deleting one just makes the next deploy recreate
+# it). Opt in explicitly for a fresh install that still wants the demo dataset.
+SEED_DEMO="${SEED_DEMO:-0}"
 
 REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
 ARCHIVE_NAME="pawpawland-deploy.tar.gz"
