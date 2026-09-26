@@ -84,10 +84,16 @@ def _with_tone_style(plans):
 
 
 def services(request):
-    plans_one_dog = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=1))
-    plans_two_dogs = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=2))
+    pricing_service = Service.objects.filter(slug="dog-daycare").first()
+    plans_one_dog = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=1, service=pricing_service)
+    )
+    plans_two_dogs = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=2, service=pricing_service)
+    )
     context = {
         "services": Service.objects.filter(is_active=True),
+        "pricing_service": pricing_service,
         "plans_one_dog": plans_one_dog,
         "plans_two_dogs": plans_two_dogs,
     }
@@ -213,13 +219,19 @@ SERVICE_DETAIL_CONTENT["dog-daycare"] = {
 def service_detail(request, slug):
     service = get_object_or_404(Service, slug=slug, is_active=True)
     detail = SERVICE_DETAIL_CONTENT.get(slug, _GENERIC_DETAIL)
-    plans_one_dog = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=1))
-    plans_two_dogs = _with_tone_style(PricingPlan.objects.filter(is_active=True, dog_count=2))
+    plans_one_dog = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=1, service=service)
+    )
+    plans_two_dogs = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=2, service=service)
+    )
     context = {
         "service": service,
         "detail": detail,
+        "pricing_service": service,
         "plans_one_dog": plans_one_dog,
         "plans_two_dogs": plans_two_dogs,
+        "gallery_images": GalleryImage.objects.filter(is_active=True, service=service),
     }
     return render(request, "website/service_detail.html", context)
 

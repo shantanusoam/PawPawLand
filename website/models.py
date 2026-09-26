@@ -58,6 +58,15 @@ class GalleryImage(OrderedActiveModel):
     image = models.ImageField(upload_to="gallery/")
     alt_text = models.CharField(max_length=200)
     row = models.PositiveSmallIntegerField(choices=ROW_CHOICES, default=1)
+    service = models.ForeignKey(
+        "Service",
+        on_delete=models.CASCADE,
+        related_name="gallery_images",
+        null=True,
+        blank=True,
+        help_text="Leave blank to show only on the main Gallery page. Set this to also "
+        "show the photo on that service's own gallery.",
+    )
 
     def __str__(self):
         return self.alt_text
@@ -73,6 +82,15 @@ class PricingPlan(OrderedActiveModel):
     ]
 
     name = models.CharField(max_length=100, help_text='e.g. "Casual Day"')
+    service = models.ForeignKey(
+        "Service",
+        on_delete=models.CASCADE,
+        related_name="pricing_plans",
+        null=True,
+        blank=True,
+        help_text="Which service this plan's prices belong to. Leave blank to show on "
+        "every service's page (legacy behaviour).",
+    )
     dog_count = models.PositiveSmallIntegerField(
         choices=DOG_COUNT_CHOICES, default=1, help_text="Which pricing grid this plan appears in"
     )
@@ -90,7 +108,7 @@ class PricingPlan(OrderedActiveModel):
         decimal_places=2,
         null=True,
         blank=True,
-        help_text="Optional second price — fill this in to show a split two-price card "
+        help_text="Optional second price — fill this in to show a split price card "
         "(e.g. Half-Day vs Session) instead of the single price above.",
     )
     period_label_2 = models.CharField(
@@ -98,6 +116,20 @@ class PricingPlan(OrderedActiveModel):
     )
     price_2_caption = models.CharField(
         max_length=120, blank=True, help_text="Short caption under the second price."
+    )
+    price_3 = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Optional third price — only used when Price 2 is also set, for a "
+        "three-way split (e.g. Half-Day / Session / Full Week).",
+    )
+    period_label_3 = models.CharField(
+        max_length=30, blank=True, help_text="Only used when Price 3 is set."
+    )
+    price_3_caption = models.CharField(
+        max_length=120, blank=True, help_text="Short caption under the third price."
     )
     tone = models.CharField(max_length=10, choices=TONE_CHOICES, default="blue")
     features_text = models.TextField(help_text="One feature per line.")
@@ -123,6 +155,17 @@ class PricingPlan(OrderedActiveModel):
         if self.price_2 is None:
             return ""
         formatted = f"{Decimal(self.price_2):,.2f}".rstrip("0").rstrip(".")
+        return f"${formatted}"
+
+    @property
+    def is_triple_price(self):
+        return self.price_2 is not None and self.price_3 is not None
+
+    @property
+    def price_3_display(self):
+        if self.price_3 is None:
+            return ""
+        formatted = f"{Decimal(self.price_3):,.2f}".rstrip("0").rstrip(".")
         return f"${formatted}"
 
 

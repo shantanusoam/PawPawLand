@@ -351,3 +351,53 @@
   width: 1.75rem;
   background: var(--color-gold, #f5b942);
 }
+
+.pricing-arrow {
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  height: 2.75rem;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-cream, #fffcf6);
+  color: var(--color-navy-deep, #2a2860);
+  font-size: 1.25rem;
+  box-shadow: 0 8px 20px -6px rgb(42 40 96 / 0.25);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.pricing-arrow:hover {
+  background: var(--color-gold, #f5b942);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.pricing-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.pricing-arrow-prev {
+  left: -0.5rem;
+}
+
+.pricing-arrow-next {
+  right: -0.5rem;
+}
+
+@media (min-width: 768px) {
+  .pricing-arrow-prev {
+    left: -1.25rem;
+  }
+
+  .pricing-arrow-next {
+    right: -1.25rem;
+  }
+}

@@ -2,19 +2,35 @@
 // Everything is gated behind prefers-reduced-motion; CSS keyframe effects
 // (floating paws, gallery marquee) are gated in styles.css the same way.
 document.addEventListener("DOMContentLoaded", () => {
-  // Pricing plan carousel: manual horizontal scroll + progress dots.
+  // Pricing plan carousel: manual horizontal scroll + progress dots + arrows.
   document.querySelectorAll("[data-pricing-carousel]").forEach((root) => {
     const scroller = root.querySelector("[data-pricing-scroller]");
     const slides = Array.from(root.querySelectorAll("[data-slide]"));
     const dots = Array.from(root.querySelectorAll("[data-dot-index]"));
+    const prevBtn = root.querySelector("[data-carousel-prev]");
+    const nextBtn = root.querySelector("[data-carousel-next]");
     if (!scroller || !slides.length || !dots.length) return;
 
+    let current = 0;
+
     const setActive = (index) => {
+      current = index;
       dots.forEach((dot, i) => {
         const on = i === index;
         dot.classList.toggle("pricing-dot-active", on);
         dot.setAttribute("aria-current", on ? "true" : "false");
       });
+      if (prevBtn) prevBtn.disabled = index <= 0;
+      if (nextBtn) nextBtn.disabled = index >= slides.length - 1;
+    };
+
+    const goTo = (index) => {
+      const clamped = Math.max(0, Math.min(slides.length - 1, index));
+      const slide = slides[clamped];
+      if (!slide) return;
+      const left = slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2;
+      scroller.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+      setActive(clamped);
     };
 
     const syncFromScroll = () => {
@@ -35,16 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
     scroller.addEventListener("scroll", syncFromScroll, { passive: true });
     window.addEventListener("resize", syncFromScroll, { passive: true });
     dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const index = Number(dot.dataset.dotIndex || 0);
-        const slide = slides[index];
-        if (!slide) return;
-        const left =
-          slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2;
-        scroller.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
-        setActive(index);
-      });
+      dot.addEventListener("click", () => goTo(Number(dot.dataset.dotIndex || 0)));
     });
+    if (prevBtn) prevBtn.addEventListener("click", () => goTo(current - 1));
+    if (nextBtn) nextBtn.addEventListener("click", () => goTo(current + 1));
+    if (slides.length < 2) {
+      // Inline style (not the `hidden` attribute) so it still wins over the
+      // "hidden md:flex" responsive classes at the md breakpoint and up.
+      if (prevBtn) prevBtn.style.display = "none";
+      if (nextBtn) nextBtn.style.display = "none";
+    }
     syncFromScroll();
   });
 

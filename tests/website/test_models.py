@@ -74,6 +74,36 @@ def test_pricing_plan_dual_price_when_price_2_set():
     assert plan.price_2_display == "$65"
 
 
+def test_pricing_plan_is_not_triple_priced_with_only_two_prices():
+    plan = PricingPlan.objects.create(
+        name="Casual Day",
+        dog_count=1,
+        price="46.00",
+        period_label="Half-Day",
+        price_2="65.00",
+        period_label_2="Session",
+        features_text="x",
+    )
+    assert plan.is_triple_price is False
+    assert plan.price_3_display == ""
+
+
+def test_pricing_plan_triple_price_when_price_3_set():
+    plan = PricingPlan.objects.create(
+        name="Casual Day",
+        dog_count=1,
+        price="46.00",
+        period_label="Half-Day",
+        price_2="65.00",
+        period_label_2="Session",
+        price_3="250.00",
+        period_label_3="Full Week",
+        features_text="x",
+    )
+    assert plan.is_triple_price is True
+    assert plan.price_3_display == "$250"
+
+
 def test_team_member_str():
     member = TeamMember.objects.create(name="Karen", bio="<p>Loves dogs.</p>")
     assert str(member) == "Karen"

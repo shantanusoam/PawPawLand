@@ -348,7 +348,9 @@ class Command(BaseCommand):
 
         for i, data in enumerate(PRICING_PLANS):
             photo = data["photo"]
-            defaults = {k: v for k, v in data.items() if k != "photo"}
+            service_slug = data.get("service_slug", "dog-daycare")
+            defaults = {k: v for k, v in data.items() if k not in ("photo", "service_slug")}
+            defaults["service"] = Service.objects.filter(slug=service_slug).first()
             plan, created = self._get_or_create(
                 PricingPlan, {**defaults, "sort_order": i}, name=data["name"]
             )

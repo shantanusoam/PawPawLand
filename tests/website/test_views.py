@@ -142,6 +142,54 @@ def test_pricing_card_shows_split_layout_only_when_price_2_is_set(client):
     assert "/ 10 Days" in content
 
 
+def test_pricing_card_shows_three_way_split_when_price_3_is_set(client):
+    from django.core.management import call_command
+
+    from website.models import PricingPlan, Service
+
+    call_command("seed_demo")
+    PricingPlan.objects.create(
+        name="Weekly Pass",
+        service=Service.objects.get(slug="dog-daycare"),
+        dog_count=1,
+        price="46.00",
+        period_label="Half-Day",
+        price_2="65.00",
+        period_label_2="Session",
+        price_3="250.00",
+        period_label_3="Full Week",
+        price_3_caption="Best value for regulars",
+        features_text="Flexible drop-in care",
+    )
+    content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
+    assert "$250" in content
+    assert "Full Week" in content
+    assert "Best value for regulars" in content
+
+
+def test_service_detail_page_shows_gallery_only_for_tagged_photos(client):
+    from django.core.files.uploadedfile import SimpleUploadedFile
+    from django.core.management import call_command
+
+    from website.models import GalleryImage, Service
+
+    call_command("seed_demo")
+    GalleryImage.objects.create(
+        alt_text="Puppy at the water bowl",
+        service=Service.objects.get(slug="dog-grooming"),
+        row=1,
+        image=SimpleUploadedFile("puppy.jpg", b"fake-image-bytes", content_type="image/jpeg"),
+    )
+    grooming_content = client.get(
+        reverse("website:service_detail", args=["dog-grooming"])
+    ).content.decode()
+    puppy_content = client.get(
+        reverse("website:service_detail", args=["puppy-playground"])
+    ).content.decode()
+    assert "Puppy at the water bowl" in grooming_content
+    assert "Puppy at the water bowl" not in puppy_content
+
+
 def test_services_hub_page_is_distinct_from_daycare_detail_page(client):
     from django.core.management import call_command
 
@@ -195,9 +243,23 @@ def test_service_detail_pages_render_unique_content(client, slug, expected_headi
     content = response.content.decode()
     assert response.status_code == 200
     assert expected_heading in content
-    # Universal pricing plans still appear on every service detail page.
-    assert "Casual Day" in content
-    assert "Double Paw Day" in content
+
+
+def test_service_pricing_plans_are_scoped_to_their_own_service(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    daycare_content = client.get(
+        reverse("website:service_detail", args=["dog-daycare"])
+    ).content.decode()
+    grooming_content = client.get(
+        reverse("website:service_detail", args=["dog-grooming"])
+    ).content.decode()
+    # Seeded plans belong to Daycare only — they must not leak onto other services.
+    assert "Casual Day" in daycare_content
+    assert "Double Paw Day" in daycare_content
+    assert "Casual Day" not in grooming_content
+    assert "Double Paw Day" not in grooming_content
 
 
 def test_service_detail_404s_for_unknown_slug(client):

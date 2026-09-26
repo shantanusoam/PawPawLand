@@ -1,0 +1,28 @@
+{% load static %}
+{# Per-service gallery — only renders when this service has its own tagged photos. #}
+{# Expects: gallery_images, service. #}
+{% if gallery_images %}
+  <section class="bg-cream py-20">
+    <div class="mx-auto max-w-[1280px] px-6">
+      <div class="fade-up text-center">
+        <p class="section-eyebrow justify-center">
+          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+          Gallery
+        </p>
+        <h2 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">
+          {{ service.name }} in <span class="relative inline-block text-gold">Action
+          {% include "website/partials/squiggle.html" %}
+        </span>
+      </h2>
+    </div>
+    <div class="mt-14 columns-2 gap-4 sm:columns-3 lg:columns-4" data-stagger>
+      {% for photo in gallery_images %}
+        <img src="{{ photo.image.url }}"
+             alt="{{ photo.alt_text }}"
+             class="card-lift fade-up mb-4 w-full rounded-2xl object-cover object-center shadow-card"
+             loading="lazy">
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
