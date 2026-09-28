@@ -42,8 +42,8 @@ SERVICES = [
         "price_label": "From $65/session",
     },
     {
-        "name": "Puppy Playground",
-        "slug": "puppy-playground",
+        "name": "Puppy Playgroup",
+        "slug": "puppy-playgroup",
         "emoji_badge": "🐶",
         "image": "service-puppy.webp",
         "description": (

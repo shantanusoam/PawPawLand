@@ -14,10 +14,16 @@
          aria-hidden="true"></div>
     <div class="relative mx-auto grid min-h-[28rem] max-w-[1280px] items-center gap-6 px-6 pt-12 pb-20 md:min-h-[32rem] md:gap-8 md:pb-24 lg:block lg:h-[575px] lg:min-h-0 lg:pt-0 lg:pb-0">
       <div class="relative z-10 max-w-xl lg:absolute lg:top-[100px] lg:left-6 lg:max-w-[555px]">
-        <img src="{% static 'img/' %}{{ detail.hero_heading_svg }}"
-             alt="{{ service.name }}"
-             class="hero-intro h-auto w-full max-w-[34rem] lg:max-w-[555px]"
-             data-pop>
+        {% if detail.hero_heading_svg %}
+          <img src="{% static 'img/' %}{{ detail.hero_heading_svg }}"
+               alt="{{ service.name }}"
+               class="hero-intro h-auto w-full max-w-[34rem] lg:max-w-[555px]"
+               data-pop>
+        {% elif detail.hero_heading_text %}
+          <h1 class="hero-intro font-display text-5xl leading-[1.05] font-bold tracking-tight text-navy md:text-6xl">
+            {{ detail.hero_heading_text }}
+          </h1>
+        {% endif %}
         {% if detail.promo %}
           <p class="hero-intro mt-2 font-display text-2xl font-bold text-gold">{{ detail.promo }}</p>
         {% endif %}
@@ -102,7 +108,9 @@
         {% for paragraph in detail.intro_body %}
           <p class="mt-4 leading-relaxed text-muted-dark">{{ paragraph }}</p>
         {% endfor %}
-        <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">{{ detail.intro_button_label }}</a>
+        {% if detail.intro_button_label %}
+          <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">{{ detail.intro_button_label }}</a>
+        {% endif %}
       </div>
     </div>
   </section>

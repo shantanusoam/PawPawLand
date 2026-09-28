@@ -89,7 +89,7 @@ def test_services_page_renders_pricing_plans(client):
         "Two Pups,",
         "Dog Daycare",
         "Dog Grooming",
-        "Puppy Playground",
+        "Puppy Playgroup",
         "Dog Birthday Parties",
         "Casual Day",
         "$65",
@@ -184,7 +184,7 @@ def test_service_detail_page_shows_gallery_only_for_tagged_photos(client):
         reverse("website:service_detail", args=["dog-grooming"])
     ).content.decode()
     puppy_content = client.get(
-        reverse("website:service_detail", args=["puppy-playground"])
+        reverse("website:service_detail", args=["puppy-playgroup"])
     ).content.decode()
     assert "Puppy at the water bowl" in grooming_content
     assert "Puppy at the water bowl" not in puppy_content
@@ -222,7 +222,7 @@ def test_header_dropdown_links_to_service_detail_pages(client):
 
     call_command("seed_demo")
     home = client.get(reverse("website:home")).content.decode()
-    for slug in ["dog-daycare", "dog-grooming", "puppy-playground", "dog-birthday-parties"]:
+    for slug in ["dog-daycare", "dog-grooming", "puppy-playgroup", "dog-birthday-parties"]:
         assert f'href="/services/{slug}/"' in home
 
 
@@ -230,7 +230,7 @@ def test_header_dropdown_links_to_service_detail_pages(client):
     ("slug", "expected_heading"),
     [
         ("dog-daycare", "First 3 sessions for $75"),
-        ("puppy-playground", "A Little Adventure"),
+        ("puppy-playgroup", "Little Paws."),
         ("dog-birthday-parties", "A Party"),
         ("dog-grooming", "A Fresh"),
     ],
@@ -265,6 +265,12 @@ def test_service_pricing_plans_are_scoped_to_their_own_service(client):
 def test_service_detail_404s_for_unknown_slug(client):
     response = client.get("/services/not-a-real-service/")
     assert response.status_code == 404
+
+
+def test_old_puppy_playground_slug_redirects_to_puppy_playgroup(client):
+    response = client.get("/services/puppy-playground/")
+    assert response.status_code == 301
+    assert response.url == "/services/puppy-playgroup/"
 
 
 def test_gallery_page_shows_seeded_images(client):

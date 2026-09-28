@@ -156,30 +156,45 @@ SERVICE_DETAIL_CONTENT = {
         ],
         "intro_button_label": "Discover Our Spa →",
     },
-    "puppy-playground": {
-        "eyebrow": "Puppy Playground",
+    "puppy-playgroup": {
+        "eyebrow": "Puppy Playgroup",
         "promo": None,
-        "hero_heading_svg": "heading-puppy-playground.svg",
-        "hero_body": (
-            "Let your little pup explore, play, make new friends, and enjoy a "
-            "fun-filled day made just for tiny paws and big adventures!"
-        ),
+        # No matching "Puppy Playgroup" heading graphic exists yet (the old asset
+        # read "Puppy Playground") — render a styled text heading instead until
+        # the client supplies a new one.
+        "hero_heading_svg": None,
+        "hero_heading_text": "Puppy Playgroup",
+        "hero_body": "Little paws. Big first experiences.",
         "hero_photo": "service-puppy-hero.webp",
         "intro_image": "service-daycare-intro.webp",
-        "intro_heading_line1": "A Little Adventure",
-        "intro_heading_highlight": "They'll Love,",
-        "intro_subheading": "A Playground Made Just for Pups",
+        "intro_heading_line1": "Little Paws.",
+        "intro_heading_highlight": "Big First Experiences",
+        "intro_subheading": "Socialisation, tailored to your puppy",
         "intro_body": [
-            "We know puppies need more than just space to run — they need a safe, "
-            "playful, and nurturing environment where they can explore, learn, and "
-            "grow with confidence.",
-            "With supervised play, gentle socialisation, fun enrichment, and "
-            "plenty of rest, every little pup gets to enjoy playtime at their own "
-            "pace.",
-            "They explore, make new friends, build confidence, and head home "
-            "happy, tired, and ready for a nap.",
+            "The first few months of a puppy's life are an important time for "
+            "learning about the world around them. Our Puppy Playgroup provides "
+            "young puppies with positive, carefully managed social experiences "
+            "during this formative stage, helping build the foundations for a "
+            "confident, well-adjusted adult dog.",
+            "Every puppy is different. Some are naturally outgoing and playful, "
+            "while others need a little more time and reassurance.",
+            "We tailor each puppy's experience to their temperament and "
+            "confidence, gradually introducing them to carefully matched puppies "
+            "and, where appropriate, calm adult dogs. Rather than simply letting "
+            "puppies play together, our focus is on structured, closely "
+            "monitored socialisation in a nurturing environment.",
+            "Sessions may include supervised play, enrichment and "
+            "confidence-building activities, positive reinforcement, exposure to "
+            "new sounds and experiences, and plenty of rest in between. A "
+            "dedicated daycare attendant monitors the group throughout the "
+            "session, with updates on how your puppy is progressing.",
+            "Designed especially for young puppies during their early "
+            "socialisation period. Places are kept limited so we can carefully "
+            "match puppies and give each one the attention and support they "
+            "need.",
+            "Positive early experiences. Happy little puppies. Confident dogs in the making.",
         ],
-        "intro_button_label": "Discover Puppy Play →",
+        # No CTA button here per client feedback ("Remove Discover Puppy Play").
     },
     "dog-birthday-parties": {
         "eyebrow": "Dog Birthday Party",
