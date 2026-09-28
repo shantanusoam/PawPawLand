@@ -345,3 +345,17 @@ def test_footer_uses_site_settings(client):
     assert "(02) 9123 4567" in content
     assert "hello@pawpawland.com.au" in content
     assert "123 Happy Paws Lane, Sydney NSW 2000" in content
+
+
+def test_contact_page_hides_mobile_until_set(client):
+    from website.models import SiteSettings
+
+    content = client.get(reverse("website:contact")).content.decode()
+    assert "Mobile</h3>" not in content
+
+    settings = SiteSettings.load()
+    settings.mobile = "0412 345 678"
+    settings.save()
+    content = client.get(reverse("website:contact")).content.decode()
+    assert "Mobile</h3>" in content
+    assert "0412 345 678" in content

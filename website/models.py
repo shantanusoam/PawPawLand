@@ -222,6 +222,7 @@ class SiteSettings(models.Model):
     """Singleton: site-wide contact info and social links, editable from admin."""
 
     phone = models.CharField(max_length=30, blank=True)
+    mobile = models.CharField(max_length=30, blank=True, help_text='e.g. "0412 345 678"')
     email = models.EmailField(blank=True)
     address_line = models.CharField(max_length=200, blank=True)
     hours_weekday = models.CharField(
