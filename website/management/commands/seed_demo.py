@@ -231,7 +231,7 @@ PRICING_PLANS = [
 TEAM_MEMBERS = [
     {
         "name": "Karen",
-        "role": "Puppy Specialist",
+        "role": "Dog Attendant and Trainer",
         "photo": "team-karen.webp",
         "bio": (
             "<p>I love working with dogs! I have worked with dogs for over 15 years in the "
@@ -244,7 +244,7 @@ TEAM_MEMBERS = [
     },
     {
         "name": "Leah",
-        "role": "Puppy Specialist",
+        "role": "Dog Attendant and Manager",
         "photo": "team-leah.webp",
         "bio": (
             "<p>I have been working with dogs for just over 3 years in day care and kennel "

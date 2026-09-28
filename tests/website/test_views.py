@@ -66,7 +66,8 @@ def test_about_page_renders_team_and_shared_sections(client):
         "behind the pack.",
         "Karen",
         "Leah",
-        "Puppy Specialist",
+        "Dog Attendant and Trainer",
+        "Dog Attendant and Manager",
         "Why Dogs Love",
         "Life at",
     ]:
