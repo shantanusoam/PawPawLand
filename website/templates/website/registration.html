@@ -1,0 +1,86 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  Registration — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  {# Hero #}
+  <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="pointer-events-none absolute top-10 -right-24 h-72 w-72 rounded-full bg-blue-pastel"
+         data-parallax="-20"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-24 h-64 w-64 rounded-full bg-gold/40"
+         data-parallax="25"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-[1280px] px-6 pt-14 pb-24 text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Join The Pack
+      </p>
+      <h1 class="hero-intro mt-4 font-display text-5xl font-bold text-navy-deep md:text-6xl">
+        Register Your <span class="relative inline-block text-gold">Dog
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h1>
+    <p class="hero-intro mx-auto mt-6 max-w-md text-navy-deep">
+      Tell us about your pup so we can give them the best possible day with us.
+    </p>
+  </div>
+  {% include "website/partials/hero_wave.html" %}
+</section>
+{# Registration form #}
+<section class="relative overflow-hidden bg-white py-20 md:py-24">
+  <div class="mx-auto max-w-[720px] px-6">
+    <div class="fade-up rounded-[28px] border border-navy/5 border-t-[5px] border-t-gold bg-white p-7 shadow-[0_12px_32px_rgba(42,40,96,0.08)] sm:p-9">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="mb-6 rounded-lg bg-mint-pastel px-5 py-4 text-sm font-semibold text-ink">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="{{ form.full_name.id_for_label }}"
+                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.full_name.label }}</label>
+            {{ form.full_name }}
+            {{ form.full_name.errors }}
+          </div>
+          <div>
+            <label for="{{ form.dog_name.id_for_label }}"
+                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.dog_name.label }}</label>
+            {{ form.dog_name }}
+            {{ form.dog_name.errors }}
+          </div>
+          <div>
+            <label for="{{ form.email.id_for_label }}"
+                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.email.label }}</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
+          <div>
+            <label for="{{ form.phone.id_for_label }}"
+                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.phone.label }}</label>
+            {{ form.phone }}
+          </div>
+        </div>
+        <div class="mt-5">
+          <label for="{{ form.food_allergies.id_for_label }}"
+                 class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.food_allergies.label }}</label>
+          {{ form.food_allergies }}
+        </div>
+        <div class="mt-5">
+          <label for="{{ form.instagram_handle.id_for_label }}"
+                 class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.instagram_handle.label }}</label>
+          {{ form.instagram_handle }}
+        </div>
+        <button type="submit"
+                class="mt-7 w-full rounded-xl bg-navy-deep py-4 text-sm font-bold tracking-wider text-white uppercase transition-transform hover:-translate-y-0.5">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% include "website/partials/section_cta.html" %}
+{% endblock content %}

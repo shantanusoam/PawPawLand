@@ -278,3 +278,30 @@ class ContactSubmission(models.Model):
 
     def __str__(self):
         return f"{self.full_name} ({self.created_at:%Y-%m-%d})"
+
+
+class Registration(models.Model):
+    """A dog registration submitted through the Registration page."""
+
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30, blank=True)
+    dog_name = models.CharField(max_length=100)
+    food_allergies = models.TextField(
+        blank=True,
+        help_text="Any foods, ingredients or treats this dog should avoid.",
+    )
+    instagram_handle = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional — shared only if the owner opts in to being tagged on "
+        "Instagram Stories.",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.dog_name} — {self.full_name} ({self.created_at:%Y-%m-%d})"

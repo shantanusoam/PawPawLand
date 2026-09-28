@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ContactForm
+from .forms import ContactForm, RegistrationForm
 from .models import FAQ, GalleryImage, LegalPage, PricingPlan, Service, TeamMember, Testimonial
 
 # Accent tones cycled across service cards / FAQ rows / team cards, matching the Figma palette.
@@ -293,3 +293,15 @@ def contact(request):
     else:
         form = ContactForm(service_choices=service_choices)
     return render(request, "website/contact.html", {"form": form})
+
+
+def registration(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thanks! Your dog's registration has been received.")
+            return redirect("website:registration")
+    else:
+        form = RegistrationForm()
+    return render(request, "website/registration.html", {"form": form})

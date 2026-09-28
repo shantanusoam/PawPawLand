@@ -8,6 +8,7 @@ from .models import (
     GalleryImage,
     LegalPage,
     PricingPlan,
+    Registration,
     Service,
     SiteSettings,
     TeamMember,
@@ -148,6 +149,26 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
     list_filter = ["is_read", "service_requested"]
     search_fields = ["full_name", "email", "message"]
     readonly_fields = ["full_name", "email", "phone", "service_requested", "message", "created_at"]
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(Registration)
+class RegistrationAdmin(admin.ModelAdmin):
+    list_display = ["dog_name", "full_name", "email", "created_at", "is_read"]
+    list_editable = ["is_read"]
+    list_filter = ["is_read"]
+    search_fields = ["dog_name", "full_name", "email"]
+    readonly_fields = [
+        "full_name",
+        "email",
+        "phone",
+        "dog_name",
+        "food_allergies",
+        "instagram_handle",
+        "created_at",
+    ]
 
     def has_add_permission(self, request):
         return False
