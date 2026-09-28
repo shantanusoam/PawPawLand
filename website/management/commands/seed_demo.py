@@ -9,6 +9,7 @@ from django.core.management.base import BaseCommand
 from website.models import (
     FAQ,
     GalleryImage,
+    LegalPage,
     PricingPlan,
     Service,
     SiteSettings,
@@ -283,6 +284,20 @@ GALLERY = [
 ]
 
 
+LEGAL_PAGES = [
+    {
+        "title": "Terms of Service",
+        "slug": "terms",
+        "body": "<p>Content coming soon.</p>",
+    },
+    {
+        "title": "Privacy Policy",
+        "slug": "privacy",
+        "body": "<p>Content coming soon.</p>",
+    },
+]
+
+
 class Command(BaseCommand):
     help = "Seed demo services, testimonials, FAQs and gallery images (idempotent)."
 
@@ -367,6 +382,10 @@ class Command(BaseCommand):
             if self._attach_image(member, "photo", photo) or created:
                 member.save()
             self.stdout.write(f"Team member: {member.name} ({'created' if created else 'exists'})")
+
+        for data in LEGAL_PAGES:
+            page, created = self._get_or_create(LegalPage, data, slug=data["slug"])
+            self.stdout.write(f"Legal page: {page.title} ({'created' if created else 'exists'})")
 
         settings_obj = SiteSettings.load()
         if not settings_obj.phone and not settings_obj.email:

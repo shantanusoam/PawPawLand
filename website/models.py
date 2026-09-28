@@ -218,6 +218,17 @@ class TeamMember(OrderedActiveModel):
         return self.name
 
 
+class LegalPage(models.Model):
+    """Admin-editable static pages, e.g. Terms of Service, Privacy Policy."""
+
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    body = HTMLField()
+
+    def __str__(self):
+        return self.title
+
+
 class SiteSettings(models.Model):
     """Singleton: site-wide contact info and social links, editable from admin."""
 

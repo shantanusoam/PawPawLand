@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ContactForm
-from .models import FAQ, GalleryImage, PricingPlan, Service, TeamMember, Testimonial
+from .models import FAQ, GalleryImage, LegalPage, PricingPlan, Service, TeamMember, Testimonial
 
 # Accent tones cycled across service cards / FAQ rows / team cards, matching the Figma palette.
 SERVICE_TONES = [
@@ -264,6 +264,11 @@ def service_detail(request, slug):
 def gallery(request):
     context = {"images": GalleryImage.objects.filter(is_active=True)}
     return render(request, "website/gallery.html", context)
+
+
+def legal_page(request, slug):
+    page = get_object_or_404(LegalPage, slug=slug)
+    return render(request, "website/legal_page.html", {"page": page})
 
 
 def contact(request):

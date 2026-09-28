@@ -211,8 +211,10 @@
               for dogs everywhere.
             </p>
             <div class="flex gap-6">
-              <a href="#" class="transition-colors hover:text-white">Privacy Policy</a>
-              <a href="#" class="transition-colors hover:text-white">Terms of Service</a>
+              <a href="{% url 'website:privacy' %}"
+                 class="transition-colors hover:text-white">Privacy Policy</a>
+              <a href="{% url 'website:terms' %}"
+                 class="transition-colors hover:text-white">Terms of Service</a>
             </div>
           </div>
         </div>

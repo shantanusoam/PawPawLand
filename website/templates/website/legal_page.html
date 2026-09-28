@@ -1,0 +1,19 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  {{ page.title }} — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  <section class="bg-[#fbf6f0] px-6 py-16">
+    <div class="mx-auto max-w-[720px] text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Paw Paw Land
+      </p>
+      <h1 class="mt-4 font-display text-4xl font-bold text-ink md:text-5xl">{{ page.title }}</h1>
+    </div>
+  </section>
+  <section class="bg-white px-6 py-16">
+    <div class="prose-rte mx-auto max-w-[720px] leading-relaxed text-muted-dark">{{ page.body|safe }}</div>
+  </section>
+{% endblock content %}

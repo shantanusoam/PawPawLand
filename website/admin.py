@@ -6,6 +6,7 @@ from .models import (
     FAQ,
     ContactSubmission,
     GalleryImage,
+    LegalPage,
     PricingPlan,
     Service,
     SiteSettings,
@@ -63,6 +64,12 @@ class TestimonialAdmin(admin.ModelAdmin):
 class FAQAdmin(admin.ModelAdmin):
     list_display = ["question", "sort_order", "is_active"]
     list_editable = ["sort_order", "is_active"]
+
+
+@admin.register(LegalPage)
+class LegalPageAdmin(admin.ModelAdmin):
+    list_display = ["title", "slug"]
+    prepopulated_fields = {"slug": ["title"]}
 
 
 @admin.register(GalleryImage)

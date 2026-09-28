@@ -337,6 +337,21 @@ def test_gallery_page_shows_seeded_images(client):
     assert content.count("<img") >= 11
 
 
+def test_legal_pages_render_and_are_linked_from_footer(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    home = client.get(reverse("website:home")).content.decode()
+    assert 'href="/terms/"' in home
+    assert 'href="/privacy/"' in home
+
+    terms = client.get(reverse("website:terms")).content.decode()
+    assert "Terms of Service" in terms
+
+    privacy = client.get(reverse("website:privacy")).content.decode()
+    assert "Privacy Policy" in privacy
+
+
 def test_footer_uses_site_settings(client):
     from django.core.management import call_command
 
