@@ -96,6 +96,8 @@ def services(request):
         "pricing_service": pricing_service,
         "plans_one_dog": plans_one_dog,
         "plans_two_dogs": plans_two_dogs,
+        "gallery_row_1": GalleryImage.objects.filter(is_active=True, row=1),
+        "gallery_row_2": GalleryImage.objects.filter(is_active=True, row=2),
     }
     return render(request, "website/services.html", context)
 

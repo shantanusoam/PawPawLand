@@ -217,6 +217,15 @@ def test_services_page_shows_services_grid_first(client):
     assert content.index("Two Pups,") < content.index("Ready to make your pup's day?")
 
 
+def test_services_hub_page_shows_gallery_between_pricing_and_cta(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(reverse("website:services")).content.decode()
+    assert content.index("Two Pups,") < content.index("Life at")
+    assert content.index("Life at") < content.index("Ready to make your pup's day?")
+
+
 def test_header_dropdown_links_to_service_detail_pages(client):
     from django.core.management import call_command
 
