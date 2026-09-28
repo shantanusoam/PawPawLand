@@ -235,6 +235,29 @@ def test_service_detail_page_shows_gallery_only_for_tagged_photos(client):
     assert "Puppy at the water bowl" not in puppy_content
 
 
+def test_service_gallery_page_shows_only_that_services_photos(client):
+    from django.core.files.uploadedfile import SimpleUploadedFile
+    from django.core.management import call_command
+
+    from website.models import GalleryImage, Service
+
+    call_command("seed_demo")
+    GalleryImage.objects.create(
+        alt_text="Freshly groomed Poodle",
+        service=Service.objects.get(slug="dog-grooming"),
+        row=1,
+        image=SimpleUploadedFile("poodle.jpg", b"fake-image-bytes", content_type="image/jpeg"),
+    )
+    grooming_gallery = client.get(
+        reverse("website:service_gallery", args=["dog-grooming"])
+    ).content.decode()
+    daycare_gallery = client.get(
+        reverse("website:service_gallery", args=["dog-daycare"])
+    ).content.decode()
+    assert "Freshly groomed Poodle" in grooming_gallery
+    assert "Freshly groomed Poodle" not in daycare_gallery
+
+
 def test_services_hub_page_is_distinct_from_daycare_detail_page(client):
     from django.core.management import call_command
 

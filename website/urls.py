@@ -16,6 +16,7 @@ urlpatterns = [
         {"slug": "puppy-playgroup"},
     ),
     path("services/<slug:slug>/", views.service_detail, name="service_detail"),
+    path("services/<slug:slug>/gallery/", views.service_gallery, name="service_gallery"),
     path("gallery/", views.gallery, name="gallery"),
     path("contact/", views.contact, name="contact"),
     path("terms/", views.legal_page, {"slug": "terms"}, name="terms"),

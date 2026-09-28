@@ -23,6 +23,10 @@
              loading="lazy">
       {% endfor %}
     </div>
+    <div class="mt-14 text-center">
+      <a href="{% url 'website:service_gallery' service.slug %}"
+         class="btn-pill border-2 border-ink px-8 py-3.5 font-semibold text-ink">View Full {{ service.name }} Gallery</a>
+    </div>
   </div>
 </section>
 {% endif %}

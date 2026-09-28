@@ -266,6 +266,15 @@ def gallery(request):
     return render(request, "website/gallery.html", context)
 
 
+def service_gallery(request, slug):
+    service = get_object_or_404(Service, slug=slug, is_active=True)
+    context = {
+        "service": service,
+        "images": GalleryImage.objects.filter(is_active=True, service=service),
+    }
+    return render(request, "website/service_gallery.html", context)
+
+
 def legal_page(request, slug):
     page = get_object_or_404(LegalPage, slug=slug)
     return render(request, "website/legal_page.html", {"page": page})
