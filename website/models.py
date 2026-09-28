@@ -23,6 +23,45 @@ class Service(OrderedActiveModel):
     description = HTMLField()
     price_label = models.CharField(max_length=50, help_text='e.g. "From $45/day"')
 
+    # Pricing-section taglines, one plain/gold-highlight pair per dog-count grid.
+    # Each pair defaults to the site's original copy when left blank, so existing
+    # services don't need any admin changes to keep their current heading.
+    tagline_1dog_plain = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Plain part of the "1 dog" pricing heading. '
+        'Defaults to "Give Your Pup More Play &" when blank.',
+    )
+    tagline_1dog_gold = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Gold-highlighted part of the "1 dog" pricing heading. '
+        'Defaults to "Save More!" when blank.',
+    )
+    tagline_2dogs_plain = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Plain part of the "2 dogs" pricing heading. Defaults to "Two Pups," when blank.',
+    )
+    tagline_2dogs_gold = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Gold-highlighted part of the "2 dogs" pricing heading. '
+        'Defaults to "Twice the Happiness!" when blank.',
+    )
+    tagline_3dogs_plain = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Plain part of the "3 dogs" pricing heading. '
+        'Defaults to "Three Pups," when blank.',
+    )
+    tagline_3dogs_gold = models.CharField(
+        max_length=80,
+        blank=True,
+        help_text='Gold-highlighted part of the "3 dogs" pricing heading. '
+        'Defaults to "Triple the Tail Wags!" when blank.',
+    )
+
     def __str__(self):
         return self.name
 
@@ -73,7 +112,7 @@ class GalleryImage(OrderedActiveModel):
 
 
 class PricingPlan(OrderedActiveModel):
-    DOG_COUNT_CHOICES = [(1, "1 dog"), (2, "2 dogs")]
+    DOG_COUNT_CHOICES = [(1, "1 dog"), (2, "2 dogs"), (3, "3 dogs")]
     TONE_CHOICES = [
         ("blue", "Blue"),
         ("gold", "Gold"),

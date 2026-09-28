@@ -167,6 +167,50 @@ def test_pricing_card_shows_three_way_split_when_price_3_is_set(client):
     assert "Best value for regulars" in content
 
 
+def test_pricing_page_renders_a_third_dog_count_tier(client):
+    from django.core.management import call_command
+
+    from website.models import PricingPlan, Service
+
+    call_command("seed_demo")
+    PricingPlan.objects.create(
+        name="Daycare Passes",
+        service=Service.objects.get(slug="dog-daycare"),
+        dog_count=3,
+        price="600.00",
+        period_label="10 Passes",
+        features_text="Passes available for 3 dogs",
+    )
+    content = client.get(reverse("website:services")).content.decode()
+    assert "Plans for 3 dogs" in content
+    assert "Daycare Passes" in content
+    assert "$600" in content
+
+
+def test_service_pricing_heading_uses_custom_tagline_when_set(client):
+    from django.core.management import call_command
+
+    from website.models import PricingPlan, Service
+
+    call_command("seed_demo")
+    service = Service.objects.get(slug="dog-daycare")
+    service.tagline_1dog_plain = "Solo Pups,"
+    service.tagline_1dog_gold = "Solo Fun!"
+    service.save()
+    PricingPlan.objects.create(
+        name="Casual Visit",
+        service=service,
+        dog_count=1,
+        price="40.00",
+        period_label="1 Day",
+        features_text="Drop-in daycare",
+    )
+    content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
+    assert "Solo Pups," in content
+    assert "Solo Fun!" in content
+    assert "Give Your Pup More Play" not in content
+
+
 def test_service_detail_page_shows_gallery_only_for_tagged_photos(client):
     from django.core.files.uploadedfile import SimpleUploadedFile
     from django.core.management import call_command

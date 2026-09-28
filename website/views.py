@@ -91,11 +91,15 @@ def services(request):
     plans_two_dogs = _with_tone_style(
         PricingPlan.objects.filter(is_active=True, dog_count=2, service=pricing_service)
     )
+    plans_three_dogs = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=3, service=pricing_service)
+    )
     context = {
         "services": Service.objects.filter(is_active=True),
         "pricing_service": pricing_service,
         "plans_one_dog": plans_one_dog,
         "plans_two_dogs": plans_two_dogs,
+        "plans_three_dogs": plans_three_dogs,
         "gallery_row_1": GalleryImage.objects.filter(is_active=True, row=1),
         "gallery_row_2": GalleryImage.objects.filter(is_active=True, row=2),
     }
@@ -242,12 +246,16 @@ def service_detail(request, slug):
     plans_two_dogs = _with_tone_style(
         PricingPlan.objects.filter(is_active=True, dog_count=2, service=service)
     )
+    plans_three_dogs = _with_tone_style(
+        PricingPlan.objects.filter(is_active=True, dog_count=3, service=service)
+    )
     context = {
         "service": service,
         "detail": detail,
         "pricing_service": service,
         "plans_one_dog": plans_one_dog,
         "plans_two_dogs": plans_two_dogs,
+        "plans_three_dogs": plans_three_dogs,
         "gallery_images": GalleryImage.objects.filter(is_active=True, service=service),
     }
     return render(request, "website/service_detail.html", context)

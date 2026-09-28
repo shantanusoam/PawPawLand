@@ -1,0 +1,53 @@
+{% load static %}
+{# One pricing carousel section for a single dog-count grid. #}
+{# Expects: plans, dog_count, dog_count_label (e.g. "1 dog"), heading_plain, heading_gold, pricing_service. #}
+<section class="bg-cream py-24">
+  <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
+    <p class="section-eyebrow justify-center">
+      <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+      {{ pricing_service.name|default:"Our" }} Plans for {{ dog_count_label }}
+    </p>
+    <h2 class="mt-4 font-display text-4xl font-bold text-navy-deep md:text-5xl">
+      {{ heading_plain }}
+      <span class="relative inline-block text-gold">{{ heading_gold }}
+        {% include "website/partials/squiggle.html" %}
+      </span>
+    </h2>
+  </div>
+  <div class="pricing-carousel fade-up relative pt-20" data-pricing-carousel>
+    <button type="button"
+            class="pricing-arrow pricing-arrow-prev hidden md:flex"
+            data-carousel-prev
+            aria-label="Previous plan">{% include "website/icons/chevron-left.html" %}</button>
+    <button type="button"
+            class="pricing-arrow pricing-arrow-next hidden md:flex"
+            data-carousel-next
+            aria-label="Next plan">{% include "website/icons/chevron-right.html" %}</button>
+    <div class="pricing-carousel-scroller"
+         data-pricing-scroller
+         tabindex="0"
+         role="region"
+         aria-label="{{ pricing_service.name|default:'Our' }} plans for {{ dog_count_label }}">
+      <div class="pricing-carousel-track">
+        {% for plan in plans %}
+          <div class="pricing-carousel-slide" data-slide>{% include "website/partials/pricing_card.html" %}</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="mt-8 flex items-center justify-center gap-2"
+         role="tablist"
+         aria-label="{{ dog_count_label }} plan progress"
+         data-pricing-dots>
+      {% for plan in plans %}
+        <button type="button"
+                class="pricing-dot{% if forloop.first %} pricing-dot-active{% endif %}"
+                data-dot-index="{{ forloop.counter0 }}"
+                aria-label="Go to plan {{ forloop.counter }}"
+                {% if forloop.first %}aria-current="true"{% else %}aria-current="false"{% endif %}></button>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="fade-up mt-10 text-center text-sm text-muted">
+    *All prices are per dog. Day passes are valid from the date of purchase as specified above.
+  </p>
+</section>

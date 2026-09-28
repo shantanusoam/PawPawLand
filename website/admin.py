@@ -19,6 +19,38 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ["name", "price_label", "sort_order", "is_active"]
     list_editable = ["sort_order", "is_active"]
     prepopulated_fields = {"slug": ["name"]}
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": [
+                    "name",
+                    "slug",
+                    "emoji_badge",
+                    "image",
+                    "description",
+                    "price_label",
+                    "sort_order",
+                    "is_active",
+                ]
+            },
+        ),
+        (
+            "Pricing plan headings (optional)",
+            {
+                "classes": ["collapse"],
+                "description": "Leave blank to use the site's default pricing headings.",
+                "fields": [
+                    "tagline_1dog_plain",
+                    "tagline_1dog_gold",
+                    "tagline_2dogs_plain",
+                    "tagline_2dogs_gold",
+                    "tagline_3dogs_plain",
+                    "tagline_3dogs_gold",
+                ],
+            },
+        ),
+    ]
 
 
 @admin.register(Testimonial)
