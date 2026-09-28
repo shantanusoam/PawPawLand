@@ -10,7 +10,7 @@
       {% endblock title %}
     </title>
     <meta name="description"
-          content="Australia's most loving dog daycare and grooming centre. Daycare, grooming, puppy playground and birthday parties in Sydney.">
+          content="Blackburn's local doggy daycare and grooming centre. Daycare, grooming, puppy playgroup and birthday parties.">
     <link rel="icon"
           type="image/svg+xml"
           href="{% static 'img/logo-mark.svg' %}">
@@ -34,7 +34,7 @@
         <a href="{% url 'website:home' %}" class="flex items-center">
           <img src="{% static 'img/logo-lockup.svg' %}"
                alt="Paw Paw Land — Doggy Daycare"
-               class="wiggle-hover h-14 w-auto">
+               class="wiggle-hover h-16 w-auto">
         </a>
         <nav class="hidden items-center gap-8 lg:flex" aria-label="Main">
           <a href="{% url 'website:home' %}" class="nav-link">Home</a>
@@ -124,7 +124,7 @@
                    class="h-9 w-auto">
             </div>
             <p class="mt-4 text-sm leading-relaxed">
-              Australia's most loving dog daycare and grooming centre. Where every tail wags with happiness.
+              Blackburn's local doggy daycare and grooming centre. Where every tail wags with happiness.
             </p>
             <div class="mt-5 flex gap-3">
               <a href="{{ site_settings.facebook_url|default:'#' }}"

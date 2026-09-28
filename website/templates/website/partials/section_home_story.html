@@ -1,0 +1,37 @@
+{% load static %}
+{# Blackburn's Local Doggy Daycare — homepage-only version of the story section #}
+<section class="bg-[#fefefe]">
+  <div class="mx-auto grid max-w-[1280px] items-center gap-12 px-6 pt-20 lg:grid-cols-2">
+    <div class="fade-up relative">
+      {# Placeholder photo — client is providing a dedicated Doggy Daycare picture for this section #}
+      <img src="{% static 'img/story-founders.webp' %}"
+           alt="Dogs enjoying a day at Paw Paw Land's doggy daycare"
+           class="relative mx-auto w-full max-w-[600px]"
+           data-parallax="20">
+    </div>
+    <div class="fade-up">
+      <p class="section-eyebrow text-gold">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Blackburn's Local Doggy Daycare
+      </p>
+      <h2 class="mt-4 font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
+        Happy Dogs
+        <br>
+        <span class="relative inline-block text-gold">Happy Days
+          {% include "website/partials/squiggle.html" %}
+        </span>
+      </h2>
+      <p class="mt-6 leading-relaxed text-muted-dark">
+        PawPaw Land is a boutique doggy daycare designed to feel comfortable, enriching and
+        full of all the good things dogs love. Our days have a natural rhythm of play,
+        socialisation, enrichment, rest and plenty of affection in between.
+      </p>
+      <p class="mt-4 leading-relaxed text-muted-dark">
+        With thoughtfully managed playgroups and a team who gets to know each dog
+        individually, we create a space where dogs can enjoy their day, make friends and
+        feel right at home.
+      </p>
+      <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">Meet Our Family →</a>
+    </div>
+  </div>
+</section>

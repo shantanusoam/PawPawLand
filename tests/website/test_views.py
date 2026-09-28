@@ -9,11 +9,11 @@ def test_home_renders_all_sections(client):
     content = response.content.decode()
     assert response.status_code == 200
     for copy in [
-        "Every Tail",
-        "ppy Tale.",
-        "tail-wagging adventures",
+        "home away from home",
+        "for your dog",
+        "furry friendship",
         "hero-dog-wrap",
-        "Born From Love,",
+        "Happy Dogs",
         "What We Offer",
         "Why Dogs Love",
         "Life at",
@@ -34,7 +34,7 @@ def test_home_hero_dog_overlaps_wave(client):
 def test_home_hero_heading_uses_navy_not_faded_line(client):
     content = client.get(reverse("website:home")).content.decode()
     assert "text-navy/45" not in content
-    assert "From playful days to cozy nights" in content
+    assert "Where days are filled with play" in content
 
     from django.core.management import call_command
 
