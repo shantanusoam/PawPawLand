@@ -29,13 +29,30 @@
   {% include "website/partials/hero_wave.html" %}
 </section>
 {# Full grid #}
-<section class="bg-white py-20">
+<section class="bg-white py-20" x-data="{ activeFilter: 'all' }">
   <div class="mx-auto max-w-[1280px] px-6">
     {% if images %}
+      <div class="mb-10 flex flex-wrap justify-center gap-3">
+        <button type="button"
+                @click="activeFilter = 'all'"
+                class="rounded-full border-2 px-5 py-2 text-sm font-semibold transition-colors"
+                :class="activeFilter === 'all' ? 'border-navy bg-navy text-white' : 'border-navy/15 text-navy hover:border-navy/40'">
+          All
+        </button>
+        {% for svc in nav_services %}
+          <button type="button"
+                  @click="activeFilter = '{{ svc.slug }}'"
+                  class="rounded-full border-2 px-5 py-2 text-sm font-semibold transition-colors"
+                  :class="activeFilter === '{{ svc.slug }}' ? 'border-navy bg-navy text-white' : 'border-navy/15 text-navy hover:border-navy/40'">
+            {{ svc.name }}
+          </button>
+        {% endfor %}
+      </div>
       <div class="columns-2 gap-4 sm:columns-3 lg:columns-4" data-stagger>
         {% for photo in images %}
           <img src="{{ photo.image.url }}"
                alt="{{ photo.alt_text }}"
+               x-show="activeFilter === 'all' || activeFilter === '{{ photo.service.slug|default:"" }}'"
                class="card-lift fade-up mb-4 w-full rounded-2xl object-cover object-center shadow-card"
                loading="lazy">
         {% endfor %}

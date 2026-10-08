@@ -77,7 +77,7 @@ def test_about_page_renders_team_and_shared_sections(client):
     assert content.count("Labrador named Sage") == 1
 
 
-def test_services_page_renders_pricing_plans(client):
+def test_services_page_renders_service_cards(client):
     from django.core.management import call_command
 
     call_command("seed_demo")
@@ -86,34 +86,28 @@ def test_services_page_renders_pricing_plans(client):
     assert response.status_code == 200
     for copy in [
         "Needs &amp; Loves",
-        "Give Your Pup More Play &amp;",
-        "Two Pups,",
         "Dog Daycare",
         "Dog Grooming",
         "Puppy Playgroup",
         "Dog Birthday Parties",
-        "Casual Day",
-        "$65",
-        "Value Pack",
-        "$305",
-        "Paw-some Plan",
-        "$1,100",
-        "Double Paw Day",
-        "$110",
-        "Paws &amp; Play Pack",
-        "$1,000",
-        "Ultimate Paw Pack",
-        "$1,900",
         "Ready to make your pup's day?",
     ]:
         assert copy in content, f"missing section copy: {copy}"
+    # Pricing lives on each service's own detail page now, not the hub page.
+    assert "Give Your Pup More Play" not in content
+    assert "Two Pups," not in content
 
 
 def test_pricing_card_shows_split_layout_only_when_price_2_is_set(client):
-    from website.models import PricingPlan
+    from django.core.management import call_command
 
+    from website.models import PricingPlan, Service
+
+    call_command("seed_demo")
+    service = Service.objects.get(slug="dog-daycare")
     PricingPlan.objects.create(
         name="Casual Day",
+        service=service,
         dog_count=1,
         price="46.00",
         period_label="Half-Day",
@@ -125,12 +119,13 @@ def test_pricing_card_shows_split_layout_only_when_price_2_is_set(client):
     )
     PricingPlan.objects.create(
         name="Value Pack",
+        service=service,
         dog_count=1,
         price="305.00",
         period_label="10 Days",
         features_text="Ideal for regular daycare visits",
     )
-    content = client.get(reverse("website:services")).content.decode()
+    content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
     # Dual-price plan shows both prices and their captions.
     assert "$46" in content
     assert "Half-Day" in content
@@ -182,7 +177,7 @@ def test_pricing_page_renders_a_third_dog_count_tier(client):
         period_label="10 Passes",
         features_text="Passes available for 3 dogs",
     )
-    content = client.get(reverse("website:services")).content.decode()
+    content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
     assert "Plans for 3 dogs" in content
     assert "Daycare Passes" in content
     assert "$600" in content
@@ -280,18 +275,20 @@ def test_services_page_shows_services_grid_first(client):
 
     call_command("seed_demo")
     content = client.get(reverse("website:services")).content.decode()
-    # "Our Services" grid renders right after the hero, before pricing and the CTA.
-    assert content.index("What We Offer") < content.index("Two Pups,")
-    assert content.index("Two Pups,") < content.index("Ready to make your pup's day?")
+    # "Our Services" grid renders right after the hero, before the gallery and CTA.
+    assert content.index("What We Offer") < content.index("Life at")
+    assert content.index("Life at") < content.index("Ready to make your pup's day?")
 
 
-def test_services_hub_page_shows_gallery_between_pricing_and_cta(client):
+def test_services_hub_page_shows_gallery_between_services_and_cta(client):
     from django.core.management import call_command
 
     call_command("seed_demo")
     content = client.get(reverse("website:services")).content.decode()
-    assert content.index("Two Pups,") < content.index("Life at")
+    assert content.index("What We Offer") < content.index("Life at")
     assert content.index("Life at") < content.index("Ready to make your pup's day?")
+    # Pricing moved off the hub page onto each service's own detail page.
+    assert "Give Your Pup More Play" not in content
 
 
 def test_header_dropdown_links_to_service_detail_pages(client):
@@ -320,6 +317,15 @@ def test_service_detail_pages_render_unique_content(client, slug, expected_headi
     content = response.content.decode()
     assert response.status_code == 200
     assert expected_heading in content
+
+
+@pytest.mark.parametrize("slug", ["dog-daycare", "dog-grooming", "dog-birthday-parties"])
+def test_service_detail_intro_button_links_to_its_own_gallery(client, slug):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(reverse("website:service_detail", args=[slug])).content.decode()
+    assert f'href="/services/{slug}/gallery/"' in content
 
 
 def test_service_pricing_plans_are_scoped_to_their_own_service(client):
@@ -358,6 +364,22 @@ def test_gallery_page_shows_seeded_images(client):
     content = response.content.decode()
     assert response.status_code == 200
     assert content.count("<img") >= 11
+
+
+def test_gallery_page_has_a_filter_tab_per_service(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(reverse("website:gallery")).content.decode()
+    assert "activeFilter" in content
+    for slug, name in [
+        ("dog-daycare", "Dog Daycare"),
+        ("dog-grooming", "Dog Grooming"),
+        ("puppy-playgroup", "Puppy Playgroup"),
+        ("dog-birthday-parties", "Dog Birthday Parties"),
+    ]:
+        assert f"activeFilter = '{slug}'" in content
+        assert name in content
 
 
 def test_legal_pages_render_and_are_linked_from_footer(client):

@@ -109,12 +109,13 @@
           <p class="mt-4 leading-relaxed text-muted-dark">{{ paragraph }}</p>
         {% endfor %}
         {% if detail.intro_button_label %}
-          <a href="{% url 'website:about' %}" class="btn-navy mt-8 px-8 py-3.5">{{ detail.intro_button_label }}</a>
+          <a href="{% url 'website:service_gallery' service.slug %}"
+             class="btn-navy mt-8 px-8 py-3.5">{{ detail.intro_button_label }}</a>
         {% endif %}
       </div>
     </div>
   </section>
-  {% include "website/partials/section_service_gallery.html" %}
   {% include "website/partials/section_pricing_plans.html" %}
+  {% include "website/partials/section_service_gallery.html" %}
   {% include "website/partials/section_cta.html" %}
 {% endblock content %}

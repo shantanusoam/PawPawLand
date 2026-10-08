@@ -38,7 +38,6 @@
         </a>
         <nav class="hidden items-center gap-8 lg:flex" aria-label="Main">
           <a href="{% url 'website:home' %}" class="nav-link">Home</a>
-          <a href="{% url 'website:about' %}" class="nav-link">About</a>
           <div class="group relative">
             <a href="{% url 'website:services' %}"
                class="nav-link inline-flex items-center gap-1">
@@ -56,6 +55,7 @@
               </div>
             </div>
           </div>
+          <a href="{% url 'website:about' %}" class="nav-link">About</a>
           <a href="{% url 'website:gallery' %}" class="nav-link">Gallery</a>
           <a href="{% url 'website:contact' %}" class="nav-link">Contact</a>
           <a href="{% url 'website:contact' %}" class="btn-navy px-6 py-2.5">Book Now</a>
@@ -81,8 +81,6 @@
            aria-label="Mobile">
         <a href="{% url 'website:home' %}"
            class="block py-2 font-semibold text-ink">Home</a>
-        <a href="{% url 'website:about' %}"
-           class="block py-2 font-semibold text-ink">About</a>
         <a href="{% url 'website:services' %}"
            class="block py-2 font-semibold text-ink">Services</a>
         <div class="ml-3 space-y-1 border-l-2 border-ink/10 pl-3">
@@ -91,6 +89,8 @@
                class="block py-1.5 text-sm text-muted-dark">{{ svc.name }}</a>
           {% endfor %}
         </div>
+        <a href="{% url 'website:about' %}"
+           class="block py-2 font-semibold text-ink">About</a>
         <a href="{% url 'website:gallery' %}"
            class="block py-2 font-semibold text-ink">Gallery</a>
         <a href="{% url 'website:contact' %}"
@@ -161,6 +161,14 @@
               <li>
                 <a href="{% url 'website:registration' %}"
                    class="transition-colors hover:text-gold">Registration</a>
+              </li>
+              <li>
+                <a href="{% url 'website:terms' %}"
+                   class="transition-colors hover:text-gold">Terms &amp; Conditions</a>
+              </li>
+              <li>
+                <a href="{% url 'website:grooming_terms' %}"
+                   class="transition-colors hover:text-gold">Grooming Terms &amp; Conditions</a>
               </li>
             </ul>
           </div>

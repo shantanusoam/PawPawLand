@@ -22,4 +22,10 @@ urlpatterns = [
     path("registration/", views.registration, name="registration"),
     path("terms/", views.legal_page, {"slug": "terms"}, name="terms"),
     path("privacy/", views.legal_page, {"slug": "privacy"}, name="privacy"),
+    path(
+        "grooming-terms/",
+        views.legal_page,
+        {"slug": "grooming-terms"},
+        name="grooming_terms",
+    ),
 ]

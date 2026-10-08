@@ -295,6 +295,11 @@ LEGAL_PAGES = [
         "slug": "privacy",
         "body": "<p>Content coming soon.</p>",
     },
+    {
+        "title": "Grooming Terms & Conditions",
+        "slug": "grooming-terms",
+        "body": "<p>Content coming soon.</p>",
+    },
 ]
 
 

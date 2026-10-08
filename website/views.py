@@ -84,22 +84,8 @@ def _with_tone_style(plans):
 
 
 def services(request):
-    pricing_service = Service.objects.filter(slug="dog-daycare").first()
-    plans_one_dog = _with_tone_style(
-        PricingPlan.objects.filter(is_active=True, dog_count=1, service=pricing_service)
-    )
-    plans_two_dogs = _with_tone_style(
-        PricingPlan.objects.filter(is_active=True, dog_count=2, service=pricing_service)
-    )
-    plans_three_dogs = _with_tone_style(
-        PricingPlan.objects.filter(is_active=True, dog_count=3, service=pricing_service)
-    )
     context = {
         "services": Service.objects.filter(is_active=True),
-        "pricing_service": pricing_service,
-        "plans_one_dog": plans_one_dog,
-        "plans_two_dogs": plans_two_dogs,
-        "plans_three_dogs": plans_three_dogs,
         "gallery_row_1": GalleryImage.objects.filter(is_active=True, row=1),
         "gallery_row_2": GalleryImage.objects.filter(is_active=True, row=2),
     }
@@ -262,7 +248,7 @@ def service_detail(request, slug):
 
 
 def gallery(request):
-    context = {"images": GalleryImage.objects.filter(is_active=True)}
+    context = {"images": GalleryImage.objects.filter(is_active=True).select_related("service")}
     return render(request, "website/gallery.html", context)
 
 
