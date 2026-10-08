@@ -1,11 +1,11 @@
 {# Pricing carousels — shared between the Services hub and each service detail page. #}
 {# Expects: plans_one_dog, plans_two_dogs, plans_three_dogs, pricing_service. #}
 {% if plans_one_dog %}
-  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_one_dog dog_count_label="1 dog" heading_plain=pricing_service.tagline_1dog_plain|default:"Give Your Pup More Play &amp;" heading_gold=pricing_service.tagline_1dog_gold|default:"Save More!" %}
+  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_one_dog dog_count_label="1 dog" tagline_plain=pricing_service.tagline_1dog_plain heading_plain=pricing_service.tagline_1dog_plain|default:"Give Your Pup More Play &amp;" heading_gold=pricing_service.tagline_1dog_gold|default:"Save More!" %}
 {% endif %}
 {% if plans_two_dogs %}
-  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_two_dogs dog_count_label="2 dogs" heading_plain=pricing_service.tagline_2dogs_plain|default:"Two Pups," heading_gold=pricing_service.tagline_2dogs_gold|default:"Twice the Happiness!" %}
+  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_two_dogs dog_count_label="2 dogs" tagline_plain=pricing_service.tagline_2dogs_plain heading_plain=pricing_service.tagline_2dogs_plain|default:"Two Pups," heading_gold=pricing_service.tagline_2dogs_gold|default:"Twice the Happiness!" %}
 {% endif %}
 {% if plans_three_dogs %}
-  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_three_dogs dog_count_label="3 dogs" heading_plain=pricing_service.tagline_3dogs_plain|default:"Three Pups," heading_gold=pricing_service.tagline_3dogs_gold|default:"Triple the Tail Wags!" %}
+  {% include "website/partials/_pricing_carousel_block.html" with plans=plans_three_dogs dog_count_label="3 dogs" tagline_plain=pricing_service.tagline_3dogs_plain heading_plain=pricing_service.tagline_3dogs_plain|default:"Three Pups," heading_gold=pricing_service.tagline_3dogs_gold|default:"Triple the Tail Wags!" %}
 {% endif %}

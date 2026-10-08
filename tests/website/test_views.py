@@ -190,7 +190,7 @@ def test_service_pricing_heading_uses_custom_tagline_when_set(client):
 
     call_command("seed_demo")
     service = Service.objects.get(slug="dog-daycare")
-    service.tagline_1dog_plain = "Solo Pups,"
+    service.tagline_1dog_plain = "Solo Pups"
     service.tagline_1dog_gold = "Solo Fun!"
     service.save()
     PricingPlan.objects.create(
@@ -202,9 +202,13 @@ def test_service_pricing_heading_uses_custom_tagline_when_set(client):
         features_text="Drop-in daycare",
     )
     content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
-    assert "Solo Pups," in content
+    assert "Solo Pups" in content
     assert "Solo Fun!" in content
     assert "Give Your Pup More Play" not in content
+    # The small eyebrow label above the heading should reflect the custom
+    # tagline too, not the old hardcoded "{service} Plans for {dog count}".
+    assert "Solo Pups for 1 dog" in content
+    assert "Dog Daycare Plans for 1 dog" not in content
 
 
 def test_service_detail_page_shows_gallery_only_for_tagged_photos(client):

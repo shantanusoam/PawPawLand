@@ -1,11 +1,16 @@
 {% load static %}
 {# One pricing carousel section for a single dog-count grid. #}
-{# Expects: plans, dog_count, dog_count_label (e.g. "1 dog"), heading_plain, heading_gold, pricing_service. #}
+{# Expects: plans, dog_count, dog_count_label (e.g. "1 dog"), heading_plain, heading_gold, #}
+{# tagline_plain (raw, un-defaulted custom tagline — used for the eyebrow), pricing_service. #}
 <section class="bg-cream py-24">
   <div class="fade-up mx-auto max-w-[1280px] px-6 text-center">
     <p class="section-eyebrow justify-center">
       <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
-      {{ pricing_service.name|default:"Our" }} Plans for {{ dog_count_label }}
+      {% if tagline_plain %}
+        {{ tagline_plain }} for {{ dog_count_label }}
+      {% else %}
+        {{ pricing_service.name|default:"Our" }} Plans for {{ dog_count_label }}
+      {% endif %}
     </p>
     <h2 class="mt-4 font-display text-4xl font-bold text-navy-deep md:text-5xl">
       {{ heading_plain }}
