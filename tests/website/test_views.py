@@ -9,8 +9,8 @@ def test_home_renders_all_sections(client):
     content = response.content.decode()
     assert response.status_code == 200
     for copy in [
-        "home away from home",
-        "for your dog",
+        "Away From Home",
+        "For Your Dog",
         "furry friendship",
         "hero-dog-wrap",
         "Happy Dogs",
