@@ -323,6 +323,22 @@ def test_service_detail_pages_render_unique_content(client, slug, expected_headi
     assert expected_heading in content
 
 
+def test_grooming_page_shows_rate_card_image(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    grooming_content = client.get(
+        reverse("website:service_detail", args=["dog-grooming"])
+    ).content.decode()
+    assert "grooming-rate-card" in grooming_content
+    assert "Dog Grooming rates" in grooming_content
+
+    daycare_content = client.get(
+        reverse("website:service_detail", args=["dog-daycare"])
+    ).content.decode()
+    assert "grooming-rate-card" not in daycare_content
+
+
 @pytest.mark.parametrize("slug", ["dog-daycare", "dog-grooming", "dog-birthday-parties"])
 def test_service_detail_intro_button_links_to_its_own_gallery(client, slug):
     from django.core.management import call_command

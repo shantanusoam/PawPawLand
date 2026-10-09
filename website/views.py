@@ -147,6 +147,7 @@ SERVICE_DETAIL_CONTENT = {
             "You drop off a pup. You pick up a fresher, fluffier, happier one.",
         ],
         "intro_button_label": "Discover Our Spa →",
+        "rate_card_image": "grooming-rate-card.webp",
     },
     "puppy-playgroup": {
         "eyebrow": "Puppy Playgroup",

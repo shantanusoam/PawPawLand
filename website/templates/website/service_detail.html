@@ -115,6 +115,16 @@
       </div>
     </div>
   </section>
+  {% if detail.rate_card_image %}
+    <section class="bg-cream px-6 py-20">
+      <div class="mx-auto max-w-[1100px]">
+        <img src="{% static 'img/' %}{{ detail.rate_card_image }}"
+             alt="{{ service.name }} rates"
+             class="fade-up mx-auto w-full rounded-[32px] shadow-[0_24px_48px_rgba(32,28,24,0.12)]"
+             loading="lazy">
+      </div>
+    </section>
+  {% endif %}
   {% include "website/partials/section_pricing_plans.html" %}
   {% include "website/partials/section_service_gallery.html" %}
   {% include "website/partials/section_cta.html" %}
