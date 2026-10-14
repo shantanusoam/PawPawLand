@@ -304,6 +304,27 @@ def test_header_dropdown_links_to_service_detail_pages(client):
         assert f'href="/services/{slug}/"' in home
 
 
+def test_refer_page_renders_with_steps_and_terms(client):
+    response = client.get(reverse("website:refer"))
+    content = response.content.decode()
+    assert response.status_code == 200
+    for copy in [
+        "Free Daycare Session",
+        "Here's How It Works",
+        "Share the love",
+        "Invite them to join the pack",
+        "Enjoy a day on us",
+        "Keep spreading the word",
+        "Terms &amp; conditions apply",
+    ]:
+        assert copy in content, f"missing: {copy}"
+
+
+def test_nav_and_footer_link_to_refer_page(client):
+    content = client.get(reverse("website:home")).content.decode()
+    assert content.count('href="/refer/"') >= 2
+
+
 @pytest.mark.parametrize(
     ("slug", "expected_heading"),
     [

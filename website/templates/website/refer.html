@@ -1,0 +1,110 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}
+  Refer &amp; Earn — Paw Paw Land
+{% endblock title %}
+{% block content %}
+  {# Hero #}
+  <section class="relative overflow-hidden bg-[#fbf6f0]">
+    <div class="pointer-events-none absolute top-10 -right-24 h-72 w-72 rounded-full bg-blue-pastel"
+         data-parallax="-20"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-16 -left-24 h-64 w-64 rounded-full bg-gold/40"
+         data-parallax="25"
+         aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-[900px] px-6 pt-14 pb-24 text-center">
+      <p class="section-eyebrow justify-center">
+        <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+        Refer &amp; Earn
+      </p>
+      <h1 class="hero-intro mt-4 font-display text-4xl leading-tight font-bold text-navy-deep md:text-5xl">
+        Refer A Friend &amp; Enjoy A
+        <span class="relative inline-block text-gold">Free Daycare Session
+          {% include "website/partials/squiggle.html" %}
+        </span>
+        On Us!*
+      </h1>
+      <p class="hero-intro mx-auto mt-6 max-w-xl text-navy-deep">
+        Daycare is even better with friends! Refer a friend to Pawpaw Land, and once their
+        pup joins us for their first paid day of fun, we'd love to thank you with a free
+        daycare session for your own pup.
+      </p>
+    </div>
+    {% include "website/partials/hero_wave.html" %}
+  </section>
+  {# How it works #}
+  <section class="bg-white px-6 py-20">
+    <div class="mx-auto max-w-[1100px]">
+      <div class="text-center">
+        <p class="section-eyebrow justify-center">
+          <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
+          The Process
+        </p>
+        <h2 class="mt-4 font-display text-3xl font-bold text-ink md:text-4xl">Here's How It Works</h2>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2">
+        <div class="fade-up rounded-2xl border border-navy/10 bg-cream p-7">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg font-bold text-navy-deep">1</span>
+          <h3 class="mt-4 font-display text-xl font-bold text-ink">Share the love</h3>
+          <p class="mt-2 leading-relaxed text-muted-dark">
+            Share our website or contact details with a friend whose pup would enjoy Pawpaw
+            Land, and ask them to mention your name when registering.
+          </p>
+        </div>
+        <div class="fade-up rounded-2xl border border-navy/10 bg-cream p-7">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg font-bold text-navy-deep">2</span>
+          <h3 class="mt-4 font-display text-xl font-bold text-ink">Invite them to join the pack</h3>
+          <p class="mt-2 leading-relaxed text-muted-dark">
+            Ask your friend to complete our
+            <a href="{% url 'website:registration' %}"
+               class="font-semibold text-coral underline">online registration form</a>
+            and book and pay for their first daycare session.
+          </p>
+        </div>
+        <div class="fade-up rounded-2xl border border-navy/10 bg-cream p-7">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg font-bold text-navy-deep">3</span>
+          <h3 class="mt-4 font-display text-xl font-bold text-ink">Enjoy a day on us</h3>
+          <p class="mt-2 leading-relaxed text-muted-dark">
+            After their pup's first visit, our team will be in touch to arrange your
+            complimentary daycare session as a thank-you.
+          </p>
+        </div>
+        <div class="fade-up rounded-2xl border border-navy/10 bg-cream p-7">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gold font-display text-lg font-bold text-navy-deep">4</span>
+          <h3 class="mt-4 font-display text-xl font-bold text-ink">Keep spreading the word</h3>
+          <p class="mt-2 leading-relaxed text-muted-dark">
+            Refer more friends and enjoy a free daycare session for each successful referral!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {# Share now #}
+  <section class="bg-cream px-6 py-20"
+           x-data="{ copied: false, copyLink() { navigator.clipboard.writeText(window.location.origin); this.copied = true; setTimeout(() => this.copied = false, 2000) } }">
+    <div class="fade-up mx-auto max-w-[720px] rounded-[28px] border border-navy/5 border-t-[5px] border-t-gold bg-white p-8 text-center shadow-[0_12px_32px_rgba(42,40,96,0.08)] sm:p-10">
+      <h2 class="font-display text-2xl font-bold text-navy-deep">Ready to share the love?</h2>
+      <p class="mt-3 leading-relaxed text-muted-dark">
+        Copy our link or send a quick email to a friend — just remember to ask them to
+        mention your name when they register.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <button type="button" @click="copyLink()" class="btn-navy px-6 py-3">
+          <span x-show="!copied">Copy Website Link</span>
+          <span x-show="copied" x-cloak>Copied!</span>
+        </button>
+        <a href="mailto:?subject=Come%20join%20the%20pack%20at%20Paw%20Paw%20Land&amp;body=Hey!%20I%20thought%20of%20you%20and%20your%20pup%20—%20check%20out%20Paw%20Paw%20Land%27s%20doggy%20daycare.%20Mention%20my%20name%20when%20you%20register%3A%20{{ request.scheme }}%3A%2F%2F{{ request.get_host }}"
+           class="btn-outline px-6 py-3">Email A Friend</a>
+      </div>
+    </div>
+  </section>
+  {# Terms #}
+  <section class="bg-white px-6 pb-16">
+    <p class="mx-auto max-w-[900px] text-center text-xs leading-relaxed text-muted">
+      *Terms &amp; conditions apply. Offer valid for new customers referred before their first
+      booking. Complimentary sessions become available after the referred dog attends their
+      first paid daycare session. All dogs must meet our daycare entry requirements.
+    </p>
+  </section>
+  {% include "website/partials/section_cta.html" %}
+{% endblock content %}

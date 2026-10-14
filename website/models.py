@@ -1,3 +1,4 @@
+from datetime import date
 from decimal import Decimal
 
 from django.db import models
@@ -281,12 +282,54 @@ class ContactSubmission(models.Model):
 
 
 class Registration(models.Model):
-    """A dog registration submitted through the Registration page."""
+    """A full dog registration submitted through the Registration page."""
 
-    full_name = models.CharField(max_length=150)
-    email = models.EmailField()
-    phone = models.CharField(max_length=30, blank=True)
-    dog_name = models.CharField(max_length=100)
+    YES_NO_CHOICES = [("yes", "Yes"), ("no", "No")]
+    GENDER_CHOICES = [("male", "Male"), ("female", "Female")]
+
+    # Your contact details
+    owner_name = models.CharField("Owner's Name", max_length=150, default="")
+    address = models.CharField(max_length=200, default="")
+    suburb = models.CharField(max_length=100, default="")
+    postcode = models.CharField(max_length=20, default="")
+    phone = models.CharField("Phone", max_length=30, default="")
+    email = models.EmailField("Email Address")
+
+    # Emergency contact details
+    emergency_contact_name = models.CharField(max_length=150, default="")
+    emergency_contact_phone = models.CharField(max_length=30, default="")
+
+    # Vet's details
+    vet_clinic_name = models.CharField(max_length=150, default="")
+    vet_phone = models.CharField(max_length=30, default="")
+
+    # Dog's details
+    dog_name = models.CharField("Name of Dog", max_length=100)
+    microchip_number = models.CharField(max_length=50, default="")
+    dog_photo = models.ImageField(upload_to="registrations/dogs/", blank=True)
+    breed = models.CharField(max_length=100, default="")
+    colour = models.CharField(max_length=100, default="")
+    date_of_birth = models.DateField(default=date.today)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="")
+    is_desexed = models.CharField("Desexed?", max_length=3, choices=YES_NO_CHOICES, default="")
+    has_aggression = models.CharField(
+        "Aggression to dogs or people?", max_length=3, choices=YES_NO_CHOICES, default=""
+    )
+    aggression_details = models.TextField(blank=True)
+    last_vaccination_date = models.DateField(default=date.today)
+    vaccination_certificate = models.FileField(
+        upload_to="registrations/vaccination-certs/", blank=True
+    )
+    has_health_ailments = models.CharField(
+        "Health ailments?", max_length=3, choices=YES_NO_CHOICES, default=""
+    )
+    health_ailments_details = models.TextField(blank=True)
+    has_medication = models.CharField(
+        "Medication?", max_length=3, choices=YES_NO_CHOICES, default=""
+    )
+    medication_details = models.TextField(blank=True)
+
+    # Paw Paw Land-specific additions
     food_allergies = models.TextField(
         blank=True,
         help_text="Any foods, ingredients or treats this dog should avoid.",
@@ -297,6 +340,10 @@ class Registration(models.Model):
         help_text="Optional — shared only if the owner opts in to being tagged on "
         "Instagram Stories.",
     )
+
+    # Consent
+    agreed_to_terms = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
@@ -304,4 +351,4 @@ class Registration(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.dog_name} — {self.full_name} ({self.created_at:%Y-%m-%d})"
+        return f"{self.dog_name} — {self.owner_name} ({self.created_at:%Y-%m-%d})"

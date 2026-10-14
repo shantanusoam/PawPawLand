@@ -284,7 +284,7 @@ def contact(request):
 
 def registration(request):
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Thanks! Your dog's registration has been received.")
@@ -292,3 +292,7 @@ def registration(request):
     else:
         form = RegistrationForm()
     return render(request, "website/registration.html", {"form": form})
+
+
+def refer(request):
+    return render(request, "website/refer.html")

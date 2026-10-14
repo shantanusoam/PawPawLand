@@ -156,17 +156,40 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(Registration)
 class RegistrationAdmin(admin.ModelAdmin):
-    list_display = ["dog_name", "full_name", "email", "created_at", "is_read"]
+    list_display = ["dog_name", "owner_name", "email", "created_at", "is_read"]
     list_editable = ["is_read"]
-    list_filter = ["is_read"]
-    search_fields = ["dog_name", "full_name", "email"]
+    list_filter = ["is_read", "gender", "is_desexed"]
+    search_fields = ["dog_name", "owner_name", "email", "microchip_number"]
     readonly_fields = [
-        "full_name",
-        "email",
+        "owner_name",
+        "address",
+        "suburb",
+        "postcode",
         "phone",
+        "email",
+        "emergency_contact_name",
+        "emergency_contact_phone",
+        "vet_clinic_name",
+        "vet_phone",
         "dog_name",
+        "microchip_number",
+        "dog_photo",
+        "breed",
+        "colour",
+        "date_of_birth",
+        "gender",
+        "is_desexed",
+        "has_aggression",
+        "aggression_details",
+        "last_vaccination_date",
+        "vaccination_certificate",
+        "has_health_ailments",
+        "health_ailments_details",
+        "has_medication",
+        "medication_details",
         "food_allergies",
         "instagram_handle",
+        "agreed_to_terms",
         "created_at",
     ]
 

@@ -23,60 +23,260 @@
       </span>
     </h1>
     <p class="hero-intro mx-auto mt-6 max-w-md text-navy-deep">
-      Tell us about your pup so we can give them the best possible day with us.
+      Complete your registration below so we can give your pup the best possible day with us.
     </p>
   </div>
   {% include "website/partials/hero_wave.html" %}
 </section>
 {# Registration form #}
 <section class="relative overflow-hidden bg-white py-20 md:py-24">
-  <div class="mx-auto max-w-[720px] px-6">
-    <div class="fade-up rounded-[28px] border border-navy/5 border-t-[5px] border-t-gold bg-white p-7 shadow-[0_12px_32px_rgba(42,40,96,0.08)] sm:p-9">
+  <div class="mx-auto max-w-[840px] px-6">
+    <div class="fade-up rounded-[28px] border border-navy/5 border-t-[5px] border-t-gold bg-white p-7 shadow-[0_12px_32px_rgba(42,40,96,0.08)] sm:p-9"
+         x-data="{ aggression: '{{ form.has_aggression.value|default:'' }}', health: '{{ form.has_health_ailments.value|default:'' }}', medication: '{{ form.has_medication.value|default:'' }}', }">
       {% if messages %}
         {% for message in messages %}
           <div class="mb-6 rounded-lg bg-mint-pastel px-5 py-4 text-sm font-semibold text-ink">{{ message }}</div>
         {% endfor %}
       {% endif %}
-      <form method="post" novalidate>
+      {% if form.errors %}
+        <div class="mb-6 rounded-lg bg-pink-soft px-5 py-4 text-sm font-semibold text-ink">
+          Please check the highlighted fields below and try again.
+        </div>
+      {% endif %}
+      <form method="post"
+            enctype="multipart/form-data"
+            novalidate
+            class="space-y-10">
         {% csrf_token %}
-        <div class="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label for="{{ form.full_name.id_for_label }}"
-                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.full_name.label }}</label>
-            {{ form.full_name }}
-            {{ form.full_name.errors }}
-          </div>
-          <div>
-            <label for="{{ form.dog_name.id_for_label }}"
-                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.dog_name.label }}</label>
-            {{ form.dog_name }}
-            {{ form.dog_name.errors }}
-          </div>
-          <div>
-            <label for="{{ form.email.id_for_label }}"
-                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.email.label }}</label>
-            {{ form.email }}
-            {{ form.email.errors }}
-          </div>
-          <div>
-            <label for="{{ form.phone.id_for_label }}"
-                   class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.phone.label }}</label>
-            {{ form.phone }}
+        {# Your contact details #}
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy-deep">Your Contact Details</h2>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <label for="{{ form.owner_name.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.owner_name.label }}</label>
+              {{ form.owner_name }}
+              {{ form.owner_name.errors }}
+            </div>
+            <div class="sm:col-span-2">
+              <label for="{{ form.address.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.address.label }}</label>
+              {{ form.address }}
+              {{ form.address.errors }}
+            </div>
+            <div>
+              <label for="{{ form.suburb.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.suburb.label }}</label>
+              {{ form.suburb }}
+              {{ form.suburb.errors }}
+            </div>
+            <div>
+              <label for="{{ form.postcode.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.postcode.label }}</label>
+              {{ form.postcode }}
+              {{ form.postcode.errors }}
+            </div>
+            <div>
+              <label for="{{ form.phone.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.phone.label }}</label>
+              {{ form.phone }}
+              {{ form.phone.errors }}
+            </div>
+            <div>
+              <label for="{{ form.email.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.email.label }}</label>
+              {{ form.email }}
+              {{ form.email.errors }}
+            </div>
           </div>
         </div>
-        <div class="mt-5">
-          <label for="{{ form.food_allergies.id_for_label }}"
-                 class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.food_allergies.label }}</label>
-          {{ form.food_allergies }}
+        {# Emergency contact details #}
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy-deep">Emergency Contact Details</h2>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="{{ form.emergency_contact_name.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">
+                {{ form.emergency_contact_name.label }}
+              </label>
+              {{ form.emergency_contact_name }}
+              {{ form.emergency_contact_name.errors }}
+            </div>
+            <div>
+              <label for="{{ form.emergency_contact_phone.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">
+                {{ form.emergency_contact_phone.label }}
+              </label>
+              {{ form.emergency_contact_phone }}
+              {{ form.emergency_contact_phone.errors }}
+            </div>
+          </div>
         </div>
-        <div class="mt-5">
-          <label for="{{ form.instagram_handle.id_for_label }}"
-                 class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.instagram_handle.label }}</label>
-          {{ form.instagram_handle }}
+        {# Vet's details #}
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy-deep">Vet's Details</h2>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="{{ form.vet_clinic_name.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.vet_clinic_name.label }}</label>
+              {{ form.vet_clinic_name }}
+              {{ form.vet_clinic_name.errors }}
+            </div>
+            <div>
+              <label for="{{ form.vet_phone.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.vet_phone.label }}</label>
+              {{ form.vet_phone }}
+              {{ form.vet_phone.errors }}
+            </div>
+          </div>
+        </div>
+        {# Dog's details #}
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy-deep">Dog's Details</h2>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="{{ form.dog_name.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.dog_name.label }}</label>
+              {{ form.dog_name }}
+              {{ form.dog_name.errors }}
+            </div>
+            <div>
+              <label for="{{ form.microchip_number.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.microchip_number.label }}</label>
+              {{ form.microchip_number }}
+              {{ form.microchip_number.errors }}
+            </div>
+            <div class="sm:col-span-2">
+              <label for="{{ form.dog_photo.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.dog_photo.label }}</label>
+              {{ form.dog_photo }}
+              {{ form.dog_photo.errors }}
+            </div>
+            <div>
+              <label for="{{ form.breed.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.breed.label }}</label>
+              {{ form.breed }}
+              {{ form.breed.errors }}
+            </div>
+            <div>
+              <label for="{{ form.colour.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.colour.label }}</label>
+              {{ form.colour }}
+              {{ form.colour.errors }}
+            </div>
+            <div>
+              <label for="{{ form.date_of_birth.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.date_of_birth.label }}</label>
+              {{ form.date_of_birth }}
+              {{ form.date_of_birth.errors }}
+            </div>
+            <div>
+              <span class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.gender.label }}</span>
+              <div class="flex gap-5 pt-2">
+                {% for radio in form.gender %}
+                  <label class="flex items-center gap-2 text-sm text-ink">{{ radio.tag }} {{ radio.choice_label }}</label>
+                {% endfor %}
+              </div>
+              {{ form.gender.errors }}
+            </div>
+            <div>
+              <span class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.is_desexed.label }}</span>
+              <div class="flex gap-5 pt-2">
+                {% for radio in form.is_desexed %}
+                  <label class="flex items-center gap-2 text-sm text-ink">{{ radio.tag }} {{ radio.choice_label }}</label>
+                {% endfor %}
+              </div>
+              {{ form.is_desexed.errors }}
+            </div>
+            <div class="sm:col-span-2">
+              <span class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.has_aggression.label }}</span>
+              <div class="flex gap-5 pt-2">
+                {% for radio in form.has_aggression %}
+                  <label class="flex items-center gap-2 text-sm text-ink">
+                    <span @click="aggression = '{{ radio.data.value }}'">{{ radio.tag }}</span>
+                    {{ radio.choice_label }}
+                  </label>
+                {% endfor %}
+              </div>
+              {{ form.has_aggression.errors }}
+              <div x-show="aggression === 'yes'" x-cloak class="mt-3">{{ form.aggression_details }}</div>
+            </div>
+            <div>
+              <label for="{{ form.last_vaccination_date.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">
+                {{ form.last_vaccination_date.label }}
+              </label>
+              {{ form.last_vaccination_date }}
+              {{ form.last_vaccination_date.errors }}
+            </div>
+            <div>
+              <label for="{{ form.vaccination_certificate.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">
+                {{ form.vaccination_certificate.label }}
+              </label>
+              {{ form.vaccination_certificate }}
+              {{ form.vaccination_certificate.errors }}
+            </div>
+            <div class="sm:col-span-2">
+              <span class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.has_health_ailments.label }}</span>
+              <div class="flex gap-5 pt-2">
+                {% for radio in form.has_health_ailments %}
+                  <label class="flex items-center gap-2 text-sm text-ink">
+                    <span @click="health = '{{ radio.data.value }}'">{{ radio.tag }}</span>
+                    {{ radio.choice_label }}
+                  </label>
+                {% endfor %}
+              </div>
+              {{ form.has_health_ailments.errors }}
+              <div x-show="health === 'yes'" x-cloak class="mt-3">{{ form.health_ailments_details }}</div>
+            </div>
+            <div class="sm:col-span-2">
+              <span class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.has_medication.label }}</span>
+              <div class="flex gap-5 pt-2">
+                {% for radio in form.has_medication %}
+                  <label class="flex items-center gap-2 text-sm text-ink">
+                    <span @click="medication = '{{ radio.data.value }}'">{{ radio.tag }}</span>
+                    {{ radio.choice_label }}
+                  </label>
+                {% endfor %}
+              </div>
+              {{ form.has_medication.errors }}
+              <div x-show="medication === 'yes'" x-cloak class="mt-3">{{ form.medication_details }}</div>
+            </div>
+          </div>
+        </div>
+        {# Paw Paw Land extras #}
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy-deep">A Little More About Your Pup</h2>
+          <div class="mt-4 space-y-5">
+            <div>
+              <label for="{{ form.food_allergies.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.food_allergies.label }}</label>
+              {{ form.food_allergies }}
+            </div>
+            <div>
+              <label for="{{ form.instagram_handle.id_for_label }}"
+                     class="mb-2 block text-xs font-semibold text-navy-deep">{{ form.instagram_handle.label }}</label>
+              {{ form.instagram_handle }}
+            </div>
+          </div>
+        </div>
+        {# Consent #}
+        <div>
+          <label class="flex items-start gap-3 text-sm text-ink">
+            {{ form.agreed_to_terms }}
+            <span>
+              {{ form.agreed_to_terms.label }} — read our
+              <a href="{% url 'website:terms' %}"
+                 target="_blank"
+                 class="font-semibold text-coral underline">Terms &amp; Conditions</a>.
+            </span>
+          </label>
+          {{ form.agreed_to_terms.errors }}
         </div>
         <button type="submit"
-                class="mt-7 w-full rounded-xl bg-navy-deep py-4 text-sm font-bold tracking-wider text-white uppercase transition-transform hover:-translate-y-0.5">
-          Submit
+                class="w-full rounded-xl bg-navy-deep py-4 text-sm font-bold tracking-wider text-white uppercase transition-transform hover:-translate-y-0.5">
+          Submit Registration
         </button>
       </form>
     </div>

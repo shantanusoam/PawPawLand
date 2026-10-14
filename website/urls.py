@@ -20,6 +20,7 @@ urlpatterns = [
     path("gallery/", views.gallery, name="gallery"),
     path("contact/", views.contact, name="contact"),
     path("registration/", views.registration, name="registration"),
+    path("refer/", views.refer, name="refer"),
     path("terms/", views.legal_page, {"slug": "terms"}, name="terms"),
     path("privacy/", views.legal_page, {"slug": "privacy"}, name="privacy"),
     path(
