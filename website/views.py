@@ -159,7 +159,7 @@ SERVICE_DETAIL_CONTENT = {
         "hero_heading_text": "Puppy Playgroup",
         "hero_body": "Little paws. Big first experiences.",
         "hero_photo": "service-puppy-hero.webp",
-        "intro_image": "service-daycare-intro.webp",
+        "intro_image": "service-puppy-intro.webp",
         "intro_heading_line1": "Little Paws.",
         "intro_heading_highlight": "Big First Experiences",
         "intro_subheading": "Socialisation, tailored to your puppy",
