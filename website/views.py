@@ -148,6 +148,10 @@ SERVICE_DETAIL_CONTENT = {
         ],
         "intro_button_label": "Discover Our Spa →",
         "rate_card_image": "grooming-rate-card.webp",
+        "cta_heading": "Ready for a fresh new look?",
+        "cta_body": "Book their next spa day today. First visit? We'd love to meet your "
+        "furry best friend.",
+        "cta_button_label": "Schedule A Spa Day →",
     },
     "puppy-playgroup": {
         "eyebrow": "Puppy Playgroup",
@@ -176,6 +180,8 @@ SERVICE_DETAIL_CONTENT = {
             "and, where appropriate, calm adult dogs. Rather than simply letting "
             "puppies play together, our focus is on structured, closely "
             "monitored socialisation in a nurturing environment.",
+        ],
+        "intro_body_more": [
             "Sessions may include supervised play, enrichment and "
             "confidence-building activities, positive reinforcement, exposure to "
             "new sounds and experiences, and plenty of rest in between. A "
@@ -188,6 +194,10 @@ SERVICE_DETAIL_CONTENT = {
             "Positive early experiences. Happy little puppies. Confident dogs in the making.",
         ],
         # No CTA button here per client feedback ("Remove Discover Puppy Play").
+        "cta_heading": "Ready for their first playdate?",
+        "cta_body": "Book your puppy's next playgroup session today. We'd love to meet "
+        "your little pup.",
+        "cta_button_label": "Schedule A Playdate →",
     },
     "dog-birthday-parties": {
         "eyebrow": "Dog Birthday Party",
@@ -215,6 +225,9 @@ SERVICE_DETAIL_CONTENT = {
             "a whole lot of wagging tails.",
         ],
         "intro_button_label": "Discover Parties →",
+        "cta_heading": "Ready to plan their party?",
+        "cta_body": "Book your pup's birthday celebration today. Let's make it pawsome.",
+        "cta_button_label": "Schedule A Party →",
     },
 }
 # Day Care gets its own promo line and navy (not gold) hero heading treatment.

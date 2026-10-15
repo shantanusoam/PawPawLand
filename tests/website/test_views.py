@@ -369,6 +369,32 @@ def test_service_detail_intro_button_links_to_its_own_gallery(client, slug):
     assert f'href="/services/{slug}/gallery/"' in content
 
 
+def test_service_detail_pages_have_their_own_cta_copy(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    grooming = client.get(reverse("website:service_detail", args=["dog-grooming"])).content.decode()
+    assert "Ready for a fresh new look?" in grooming
+    assert "Schedule A Spa Day" in grooming
+
+    daycare = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
+    assert "Ready to make your pup's day?" in daycare
+    assert "Ready for a fresh new look?" not in daycare
+
+
+def test_puppy_playgroup_page_has_read_more_toggle(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    content = client.get(
+        reverse("website:service_detail", args=["puppy-playgroup"])
+    ).content.decode()
+    assert "nurturing environment." in content
+    assert "Read More" in content
+    assert "Sessions may include supervised play" in content
+    assert 'x-show="expanded"' in content
+
+
 def test_service_pricing_plans_are_scoped_to_their_own_service(client):
     from django.core.management import call_command
 

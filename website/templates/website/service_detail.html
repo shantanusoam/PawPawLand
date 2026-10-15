@@ -80,7 +80,7 @@
           </div>
         {% endif %}
       </div>
-      <div class="order-1 lg:order-2">
+      <div class="order-1 lg:order-2" x-data="{ expanded: false }">
         <p class="section-eyebrow text-gold">
           <img src="{% static 'img/paw-print.svg' %}" alt="" class="h-4 w-4">
           {{ detail.eyebrow }}
@@ -108,6 +108,19 @@
         {% for paragraph in detail.intro_body %}
           <p class="mt-4 leading-relaxed text-muted-dark">{{ paragraph }}</p>
         {% endfor %}
+        {% if detail.intro_body_more %}
+          <div x-show="expanded" x-cloak>
+            {% for paragraph in detail.intro_body_more %}
+              <p class="mt-4 leading-relaxed text-muted-dark">{{ paragraph }}</p>
+            {% endfor %}
+          </div>
+          <button type="button"
+                  @click="expanded = !expanded"
+                  class="mt-4 font-semibold text-coral underline">
+            <span x-show="!expanded">Read More →</span>
+            <span x-show="expanded" x-cloak>Read Less ←</span>
+          </button>
+        {% endif %}
         {% if detail.intro_button_label %}
           <a href="{% url 'website:service_gallery' service.slug %}"
              class="btn-navy mt-8 px-8 py-3.5">{{ detail.intro_button_label }}</a>
@@ -127,5 +140,5 @@
   {% endif %}
   {% include "website/partials/section_pricing_plans.html" %}
   {% include "website/partials/section_service_gallery.html" %}
-  {% include "website/partials/section_cta.html" %}
+  {% include "website/partials/section_cta.html" with cta_heading=detail.cta_heading cta_body=detail.cta_body cta_button_label=detail.cta_button_label %}
 {% endblock content %}

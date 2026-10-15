@@ -1,5 +1,10 @@
 {% load static %}
-{# "Ready to make your pup's day?" CTA banner — shared across the Services hub and detail pages. #}
+{% comment %}
+"Ready to make your pup's day?" CTA banner — shared across the Services hub and
+detail pages. Pass cta_heading / cta_body / cta_button_label via
+{% include ... with %} to customize per page; all three fall back to the
+generic defaults below when not given.
+{% endcomment %}
 <section class="bg-cream px-6 pt-16 pb-4">
   {% include "website/partials/paw_trail.html" with tone="text-navy/30" flip=True %}
   <div class="fade-up relative mx-auto mt-6 max-w-[980px] rounded-[45px] bg-blue-pastel px-10 py-16 md:px-16">
@@ -10,14 +15,16 @@
     <span class="float-slow pointer-events-none absolute bottom-10 left-[45%] hidden text-3xl text-navy/40 md:block [--pp-rotate:-15deg]"
           aria-hidden="true">{% include "website/icons/bone.html" %}</span>
     <div class="max-w-[500px]">
-      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">Ready to make your pup's day?</h2>
+      <h2 class="font-display text-4xl leading-tight font-bold text-ink md:text-5xl">
+        {{ cta_heading|default:"Ready to make your pup's day?" }}
+      </h2>
       <p class="mt-6 max-w-[420px] leading-relaxed text-muted-dark">
-        Book their next adventure today. First visit? We'd love to meet your furry best friend.
+        {{ cta_body|default:"Book their next adventure today. First visit? We'd love to meet your furry best friend." }}
       </p>
       <a href="{{ site_settings.booking_url }}"
          target="_blank"
          rel="noopener noreferrer"
-         class="btn-navy mt-8 px-8 py-3.5">Schedule A Visit →</a>
+         class="btn-navy mt-8 px-8 py-3.5">{{ cta_button_label|default:"Schedule A Visit →" }}</a>
     </div>
     <img src="{% static 'img/cta-dogs.webp' %}"
          alt="A Border Collie and a Golden Retriever sitting together"
