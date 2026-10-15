@@ -448,6 +448,24 @@ def test_footer_uses_site_settings(client):
     assert "123 Happy Paws Lane, Sydney NSW 2000" in content
 
 
+def test_booking_buttons_link_to_booking_url_everywhere(client):
+    from django.core.management import call_command
+
+    call_command("seed_demo")
+    pages = [
+        reverse("website:home"),
+        reverse("website:gallery"),
+        reverse("website:services"),
+        reverse("website:service_detail", args=["dog-daycare"]),
+        reverse("website:service_gallery", args=["dog-daycare"]),
+    ]
+    for url in pages:
+        content = client.get(url).content.decode()
+        assert "https://pawpawland.as.me/schedule/56746727" in content, url
+        assert "secure.acuityscheduling.com" not in content
+        assert ">Schedule A Visit" in content or ">Book Now" in content or "Book A Visit" in content
+
+
 def test_contact_page_hides_mobile_until_set(client):
     from website.models import SiteSettings
 

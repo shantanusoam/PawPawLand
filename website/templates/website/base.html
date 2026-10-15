@@ -65,7 +65,7 @@
           <a href="{% url 'website:gallery' %}" class="nav-link">Gallery</a>
           <a href="{% url 'website:refer' %}" class="nav-link">Refer</a>
           <a href="{% url 'website:contact' %}" class="nav-link">Contact</a>
-          <a href="https://secure.acuityscheduling.com/admin/scheduling-page"
+          <a href="{{ site_settings.booking_url }}"
              target="_blank"
              rel="noopener noreferrer"
              class="btn-navy px-6 py-2.5">Book Now</a>
@@ -107,7 +107,7 @@
            class="block py-2 font-semibold text-ink">Refer</a>
         <a href="{% url 'website:contact' %}"
            class="block py-2 font-semibold text-ink">Contact</a>
-        <a href="https://secure.acuityscheduling.com/admin/scheduling-page"
+        <a href="{{ site_settings.booking_url }}"
            target="_blank"
            rel="noopener noreferrer"
            class="btn-navy mt-3 px-6 py-2.5">Book Now</a>

@@ -245,6 +245,11 @@ class SiteSettings(models.Model):
     )
     facebook_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
+    booking_url = models.URLField(
+        blank=True,
+        default="https://pawpawland.as.me/schedule/56746727",
+        help_text="Where every 'Book Now' / 'Schedule A Visit' button on the site links to.",
+    )
 
     class Meta:
         verbose_name = "Site settings"
