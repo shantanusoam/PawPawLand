@@ -6,41 +6,47 @@
     <div class="pointer-events-none absolute -bottom-8 -left-28 z-[6] h-72 w-72 rounded-full bg-gold md:h-80 md:w-80"
          data-parallax="40"
          aria-hidden="true"></div>
+    {% comment %}
+    Small doodles: on mobile the text/buttons stack full-width with no vertical
+    room around the heading, so these sit in the gap between the buttons and
+    the dog photo instead. From lg: up, columns split and there's open space
+    above the heading again, so they move back up there.
+    {% endcomment %}
     <img src="{% static 'img/paw-print.svg' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-14 left-16 hidden h-12 w-12 [--pp-rotate:-12deg] lg:block"
+         class="float-slow pointer-events-none absolute top-[390px] left-6 z-10 h-8 w-8 [--pp-rotate:-12deg] lg:top-[470px] lg:left-64 lg:h-12 lg:w-12"
          aria-hidden="true">
     <img src="{% static 'img/paw-print.svg' %}"
          alt=""
-         class="float-fast pointer-events-none absolute top-24 left-32 hidden h-8 w-8 [--pp-rotate:12deg] lg:block"
+         class="float-fast pointer-events-none absolute top-[400px] left-20 z-10 h-6 w-6 [--pp-rotate:12deg] lg:top-[500px] lg:left-80 lg:h-8 lg:w-8"
          aria-hidden="true">
     <img src="{% static 'img/hero-heart-1.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-[6%] left-[62%] z-10 hidden h-20 w-auto lg:block"
+         class="float-slow pointer-events-none absolute top-[455px] right-6 z-10 h-12 w-auto lg:top-[6%] lg:right-auto lg:left-[62%] lg:h-20"
          aria-hidden="true">
     <img src="{% static 'img/hero-dots-pair.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-[5%] left-[84%] z-10 hidden h-24 w-auto lg:block"
+         class="float-slow pointer-events-none absolute top-[720px] left-4 z-10 h-10 w-auto lg:top-[5%] lg:left-[84%] lg:h-24"
          aria-hidden="true">
     <img src="{% static 'img/hero-dots-1.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-[540px] left-[7%] z-10 hidden h-10 w-auto lg:block"
+         class="float-slow pointer-events-none absolute top-[540px] left-[7%] z-10 h-10 w-auto"
          aria-hidden="true">
     <img src="{% static 'img/hero-dots-2.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute top-[610px] left-[5%] z-10 hidden h-14 w-auto lg:block"
+         class="float-fast pointer-events-none absolute top-[610px] left-[5%] z-10 h-14 w-auto"
          aria-hidden="true">
     <img src="{% static 'img/hero-dots-1.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute top-[470px] left-[54%] z-10 hidden h-10 w-auto lg:block"
+         class="float-fast pointer-events-none absolute top-[470px] left-[54%] z-10 h-10 w-auto"
          aria-hidden="true">
     <img src="{% static 'img/hero-dots-2.webp' %}"
          alt=""
-         class="float-slow pointer-events-none absolute top-[520px] left-[55%] z-10 hidden h-10 w-auto lg:block"
+         class="float-slow pointer-events-none absolute top-[520px] left-[55%] z-10 h-10 w-auto"
          aria-hidden="true">
     <img src="{% static 'img/hero-heart-2.webp' %}"
          alt=""
-         class="float-fast pointer-events-none absolute right-[2%] bottom-[26%] z-10 hidden h-20 w-auto lg:block"
+         class="float-fast pointer-events-none absolute right-[2%] bottom-[26%] z-10 h-20 w-auto"
          aria-hidden="true">
     <div class="relative z-10 mx-auto grid min-h-[20rem] max-w-[1280px] items-center gap-8 px-6 pb-20 md:min-h-[34rem] md:pb-24 lg:min-h-[38rem] lg:grid-cols-2 lg:items-end lg:pb-28 xl:min-h-[42rem] xl:pb-32">
       <div class="max-w-xl pb-6 lg:pb-18 xl:pb-24">
