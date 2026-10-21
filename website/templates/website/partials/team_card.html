@@ -1,6 +1,6 @@
 {# Expects a TeamMember instance with .tone attached (see views.py: about()). #}
 <article class="fade-up card-lift relative overflow-hidden rounded-[32px] {{ member.tone }} p-6">
-  <div class="relative h-[320px] overflow-hidden rounded-2xl bg-white/40">
+  <div class="relative aspect-square overflow-hidden rounded-2xl bg-white/40">
     {% if member.photo %}
       <img src="{{ member.photo.url }}"
            alt="{{ member.name }}, {{ member.role }} at Paw Paw Land"

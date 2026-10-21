@@ -178,7 +178,7 @@ def test_pricing_page_renders_a_third_dog_count_tier(client):
         features_text="Passes available for 3 dogs",
     )
     content = client.get(reverse("website:service_detail", args=["dog-daycare"])).content.decode()
-    assert "Plans for 3 dogs" in content
+    assert "Plans for 3 dogs" not in content
     assert "Daycare Passes" in content
     assert "$600" in content
 
@@ -206,8 +206,10 @@ def test_service_pricing_heading_uses_custom_tagline_when_set(client):
     assert "Solo Fun!" in content
     assert "Give Your Pup More Play" not in content
     # The small eyebrow label above the heading should reflect the custom
-    # tagline too, not the old hardcoded "{service} Plans for {dog count}".
-    assert "Solo Pups for 1 dog" in content
+    # tagline, without the "for 1 dog" / "for 2 dogs" qualifier (the carousel's
+    # aria-label may still mention the dog count for screen readers).
+    assert "Solo Pups" in content
+    assert "Solo Pups for 1 dog" not in content
     assert "Dog Daycare Plans for 1 dog" not in content
 
 
@@ -323,6 +325,12 @@ def test_refer_page_renders_with_steps_and_terms(client):
 def test_nav_and_footer_link_to_refer_page(client):
     content = client.get(reverse("website:home")).content.decode()
     assert content.count('href="/refer/"') >= 2
+
+
+def test_navbar_has_a_register_button(client):
+    content = client.get(reverse("website:home")).content.decode()
+    assert content.count('href="/registration/"') >= 2
+    assert ">Register<" in content
 
 
 @pytest.mark.parametrize(
