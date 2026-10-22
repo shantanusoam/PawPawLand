@@ -64,6 +64,21 @@ def test_registration_form_valid_submission_saves_and_redirects(client):
     assert registration.is_read is False
 
 
+def test_registration_form_submission_emails_site_settings_address(client, mailoutbox):
+    from website.models import SiteSettings
+
+    settings_obj = SiteSettings.load()
+    settings_obj.email = "info@pawpawland.au"
+    settings_obj.save()
+
+    client.post(reverse("website:registration"), VALID_PAYLOAD)
+    assert len(mailoutbox) == 1
+    assert mailoutbox[0].to == ["info@pawpawland.au"]
+    assert "Biscuit" in mailoutbox[0].subject
+    assert "Jamie Smith" in mailoutbox[0].subject
+    assert "Golden Retriever" in mailoutbox[0].body
+
+
 def test_registration_form_missing_required_fields_does_not_save(client):
     response = client.post(reverse("website:registration"), {})
     assert response.status_code == 200

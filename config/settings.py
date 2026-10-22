@@ -18,6 +18,18 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
+# Email notifications for Contact and Registration form submissions, sent to
+# SiteSettings.email. Defaults to the console backend (prints to stdout, sends
+# nothing) until real SMTP credentials are set in .env, so local dev and a
+# fresh deploy without credentials never hang or error on form submission.
+EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = env("EMAIL_HOST", default="")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="noreply@pawpawland.com.au")
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

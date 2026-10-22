@@ -1,8 +1,41 @@
+import logging
+
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ContactForm, RegistrationForm
-from .models import FAQ, GalleryImage, LegalPage, PricingPlan, Service, TeamMember, Testimonial
+from .models import (
+    FAQ,
+    GalleryImage,
+    LegalPage,
+    PricingPlan,
+    Service,
+    SiteSettings,
+    TeamMember,
+    Testimonial,
+)
+
+logger = logging.getLogger(__name__)
+
+
+def _notify(subject, lines):
+    """Email a plain-text notification to SiteSettings.email. Never raises —
+    a down mail server shouldn't stop a visitor's form submission from saving."""
+    recipient = SiteSettings.load().email
+    if not recipient:
+        return
+    try:
+        send_mail(
+            subject,
+            "\n".join(lines),
+            None,
+            [recipient],
+            fail_silently=False,
+        )
+    except Exception:
+        logger.exception("Failed to send notification email: %s", subject)
+
 
 # Accent tones cycled across service cards / FAQ rows / team cards, matching the Figma palette.
 SERVICE_TONES = [
@@ -285,7 +318,19 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST, service_choices=service_choices)
         if form.is_valid():
-            form.save()
+            submission = form.save()
+            _notify(
+                f"New Contact Form Submission — {submission.full_name}",
+                [
+                    f"Name: {submission.full_name}",
+                    f"Email: {submission.email}",
+                    f"Phone: {submission.phone}",
+                    f"Service requested: {submission.service_requested}",
+                    "",
+                    "Message:",
+                    submission.message,
+                ],
+            )
             messages.success(
                 request, "Thanks! We've got your message and will be in touch shortly."
             )
@@ -299,7 +344,39 @@ def registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            reg = form.save()
+            lines = [
+                f"Owner: {reg.owner_name}",
+                f"Address: {reg.address}, {reg.suburb} {reg.postcode}",
+                f"Phone: {reg.phone}",
+                f"Email: {reg.email}",
+                "",
+                f"Emergency contact: {reg.emergency_contact_name} ({reg.emergency_contact_phone})",
+                f"Vet: {reg.vet_clinic_name} ({reg.vet_phone})",
+                "",
+                f"Dog's name: {reg.dog_name}",
+                f"Microchip: {reg.microchip_number}",
+                f"Breed: {reg.breed}",
+                f"Colour: {reg.colour}",
+                f"Date of birth: {reg.date_of_birth}",
+                f"Gender: {reg.get_gender_display()}",
+                f"Desexed: {reg.get_is_desexed_display()}",
+                f"Aggression to dogs/people: {reg.get_has_aggression_display()}",
+            ]
+            if reg.aggression_details:
+                lines.append(f"  Details: {reg.aggression_details}")
+            lines.append(f"Last vaccination date: {reg.last_vaccination_date}")
+            lines.append(f"Health ailments: {reg.get_has_health_ailments_display()}")
+            if reg.health_ailments_details:
+                lines.append(f"  Details: {reg.health_ailments_details}")
+            lines.append(f"Medication: {reg.get_has_medication_display()}")
+            if reg.medication_details:
+                lines.append(f"  Details: {reg.medication_details}")
+            if reg.food_allergies:
+                lines += ["", f"Food allergies: {reg.food_allergies}"]
+            if reg.instagram_handle:
+                lines.append(f"Instagram: {reg.instagram_handle}")
+            _notify(f"New Dog Registration — {reg.dog_name} ({reg.owner_name})", lines)
             messages.success(request, "Thanks! Your dog's registration has been received.")
             return redirect("website:registration")
     else:
