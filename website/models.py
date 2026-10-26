@@ -316,9 +316,14 @@ class Registration(models.Model):
     colour = models.CharField(max_length=100, default="")
     date_of_birth = models.DateField(default=date.today)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="")
-    is_desexed = models.CharField("Desexed?", max_length=3, choices=YES_NO_CHOICES, default="")
+    is_desexed = models.CharField(
+        "Is your dog desexed?", max_length=3, choices=YES_NO_CHOICES, default=""
+    )
     has_aggression = models.CharField(
-        "Aggression to dogs or people?", max_length=3, choices=YES_NO_CHOICES, default=""
+        "Does your dog display aggression to other dogs or people?",
+        max_length=3,
+        choices=YES_NO_CHOICES,
+        default="",
     )
     aggression_details = models.TextField(blank=True)
     last_vaccination_date = models.DateField(default=date.today)
@@ -326,11 +331,14 @@ class Registration(models.Model):
         upload_to="registrations/vaccination-certs/", blank=True
     )
     has_health_ailments = models.CharField(
-        "Health ailments?", max_length=3, choices=YES_NO_CHOICES, default=""
+        "Does your dog suffer from any health issues?",
+        max_length=3,
+        choices=YES_NO_CHOICES,
+        default="",
     )
     health_ailments_details = models.TextField(blank=True)
     has_medication = models.CharField(
-        "Medication?", max_length=3, choices=YES_NO_CHOICES, default=""
+        "Is your dog on any medication?", max_length=3, choices=YES_NO_CHOICES, default=""
     )
     medication_details = models.TextField(blank=True)
 
