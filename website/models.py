@@ -291,6 +291,15 @@ class Registration(models.Model):
 
     YES_NO_CHOICES = [("yes", "Yes"), ("no", "No")]
     GENDER_CHOICES = [("male", "Male"), ("female", "Female")]
+    HEARD_ABOUT_CHOICES = [
+        ("google", "Google"),
+        ("website", "Website"),
+        ("facebook", "Facebook"),
+        ("instagram", "Instagram"),
+        ("vet_rec", "Vet Rec."),
+        ("referral", "Referral"),
+        ("other", "Other"),
+    ]
 
     # Your contact details
     owner_name = models.CharField("Owner's Name", max_length=150, default="")
@@ -352,6 +361,16 @@ class Registration(models.Model):
         blank=True,
         help_text="Optional — shared only if the owner opts in to being tagged on "
         "Instagram Stories.",
+    )
+    heard_about = models.CharField(
+        max_length=120,
+        default="",
+        help_text="Comma-separated choices, e.g. 'google,instagram'.",
+    )
+    heard_about_other = models.CharField(
+        'If "other", please specify.',
+        max_length=200,
+        blank=True,
     )
 
     # Consent

@@ -50,6 +50,20 @@ class ContactForm(forms.ModelForm):
 
 _RADIO_CLASSES = "flex items-center gap-2 text-sm text-ink"
 _DATE_CLASSES = _INPUT_CLASSES + " [color-scheme:light]"
+
+
+class CommaSeparatedMultipleChoiceField(forms.MultipleChoiceField):
+    """Multi-checkbox choice stored as a comma-separated string on the model."""
+
+    def clean(self, value):
+        return ", ".join(super().clean(value))
+
+    def prepare_value(self, value):
+        if isinstance(value, str):
+            value = [item.strip() for item in value.split(",") if item.strip()]
+        return super().prepare_value(value)
+
+
 _FILE_CLASSES = (
     "block w-full rounded-lg border border-navy/15 bg-[#fafafa] px-4 py-3 text-sm text-ink "
     "file:mr-3 file:rounded file:border-0 file:bg-navy/10 file:px-3 file:py-1.5 "
@@ -58,6 +72,16 @@ _FILE_CLASSES = (
 
 
 class RegistrationForm(forms.ModelForm):
+    heard_about = CommaSeparatedMultipleChoiceField(
+        label="How did you hear about us? *",
+        choices=Registration.HEARD_ABOUT_CHOICES,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": _RADIO_CLASSES}),
+    )
+    heard_about_other = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={"class": _INPUT_CLASSES, "placeholder": "e.g. A friend"}),
+    )
+
     class Meta:
         model = Registration
         fields = [
@@ -89,6 +113,8 @@ class RegistrationForm(forms.ModelForm):
             "medication_details",
             "food_allergies",
             "instagram_handle",
+            "heard_about",
+            "heard_about_other",
             "agreed_to_terms",
         ]
         widgets = {
@@ -203,6 +229,7 @@ class RegistrationForm(forms.ModelForm):
             "instagram_handle": "We share daycare updates on our Instagram Stories. If you're "
             "happy for us to tag your pup, please share their Instagram handle below (optional).",
             "agreed_to_terms": "I agree with the Terms & Conditions",
+            "heard_about": "How did you hear about us? *",
         }
 
     def __init__(self, *args, **kwargs):
@@ -218,3 +245,9 @@ class RegistrationForm(forms.ModelForm):
         if not agreed:
             raise forms.ValidationError("You must agree to the Terms & Conditions to register.")
         return agreed
+
+    def clean_heard_about_other(self):
+        other = self.cleaned_data.get("heard_about_other", "").strip()
+        if "other" in self.cleaned_data.get("heard_about", "") and not other:
+            raise forms.ValidationError('Please tell us how you heard about us in "Other".')
+        return other

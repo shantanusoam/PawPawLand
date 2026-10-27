@@ -189,6 +189,8 @@ class RegistrationAdmin(admin.ModelAdmin):
         "medication_details",
         "food_allergies",
         "instagram_handle",
+        "heard_about",
+        "heard_about_other",
         "agreed_to_terms",
         "created_at",
     ]

@@ -376,6 +376,10 @@ def registration(request):
                 lines += ["", f"Food allergies: {reg.food_allergies}"]
             if reg.instagram_handle:
                 lines.append(f"Instagram: {reg.instagram_handle}")
+            if reg.heard_about:
+                lines.append(f"Heard about us: {reg.heard_about}")
+                if reg.heard_about_other:
+                    lines.append(f"  Other: {reg.heard_about_other}")
             _notify(f"New Dog Registration — {reg.dog_name} ({reg.owner_name})", lines)
             messages.success(request, "Thanks! Your dog's registration has been received.")
             return redirect("website:registration")

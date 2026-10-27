@@ -28,6 +28,7 @@ VALID_PAYLOAD = {
     "has_health_ailments": "no",
     "has_medication": "no",
     "agreed_to_terms": "on",
+    "heard_about": ["google"],
 }
 
 
@@ -49,6 +50,10 @@ def test_registration_page_renders_form(client):
         "Vaccination Certificate *",
         "Does your dog suffer from any health issues?",
         "Is your dog on any medication?",
+        "How did you hear about us? *",
+        "Google",
+        "Vet Rec.",
+        "Referral",
         "food allergies",
         "Instagram Stories",
         "I agree with the Terms &amp; Conditions",
@@ -117,3 +122,44 @@ def test_registration_form_saves_optional_extras_when_provided(client):
     registration = Registration.objects.get()
     assert registration.food_allergies == "No chicken, please."
     assert registration.instagram_handle == "@biscuit_the_dog"
+
+
+def test_registration_form_requires_heard_about(client):
+    payload = {**VALID_PAYLOAD}
+    del payload["heard_about"]
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+
+
+def test_registration_form_stores_multiple_heard_about_choices(client):
+    payload = {**VALID_PAYLOAD, "heard_about": ["google", "instagram"]}
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 302
+    assert Registration.objects.get().heard_about == "google, instagram"
+
+
+def test_registration_form_requires_specifying_other_source(client):
+    payload = {**VALID_PAYLOAD, "heard_about": ["other"]}
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+
+    payload["heard_about_other"] = "A flyer at the park"
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 302
+    registration = Registration.objects.get()
+    assert registration.heard_about == "other"
+    assert registration.heard_about_other == "A flyer at the park"
+
+
+def test_registration_form_emails_heard_about(client, mailoutbox):
+    from website.models import SiteSettings
+
+    settings_obj = SiteSettings.load()
+    settings_obj.email = "info@pawpawland.au"
+    settings_obj.save()
+
+    client.post(reverse("website:registration"), {**VALID_PAYLOAD, "heard_about": ["referral"]})
+    assert len(mailoutbox) == 1
+    assert "referral" in mailoutbox[0].body
