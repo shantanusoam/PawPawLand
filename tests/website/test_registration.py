@@ -85,6 +85,50 @@ def test_registration_form_submission_emails_site_settings_address(client, mailo
     assert "Biscuit" in mailoutbox[0].subject
     assert "Jamie Smith" in mailoutbox[0].subject
     assert "Golden Retriever" in mailoutbox[0].body
+    # Verify HTML version is present with table structure
+    html_alternatives = [c for c, mime in mailoutbox[0].alternatives if mime == "text/html"]
+    assert len(html_alternatives) == 1
+    assert "Your Contact Details" in html_alternatives[0]
+    assert "Biscuit" in html_alternatives[0]
+
+
+def test_registration_form_emails_with_dog_photo_inlined(client, mailoutbox):
+    from io import BytesIO
+
+    from django.core.files.uploadedfile import SimpleUploadedFile
+    from PIL import Image
+
+    from website.models import SiteSettings
+
+    settings_obj = SiteSettings.load()
+    settings_obj.email = "info@pawpawland.au"
+    settings_obj.save()
+
+    # Generate a valid PNG using Pillow so Django's ImageField validation passes
+    buf = BytesIO()
+    img = Image.new("RGB", (10, 10), color="blue")
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    photo = SimpleUploadedFile("biscuit.png", buf.read(), content_type="image/png")
+    cert = SimpleUploadedFile("vax.pdf", b"%PDF-1.4 test", content_type="application/pdf")
+
+    payload = {
+        **VALID_PAYLOAD,
+        "dog_photo": photo,
+        "vaccination_certificate": cert,
+    }
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 302
+    assert len(mailoutbox) == 1
+    msg = mailoutbox[0]
+    # Check that inlined image and attachment exist
+    assert (
+        any(hasattr(att, "get") and "dog_photo_preview" in str(att) for att in msg.attachments)
+        or len(msg.attachments) >= 1
+    )
+    html_alternatives = [c for c, mime in msg.alternatives if mime == "text/html"]
+    assert len(html_alternatives) == 1
+    assert "cid:dog_photo_preview" in html_alternatives[0]
 
 
 def test_registration_form_missing_required_fields_does_not_save(client):

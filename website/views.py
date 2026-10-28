@@ -1,8 +1,11 @@
 import logging
+import mimetypes
+from email.mime.image import MIMEImage
 
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 
 from .forms import ContactForm, RegistrationForm
 from .models import (
@@ -35,6 +38,89 @@ def _notify(subject, lines):
         )
     except Exception:
         logger.exception("Failed to send notification email: %s", subject)
+
+
+def _notify_registration(reg, lines):
+    """Send HTML-formatted registration notification email with uploaded images
+    inlined/attached so the Paw Paw Land team sees the clean table + dog photo."""
+    recipient = SiteSettings.load().email
+    if not recipient:
+        return
+
+    subject = f"New Dog Registration — {reg.dog_name} ({reg.owner_name})"
+    text_content = "\n".join(lines)
+
+    dog_photo_cid = None
+    photo_data = None
+    photo_subtype = None
+    if reg.dog_photo:
+        try:
+            reg.dog_photo.open("rb")
+            photo_data = reg.dog_photo.read()
+            reg.dog_photo.close()
+            dog_photo_cid = "dog_photo_preview"
+            content_type, _ = mimetypes.guess_type(reg.dog_photo.name)
+            if content_type and content_type.startswith("image/"):
+                photo_subtype = content_type.split("/", 1)[1]
+            else:
+                photo_subtype = "jpeg"
+        except Exception:
+            logger.exception("Failed to read dog photo for email: %s", reg.dog_photo.name)
+            dog_photo_cid = None
+            photo_data = None
+
+    context = {
+        "reg": reg,
+        "dog_photo_cid": dog_photo_cid,
+    }
+    try:
+        html_content = render_to_string("website/emails/registration_notification.html", context)
+    except Exception:
+        logger.exception("Failed to render registration notification HTML template")
+        html_content = None
+
+    try:
+        msg = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,
+            from_email=None,
+            to=[recipient],
+        )
+
+        if html_content:
+            msg.attach_alternative(html_content, "text/html")
+
+        # Inline dog photo so it appears in the email body
+        if dog_photo_cid and photo_data:
+            img = MIMEImage(photo_data, _subtype=photo_subtype)
+            img.add_header("Content-ID", f"<{dog_photo_cid}>")
+            img.add_header(
+                "Content-Disposition", "inline", filename=reg.dog_photo.name.split("/")[-1]
+            )
+            msg.attach(img)
+
+        # Attach vaccination certificate as a file attachment if uploaded
+        if reg.vaccination_certificate:
+            try:
+                reg.vaccination_certificate.open("rb")
+                cert_data = reg.vaccination_certificate.read()
+                reg.vaccination_certificate.close()
+                filename = reg.vaccination_certificate.name.split("/")[-1]
+                content_type, _ = mimetypes.guess_type(filename)
+                msg.attach(
+                    filename,
+                    cert_data,
+                    content_type or "application/octet-stream",
+                )
+            except Exception:
+                logger.exception(
+                    "Failed to attach vaccination certificate: %s",
+                    reg.vaccination_certificate.name,
+                )
+
+        msg.send(fail_silently=False)
+    except Exception:
+        logger.exception("Failed to send registration notification email: %s", subject)
 
 
 # Accent tones cycled across service cards / FAQ rows / team cards, matching the Figma palette.
@@ -380,7 +466,7 @@ def registration(request):
                 lines.append(f"Heard about us: {reg.heard_about}")
                 if reg.heard_about_other:
                     lines.append(f"  Other: {reg.heard_about_other}")
-            _notify(f"New Dog Registration — {reg.dog_name} ({reg.owner_name})", lines)
+            _notify_registration(reg, lines)
             messages.success(request, "Thanks! Your dog's registration has been received.")
             return redirect("website:registration")
     else:

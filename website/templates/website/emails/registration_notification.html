@@ -1,0 +1,355 @@
+{% autoescape on %}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #263238;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 650px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    background-color: #2a2860;
+    padding: 20px 24px;
+    color: #ffffff;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .header p {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    color: #f8c2cb;
+  }
+  .section-title {
+    background-color: #eef2f6;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2a2860;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-top: 16px;
+  }
+  .first-section {
+    margin-top: 0;
+    border-top: none;
+  }
+  table.details {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table.details tr {
+    border-bottom: 1px solid #f1f5f9;
+  }
+  table.details tr:last-child {
+    border-bottom: none;
+  }
+  table.details td.label {
+    width: 38%;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5565;
+    background-color: #fbfcfe;
+    vertical-align: top;
+  }
+  table.details td.value {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #263238;
+    vertical-align: top;
+  }
+  .empty {
+    color: #94a3b8;
+    font-style: italic;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-yes {
+    background-color: #fbe2e7;
+    color: #d82b4c;
+  }
+  .badge-no {
+    background-color: #f1fff7;
+    color: #16a34a;
+  }
+  .photo-container {
+    padding: 16px;
+    background-color: #fafbfc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    margin: 12px 16px;
+    text-align: center;
+  }
+  .photo-container img {
+    max-width: 100%;
+    max-height: 360px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .footer {
+    padding: 16px 24px;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    font-size: 12px;
+    color: #6a7282;
+    text-align: center;
+  }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>New Dog Registration: {{ reg.dog_name }}</h1>
+          <p>Submitted by {{ reg.owner_name }} &bull; {{ reg.created_at|date:"d M Y, g:i A" }}</p>
+        </div>
+        {# SECTION 1: Your Contact Details #}
+        <div class="section-title first-section">Your Contact Details</div>
+        <table class="details">
+          <tr>
+            <td class="label">Owner's Name</td>
+            <td class="value">
+              <strong>{{ reg.owner_name|default:"—" }}</strong>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Address</td>
+            <td class="value">{{ reg.address|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Suburb</td>
+            <td class="value">{{ reg.suburb|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Postcode</td>
+            <td class="value">{{ reg.postcode|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Phone</td>
+            <td class="value">
+              {% if reg.phone %}
+                <a href="tel:{{ reg.phone }}"
+                   style="color: #2a2860;
+                          text-decoration: none"><strong>{{ reg.phone }}</strong></a>
+              {% else %}
+                <span class="empty">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Email Address</td>
+            <td class="value">
+              {% if reg.email %}
+                <a href="mailto:{{ reg.email }}" style="color: #2a2860;">{{ reg.email }}</a>
+              {% else %}
+                <span class="empty">—</span>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+        {# SECTION 2: Emergency Contact Details #}
+        <div class="section-title">Emergency Contact Details</div>
+        <table class="details">
+          <tr>
+            <td class="label">Name</td>
+            <td class="value">{{ reg.emergency_contact_name|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Phone</td>
+            <td class="value">
+              {% if reg.emergency_contact_phone %}
+                <a href="tel:{{ reg.emergency_contact_phone }}"
+                   style="color: #2a2860;
+                          text-decoration: none">{{ reg.emergency_contact_phone }}</a>
+              {% else %}
+                <span class="empty">—</span>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+        {# SECTION 3: Vet's Details #}
+        <div class="section-title">Vet's Details</div>
+        <table class="details">
+          <tr>
+            <td class="label">Vet Clinic Name</td>
+            <td class="value">{{ reg.vet_clinic_name|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Phone</td>
+            <td class="value">
+              {% if reg.vet_phone %}
+                <a href="tel:{{ reg.vet_phone }}"
+                   style="color: #2a2860;
+                          text-decoration: none">{{ reg.vet_phone }}</a>
+              {% else %}
+                <span class="empty">—</span>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+        {# SECTION 4: Dog's Details #}
+        <div class="section-title">Dog's Details</div>
+        <table class="details">
+          <tr>
+            <td class="label">Name of Dog</td>
+            <td class="value">
+              <strong>{{ reg.dog_name|default:"—" }}</strong>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Microchip Number</td>
+            <td class="value">{{ reg.microchip_number|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Breed</td>
+            <td class="value">{{ reg.breed|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Colour</td>
+            <td class="value">{{ reg.colour|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Date of Birth</td>
+            <td class="value">{{ reg.date_of_birth|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Gender</td>
+            <td class="value">{{ reg.get_gender_display|default:reg.gender|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Is your dog desexed?</td>
+            <td class="value">{{ reg.get_is_desexed_display|default:reg.is_desexed|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Aggression to dogs or people?</td>
+            <td class="value">
+              {% if reg.has_aggression == "yes" %}
+                <span class="badge badge-yes">Yes</span>
+                {% if reg.aggression_details %}<div style="margin-top: 4px;">{{ reg.aggression_details }}</div>{% endif %}
+              {% elif reg.has_aggression == "no" %}
+                <span class="badge badge-no">No</span>
+              {% else %}
+                {{ reg.has_aggression|default:"—" }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Last Vaccination Date</td>
+            <td class="value">{{ reg.last_vaccination_date|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Vaccination Certificate</td>
+            <td class="value">
+              {% if reg.vaccination_certificate %}
+                Attached to this email ({{ reg.vaccination_certificate.name }})
+              {% else %}
+                <span class="empty">Not uploaded</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Health issues?</td>
+            <td class="value">
+              {% if reg.has_health_ailments == "yes" %}
+                <span class="badge badge-yes">Yes</span>
+                {% if reg.health_ailments_details %}<div style="margin-top: 4px;">{{ reg.health_ailments_details }}</div>{% endif %}
+              {% elif reg.has_health_ailments == "no" %}
+                <span class="badge badge-no">No</span>
+              {% else %}
+                {{ reg.has_health_ailments|default:"—" }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Medication?</td>
+            <td class="value">
+              {% if reg.has_medication == "yes" %}
+                <span class="badge badge-yes">Yes</span>
+                {% if reg.medication_details %}<div style="margin-top: 4px;">{{ reg.medication_details }}</div>{% endif %}
+              {% elif reg.has_medication == "no" %}
+                <span class="badge badge-no">No</span>
+              {% else %}
+                {{ reg.has_medication|default:"—" }}
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+        {% if dog_photo_cid %}
+          <div class="section-title">Dog Photo</div>
+          <div class="photo-container">
+            <img src="cid:{{ dog_photo_cid }}" alt="{{ reg.dog_name }}">
+            <div style="margin-top: 6px; font-size: 12px; color: #64748b;">{{ reg.dog_name }} (attached)</div>
+          </div>
+        {% elif reg.dog_photo %}
+          <div class="section-title">Dog Photo</div>
+          <div class="photo-container">
+            <p style="margin: 0; color: #475569; font-size: 13px;">Dog photo is attached to this email.</p>
+          </div>
+        {% endif %}
+        {# SECTION 5: Additional Info #}
+        <div class="section-title">Additional Info</div>
+        <table class="details">
+          <tr>
+            <td class="label">Food Allergies / Dietary</td>
+            <td class="value">{{ reg.food_allergies|default:"None specified" }}</td>
+          </tr>
+          <tr>
+            <td class="label">Instagram Handle</td>
+            <td class="value">
+              {% if reg.instagram_handle %}
+                <strong>{{ reg.instagram_handle }}</strong>
+              {% else %}
+                <span class="empty">Not provided</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">How did you hear about us?</td>
+            <td class="value">
+              {{ reg.heard_about|default:"—" }}
+              {% if reg.heard_about_other %}
+                <br>
+                <small style="color: #64748b;">Other: {{ reg.heard_about_other }}</small>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">Agreed to Terms</td>
+            <td class="value">
+              {% if reg.agreed_to_terms %}
+                Yes
+              {% else %}
+                No
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+        <div class="footer">Paw Paw Land Dog Daycare &bull; Automatic registration submission notification</div>
+      </div>
+    </body>
+  </html>
+{% endautoescape %}
