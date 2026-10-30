@@ -70,6 +70,14 @@ _FILE_CLASSES = (
     "file:text-sm file:font-semibold file:text-navy"
 )
 
+# Keep comfortably under Nginx's client_max_body_size (25MB, see scripts/deploy.sh)
+# with two uploads plus the rest of the form fields in one request. Also used by
+# site.js (via the data-max-size-mb attribute below) to reject an oversized file
+# the instant it's chosen, instead of waiting for a slow upload to fail server-side.
+MAX_UPLOAD_SIZE_MB = 10
+_MAX_UPLOAD_SIZE_BYTES = MAX_UPLOAD_SIZE_MB * 1024 * 1024
+_FILE_ATTRS = {"class": _FILE_CLASSES, "data-max-size-mb": str(MAX_UPLOAD_SIZE_MB)}
+
 
 class RegistrationForm(forms.ModelForm):
     heard_about = CommaSeparatedMultipleChoiceField(
@@ -146,7 +154,7 @@ class RegistrationForm(forms.ModelForm):
             ),
             "dog_name": forms.TextInput(attrs={"class": _INPUT_CLASSES, "placeholder": "Biscuit"}),
             "microchip_number": forms.TextInput(attrs={"class": _INPUT_CLASSES}),
-            "dog_photo": forms.ClearableFileInput(attrs={"class": _FILE_CLASSES}),
+            "dog_photo": forms.ClearableFileInput(attrs=_FILE_ATTRS),
             "breed": forms.TextInput(
                 attrs={"class": _INPUT_CLASSES, "placeholder": "Golden Retriever"}
             ),
@@ -167,7 +175,7 @@ class RegistrationForm(forms.ModelForm):
             "last_vaccination_date": forms.DateInput(
                 attrs={"class": _DATE_CLASSES, "type": "date"}, format="%Y-%m-%d"
             ),
-            "vaccination_certificate": forms.ClearableFileInput(attrs={"class": _FILE_CLASSES}),
+            "vaccination_certificate": forms.ClearableFileInput(attrs=_FILE_ATTRS),
             "has_health_ailments": forms.RadioSelect(attrs={"class": _RADIO_CLASSES}),
             "health_ailments_details": forms.Textarea(
                 attrs={
@@ -251,3 +259,21 @@ class RegistrationForm(forms.ModelForm):
         if "other" in self.cleaned_data.get("heard_about", "") and not other:
             raise forms.ValidationError('Please tell us how you heard about us in "Other".')
         return other
+
+    def _clean_file_size(self, field_name):
+        """Backstop for clean_<field>_size_mb below — the JS check in site.js
+        catches this instantly on selection, but validate again server-side in
+        case JS is disabled or the request is sent directly."""
+        uploaded = self.cleaned_data.get(field_name)
+        if uploaded and uploaded.size > _MAX_UPLOAD_SIZE_BYTES:
+            size_mb = uploaded.size / (1024 * 1024)
+            raise forms.ValidationError(
+                f"This file is {size_mb:.1f}MB — please upload a file under {MAX_UPLOAD_SIZE_MB}MB."
+            )
+        return uploaded
+
+    def clean_dog_photo(self):
+        return self._clean_file_size("dog_photo")
+
+    def clean_vaccination_certificate(self):
+        return self._clean_file_size("vaccination_certificate")

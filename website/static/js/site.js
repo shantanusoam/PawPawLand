@@ -270,4 +270,31 @@ document.addEventListener("DOMContentLoaded", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  // --- File upload size guard (Registration form's Dog Photo / Vaccination
+  // Certificate). Rejects an oversized file the instant it's chosen, with an
+  // error shown right below that upload box stating the limit, instead of
+  // letting a large file upload all the way to the server before failing.
+  document.querySelectorAll("input[type='file'][data-max-size-mb]").forEach((input) => {
+    const maxMb = Number(input.dataset.maxSizeMb || 0);
+    if (!maxMb) return;
+    const maxBytes = maxMb * 1024 * 1024;
+
+    const errorEl = document.createElement("p");
+    errorEl.className = "mt-2 hidden text-xs font-semibold text-coral";
+    input.insertAdjacentElement("afterend", errorEl);
+
+    input.addEventListener("change", () => {
+      const file = input.files && input.files[0];
+      if (file && file.size > maxBytes) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        errorEl.textContent = `This file is ${sizeMb}MB — please upload a file under ${maxMb}MB.`;
+        errorEl.classList.remove("hidden");
+        input.value = "";
+      } else {
+        errorEl.textContent = "";
+        errorEl.classList.add("hidden");
+      }
+    });
+  });
 });

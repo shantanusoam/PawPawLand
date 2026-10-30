@@ -131,6 +131,26 @@ def test_registration_form_emails_with_dog_photo_inlined(client, mailoutbox):
     assert "cid:dog_photo_preview" in html_alternatives[0]
 
 
+def test_registration_form_rejects_oversized_vaccination_certificate(client):
+    from django.core.files.uploadedfile import SimpleUploadedFile
+
+    from website.forms import MAX_UPLOAD_SIZE_MB
+
+    # vaccination_certificate is a plain FileField (unlike dog_photo's ImageField),
+    # so arbitrary bytes are enough to exercise the size check without also
+    # needing to be a valid image.
+    oversized = SimpleUploadedFile(
+        "huge.pdf",
+        b"\x00" * ((MAX_UPLOAD_SIZE_MB + 1) * 1024 * 1024),
+        content_type="application/pdf",
+    )
+    payload = {**VALID_PAYLOAD, "vaccination_certificate": oversized}
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+    assert f"under {MAX_UPLOAD_SIZE_MB}MB" in response.content.decode()
+
+
 def test_registration_form_missing_required_fields_does_not_save(client):
     response = client.post(reverse("website:registration"), {})
     assert response.status_code == 200
