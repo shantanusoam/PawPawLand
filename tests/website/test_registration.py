@@ -1,4 +1,5 @@
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
 from website.models import Registration
@@ -27,9 +28,42 @@ VALID_PAYLOAD = {
     "last_vaccination_date": "2026-01-01",
     "has_health_ailments": "no",
     "has_medication": "no",
+    "food_allergies": "None — no known sensitivities.",
+    "instagram_handle": "@biscuit_the_dog",
     "agreed_to_terms": "on",
     "heard_about": ["google"],
 }
+
+
+def make_vaccination_certificate():
+    """Fresh upload per request — vaccination_certificate is a plain FileField
+    (unlike dog_photo's ImageField), so arbitrary bytes are enough."""
+    return SimpleUploadedFile("vax.pdf", b"%PDF-1.4 test", content_type="application/pdf")
+
+
+def make_dog_photo():
+    """Fresh valid PNG per request so Django's ImageField validation passes."""
+    from io import BytesIO
+
+    from PIL import Image
+
+    buf = BytesIO()
+    Image.new("RGB", (10, 10), color="blue").save(buf, format="PNG")
+    buf.seek(0)
+    return SimpleUploadedFile("biscuit.png", buf.read(), content_type="image/png")
+
+
+def valid_payload(**overrides):
+    """A fully valid registration payload, including the (now compulsory)
+    dog photo and vaccination certificate. Build fresh files each call so
+    uploads are never left at EOF between requests/tests."""
+    payload = {
+        **VALID_PAYLOAD,
+        "dog_photo": make_dog_photo(),
+        "vaccination_certificate": make_vaccination_certificate(),
+    }
+    payload.update(overrides)
+    return payload
 
 
 def test_registration_page_renders_form(client):
@@ -62,7 +96,7 @@ def test_registration_page_renders_form(client):
 
 
 def test_registration_form_valid_submission_saves_and_redirects(client):
-    response = client.post(reverse("website:registration"), VALID_PAYLOAD)
+    response = client.post(reverse("website:registration"), valid_payload())
     assert response.status_code == 302
     assert Registration.objects.count() == 1
     registration = Registration.objects.get()
@@ -79,7 +113,7 @@ def test_registration_form_submission_emails_site_settings_address(client, mailo
     settings_obj.email = "info@pawpawland.au"
     settings_obj.save()
 
-    client.post(reverse("website:registration"), VALID_PAYLOAD)
+    client.post(reverse("website:registration"), valid_payload())
     assert len(mailoutbox) == 1
     assert mailoutbox[0].to == ["info@pawpawland.au"]
     assert "Biscuit" in mailoutbox[0].subject
@@ -110,13 +144,8 @@ def test_registration_form_emails_with_dog_photo_inlined(client, mailoutbox):
     img.save(buf, format="PNG")
     buf.seek(0)
     photo = SimpleUploadedFile("biscuit.png", buf.read(), content_type="image/png")
-    cert = SimpleUploadedFile("vax.pdf", b"%PDF-1.4 test", content_type="application/pdf")
 
-    payload = {
-        **VALID_PAYLOAD,
-        "dog_photo": photo,
-        "vaccination_certificate": cert,
-    }
+    payload = valid_payload(dog_photo=photo)
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 302
     assert len(mailoutbox) == 1
@@ -158,29 +187,48 @@ def test_registration_form_missing_required_fields_does_not_save(client):
 
 
 def test_registration_form_requires_agreeing_to_terms(client):
-    payload = {**VALID_PAYLOAD}
+    payload = valid_payload()
     del payload["agreed_to_terms"]
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 200
     assert Registration.objects.count() == 0
 
 
-def test_registration_form_optional_fields_can_be_left_blank(client):
+def test_registration_form_requires_vaccination_certificate(client):
     response = client.post(reverse("website:registration"), VALID_PAYLOAD)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+    assert "vaccination certificate" in response.content.decode().lower()
+
+
+def test_registration_form_requires_dog_photo(client):
+    payload = valid_payload()
+    del payload["dog_photo"]
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+
+
+def test_registration_form_requires_conditional_details_when_answer_is_yes(client):
+    payload = valid_payload(has_aggression="yes")
+    response = client.post(reverse("website:registration"), payload)
+    assert response.status_code == 200
+    assert Registration.objects.count() == 0
+    assert "Please give us more detail" in response.content.decode()
+
+    payload = valid_payload(
+        has_aggression="yes",
+        aggression_details="Growls at unfamiliar dogs at the park.",
+    )
+    response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 302
-    registration = Registration.objects.get()
-    assert registration.food_allergies == ""
-    assert registration.instagram_handle == ""
-    assert not registration.dog_photo
-    assert not registration.vaccination_certificate
 
 
 def test_registration_form_saves_optional_extras_when_provided(client):
-    payload = {
-        **VALID_PAYLOAD,
-        "food_allergies": "No chicken, please.",
-        "instagram_handle": "@biscuit_the_dog",
-    }
+    payload = valid_payload(
+        food_allergies="No chicken, please.",
+        instagram_handle="@biscuit_the_dog",
+    )
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 302
     registration = Registration.objects.get()
@@ -189,7 +237,7 @@ def test_registration_form_saves_optional_extras_when_provided(client):
 
 
 def test_registration_form_requires_heard_about(client):
-    payload = {**VALID_PAYLOAD}
+    payload = valid_payload()
     del payload["heard_about"]
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 200
@@ -197,19 +245,19 @@ def test_registration_form_requires_heard_about(client):
 
 
 def test_registration_form_stores_multiple_heard_about_choices(client):
-    payload = {**VALID_PAYLOAD, "heard_about": ["google", "instagram"]}
+    payload = valid_payload(heard_about=["google", "instagram"])
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 302
     assert Registration.objects.get().heard_about == "google, instagram"
 
 
 def test_registration_form_requires_specifying_other_source(client):
-    payload = {**VALID_PAYLOAD, "heard_about": ["other"]}
+    payload = valid_payload(heard_about=["other"])
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 200
     assert Registration.objects.count() == 0
 
-    payload["heard_about_other"] = "A flyer at the park"
+    payload = valid_payload(heard_about=["other"], heard_about_other="A flyer at the park")
     response = client.post(reverse("website:registration"), payload)
     assert response.status_code == 302
     registration = Registration.objects.get()
@@ -224,6 +272,6 @@ def test_registration_form_emails_heard_about(client, mailoutbox):
     settings_obj.email = "info@pawpawland.au"
     settings_obj.save()
 
-    client.post(reverse("website:registration"), {**VALID_PAYLOAD, "heard_about": ["referral"]})
+    client.post(reverse("website:registration"), valid_payload(heard_about=["referral"]))
     assert len(mailoutbox) == 1
     assert "referral" in mailoutbox[0].body

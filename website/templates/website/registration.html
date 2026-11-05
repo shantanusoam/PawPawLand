@@ -43,11 +43,12 @@
           Please check the highlighted fields below and try again.
         </div>
       {% endif %}
-      <form method="post"
-            enctype="multipart/form-data"
-            novalidate
-            class="space-y-10">
+      <form method="post" enctype="multipart/form-data" class="space-y-10">
         {% csrf_token %}
+        <p class="text-sm font-semibold text-coral">
+          All fields are required — including a copy of your dog's vaccination
+          certificate.
+        </p>
         {# Your contact details #}
         <div>
           <h2 class="font-display text-xl font-bold text-navy-deep">Your Contact Details</h2>

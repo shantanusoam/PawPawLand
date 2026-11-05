@@ -235,18 +235,48 @@ class RegistrationForm(forms.ModelForm):
             "food_allergies": "Does your dog have any food allergies or dietary sensitivities "
             "we should know about?",
             "instagram_handle": "We share daycare updates on our Instagram Stories. If you're "
-            "happy for us to tag your pup, please share their Instagram handle below (optional).",
+            "happy for us to tag your pup, please share their Instagram handle below.",
             "agreed_to_terms": "I agree with the Terms & Conditions",
             "heard_about": "How did you hear about us? *",
         }
 
+    # "If yes, please specify" textareas: only compulsory when their yes/no
+    # question is answered "yes" (enforced in clean() below).
+    _CONDITIONAL_DETAILS = [
+        ("has_aggression", "aggression_details"),
+        ("has_health_ailments", "health_ailments_details"),
+        ("has_medication", "medication_details"),
+    ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["food_allergies"].required = False
-        self.fields["instagram_handle"].required = False
-        self.fields["aggression_details"].required = False
-        self.fields["health_ailments_details"].required = False
-        self.fields["medication_details"].required = False
+        # Every field on the registration form is compulsory. These are
+        # declared blank=True on the model (so the admin can still save
+        # partial records), but the public form must not accept submissions
+        # without them — most importantly the vaccination certificate.
+        for field_name in (
+            "dog_photo",
+            "vaccination_certificate",
+            "food_allergies",
+            "instagram_handle",
+        ):
+            self.fields[field_name].required = True
+        self.fields["dog_photo"].error_messages["required"] = "Please upload a photo of your dog."
+        self.fields["vaccination_certificate"].error_messages["required"] = (
+            "Please upload your dog's vaccination certificate."
+        )
+        for field_name, _ in self._CONDITIONAL_DETAILS:
+            self.fields[field_name].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for question, details in self._CONDITIONAL_DETAILS:
+            if (
+                cleaned_data.get(question) == "yes"
+                and not (cleaned_data.get(details) or "").strip()
+            ):
+                self.add_error(details, forms.ValidationError("Please give us more detail."))
+        return cleaned_data
 
     def clean_agreed_to_terms(self):
         agreed = self.cleaned_data.get("agreed_to_terms")
