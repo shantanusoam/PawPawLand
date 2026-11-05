@@ -15,7 +15,11 @@ APP_DIR="${APP_DIR:-/var/www/pawpawland}"
 SERVICE_NAME="${SERVICE_NAME:-pawpawland}"
 PORT="${PORT:-8014}"
 SERVER_NAME="${SERVER_NAME:-$REMOTE_HOST}"
-DJANGO_ALLOWED_HOSTS="${DJANGO_ALLOWED_HOSTS:-$SERVER_NAME,127.0.0.1,localhost}"
+# The public domain users actually visit. Nginx may serve the app on an IP:PORT
+# behind a reverse proxy, but Django must still accept the Host the proxy
+# forwards — without this in ALLOWED_HOSTS the site returns 400 Bad Request.
+CANONICAL_DOMAIN="${CANONICAL_DOMAIN:-pawpawland.au}"
+DJANGO_ALLOWED_HOSTS="${DJANGO_ALLOWED_HOSTS:-$SERVER_NAME,$CANONICAL_DOMAIN,127.0.0.1,localhost}"
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-3}"
 CLIENT_MAX_BODY_SIZE="${CLIENT_MAX_BODY_SIZE:-25M}"
 # Default OFF: production now has real, hand-curated pricing/gallery content that
@@ -148,7 +152,7 @@ $SUDO mkdir -p "$APP_DIR/media" "$APP_DIR/staticfiles"
 if [[ ! -f "$APP_DIR/.env" ]]; then
   echo "Creating production .env"
   SECRET="$($SUDO python3 -c 'import secrets; print(secrets.token_urlsafe(64))')"
-  CSRF_ORIGINS="http://${SERVER_NAME}:${PORT},https://${SERVER_NAME}:${PORT},http://127.0.0.1:${PORT},http://localhost:${PORT}"
+  CSRF_ORIGINS="https://${CANONICAL_DOMAIN},http://${CANONICAL_DOMAIN},http://${SERVER_NAME}:${PORT},https://${SERVER_NAME}:${PORT},http://127.0.0.1:${PORT},http://localhost:${PORT}"
   $SUDO tee "$APP_DIR/.env" >/dev/null <<EOF
 DEBUG=False
 SECRET_KEY=$SECRET
@@ -159,7 +163,7 @@ EOF
   $SUDO chmod 600 "$APP_DIR/.env"
 else
   echo "Updating existing .env"
-  CSRF_ORIGINS="http://${SERVER_NAME}:${PORT},https://${SERVER_NAME}:${PORT},http://127.0.0.1:${PORT},http://localhost:${PORT}"
+  CSRF_ORIGINS="https://${CANONICAL_DOMAIN},http://${CANONICAL_DOMAIN},http://${SERVER_NAME}:${PORT},https://${SERVER_NAME}:${PORT},http://127.0.0.1:${PORT},http://localhost:${PORT}"
   ensure_env_value "DEBUG" "False"
   ensure_env_value "ALLOWED_HOSTS" "$DJANGO_ALLOWED_HOSTS"
   ensure_env_value "CSRF_TRUSTED_ORIGINS" "$CSRF_ORIGINS"
