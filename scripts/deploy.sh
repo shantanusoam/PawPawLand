@@ -81,7 +81,7 @@ scp "$LOCAL_ARCHIVE" "$REMOTE:$REMOTE_ARCHIVE"
 
 echo "Deploying on $REMOTE"
 ssh "$REMOTE" \
-  "APP_DIR=$(quote_remote "$APP_DIR") SERVICE_NAME=$(quote_remote "$SERVICE_NAME") PORT=$(quote_remote "$PORT") SERVER_NAME=$(quote_remote "$SERVER_NAME") DJANGO_ALLOWED_HOSTS=$(quote_remote "$DJANGO_ALLOWED_HOSTS") GUNICORN_WORKERS=$(quote_remote "$GUNICORN_WORKERS") CLIENT_MAX_BODY_SIZE=$(quote_remote "$CLIENT_MAX_BODY_SIZE") SEED_DEMO=$(quote_remote "$SEED_DEMO") REMOTE_ARCHIVE=$(quote_remote "$REMOTE_ARCHIVE") bash -s" <<'REMOTE_SCRIPT'
+  "APP_DIR=$(quote_remote "$APP_DIR") SERVICE_NAME=$(quote_remote "$SERVICE_NAME") PORT=$(quote_remote "$PORT") SERVER_NAME=$(quote_remote "$SERVER_NAME") CANONICAL_DOMAIN=$(quote_remote "$CANONICAL_DOMAIN") DJANGO_ALLOWED_HOSTS=$(quote_remote "$DJANGO_ALLOWED_HOSTS") GUNICORN_WORKERS=$(quote_remote "$GUNICORN_WORKERS") CLIENT_MAX_BODY_SIZE=$(quote_remote "$CLIENT_MAX_BODY_SIZE") SEED_DEMO=$(quote_remote "$SEED_DEMO") REMOTE_ARCHIVE=$(quote_remote "$REMOTE_ARCHIVE") bash -s" <<'REMOTE_SCRIPT'
 set -Eeuo pipefail
 
 if [[ "$(id -u)" -eq 0 ]]; then
