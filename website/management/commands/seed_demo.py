@@ -264,8 +264,8 @@ SITE_SETTINGS = {
     "address_line": "123 Happy Paws Lane, Sydney NSW 2000",
     "hours_weekday": "Mon–Fri: 7am–6pm",
     "hours_weekend": "Sat–Sun: 8am–4pm",
-    "facebook_url": "",
-    "instagram_url": "",
+    "facebook_url": "https://www.facebook.com/people/Pawpaw-Land/61573433516046/",
+    "instagram_url": "https://www.instagram.com/pawpawland.blackburn/",
 }
 
 # Gallery photos: (static filename, alt text, row)
