@@ -1,7 +1,9 @@
 import logging
 import mimetypes
+import threading
 from email.mime.image import MIMEImage
 
+from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.shortcuts import get_object_or_404, redirect, render
@@ -466,7 +468,20 @@ def registration(request):
                 lines.append(f"Heard about us: {reg.heard_about}")
                 if reg.heard_about_other:
                     lines.append(f"  Other: {reg.heard_about_other}")
-            _notify_registration(reg, lines)
+            # Sending this email can take many seconds (SMTP round-trip plus
+            # up to ~20MB of attached photo/certificate). Doing that inline
+            # routinely outlasted the gunicorn/nginx timeout, so the proxy
+            # returned a 502 to the customer while the save (and often the
+            # email) quietly succeeded in the background — they'd then
+            # resubmit, saving the same registration again and generating
+            # several duplicate notification emails. Send it off-thread so
+            # the response comes back immediately regardless of mail speed.
+            if settings.REGISTRATION_EMAIL_ASYNC:
+                threading.Thread(
+                    target=_notify_registration, args=(reg, lines), daemon=True
+                ).start()
+            else:
+                _notify_registration(reg, lines)
             messages.success(request, "Thanks! Your dog's registration has been received.")
             return redirect("website:registration")
     else:

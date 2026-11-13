@@ -1,5 +1,6 @@
 """Django settings for the Paw Paw Land project."""
 
+import sys
 from pathlib import Path
 
 import environ
@@ -29,6 +30,14 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="noreply@pawpawland.com.au")
+# socket timeout in seconds — without this, smtplib has no timeout and a stalled
+# SMTP connection hangs the sending thread indefinitely instead of failing fast.
+EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=20)
+# The registration notification email (SMTP round-trip plus up to ~20MB of
+# attached photo/certificate) is sent off a background thread so a slow mail
+# server can't stall the HTTP response — see website/views.py:registration.
+# Synchronous under pytest so tests can assert on mailoutbox deterministically.
+REGISTRATION_EMAIL_ASYNC = env.bool("REGISTRATION_EMAIL_ASYNC", default="pytest" not in sys.modules)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
